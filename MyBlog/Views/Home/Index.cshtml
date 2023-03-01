@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using MyBlog.Models.Users;
+@using MyBlog.Controllers.Account;
+@inject UserManager<User> UserManager;
+@inject SignInManager<User> SignInManager
+
+@model MyBlog.ViewModels.Users.LoginViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <meta http-equiv="refresh" content="0; URL= ../ServiceView" />
+}
+else
+{
+    <div class="row">
+        <div class="side">
+            <div class="center">
+                Система мониторинга технического состояния
+            </div>       
+        </div>
+
+        <div class="main">
+            <partial name="Login"/>
+        </div>
+    </div>
+}

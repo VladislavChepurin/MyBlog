@@ -1,0 +1,51 @@
+﻿@model IEnumerable<MyBlog.Models.Users.User>
+
+<h2>Список пользователей</h2>
+
+<a asp-action="RoleList">Список ролей</a>
+
+<div class="user-list">
+    <table class="table">
+
+        <tr>      
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Компания</th>
+            <th>Логин</th>
+            <th>Эл. почта</th>
+            <th>Права доступа</th>
+            <th>Подробно</th>
+            <th>Удаление</th>
+        </tr>
+
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>
+                    @user.FirstName
+                </td>
+                <td>
+                    @user.LastName
+                </td>
+                <td>
+                    @user.UserName
+                </td>
+                <td>
+                    @user.Company
+                </td>
+                <td>
+                    @user.Email
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-primary btn-user-width" asp-action="Edit" asp-route-userid="@user.Id">Права доступа</a>
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-primary btn-user-width" asp-action="UserPage" asp-route-userid="@user.Id">Подробно</a>
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-primary btn-user-width" asp-action="DeleteUser" asp-route-userid="@user.Id">Удалить</a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

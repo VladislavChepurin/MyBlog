@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using MyBlog.Models.Users;
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="login-area">
+
+        @if (ViewContext.HttpContext.User.IsInRole("Administrator"))
+        {
+            <div class="logout-button">
+                <form method="post" asp-controller="Admin" asp-action="Index">
+                    <input class="enter_submit" type="submit" value="Администрирование" />
+                </form>
+            </div>
+        }
+
+        <div class="logout-button">
+            <form method="post" asp-controller="Account" asp-action="UserPage">
+                <input class="enter_submit" type="submit" value="Моя страница" />
+            </form>
+        </div>
+
+        <div class="logout-button">
+            <form method="post" asp-controller="Account" asp-action="Logout">
+                <input class="enter_submit" type="submit" value="Выход" />
+            </form>
+        </div>
+    </div>
+}

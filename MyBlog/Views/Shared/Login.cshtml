@@ -1,0 +1,37 @@
+﻿@model MyBlog.ViewModels.Users.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="block-reg background-white">
+    <h3 class="center">Добро пожаловать!</h3>
+    <div class="bubble">
+        <form class="frm" method="post" asp-controller="Account" asp-action="Login">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div>
+                <div class="mrgn">
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div>
+                <div class="mrgn">
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
+            <div>
+                <div class="mrgn">
+                    <input asp-for="RememberMe" type="checkbox" id="remember" />
+                    <label for="remember">Запомнить?</label>
+                </div>
+            </div>
+            <div class="center">
+                <input class="enter_submit" type="submit" value="Войти" />
+            </div>
+        </form>      
+
+        <a class="" asp-area="" asp-controller="RegisterUser" asp-action="Register">Регистрация пользователя</a>
+
+    </div>
+</div>

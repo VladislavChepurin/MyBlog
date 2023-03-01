@@ -1,0 +1,54 @@
+﻿@model MyBlog.ViewModels.Users.UserEditViewModel;
+
+@{
+    ViewData["Title"] = "Редактирование пользователя";
+}
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.10/jquery.validate.unobtrusive.min.js"></script>
+
+<div class="block-reg background-white">
+    <h3 class="center">@ViewData["Title"]</h3>
+    <div class="bubble">
+        <form class="frm" method="post" asp-controller="Edit" asp-action="Update">
+            <div asp-validation-summary="ModelOnly"></div>
+
+            <label>Id пользователя:</label>
+            <div class="mrgn">
+                <input asp-for="UserId" class="form-control"/>
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+
+            <label>Компания:</label>
+            <div class="mrgn">
+                <input asp-for="Company" class="form-control" />
+                <span asp-validation-for="Company" class="text-danger"></span>
+            </div>
+
+            <label>Имя:</label>
+            <div class="mrgn">
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <label>Фамилия:</label>
+            <div class="mrgn">
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <label>Email:</label>
+            <div class="mrgn">
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>   
+            
+            <div class="center">
+                <input class="enter_submit" type="submit" value="Сохранить" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+

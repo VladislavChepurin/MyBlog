@@ -1,0 +1,70 @@
+﻿@model MyBlog.ViewModels.Users.UserViewModel;
+
+
+@{
+    ViewData["Title"] = "Пространство блогов";
+}
+<link rel="stylesheet" href="~/css/blogs-style.css" asp-append-version="true" />
+
+<h1>@ViewData["Title"]</h1>
+
+<br>
+
+
+<div class="list-device">
+    <h4>Все статьи </h4>
+
+    <table class="table">
+        @if (Model.AllArticles != null)
+        {
+            @foreach (var item in Model.AllArticles)
+            {
+                <tr data-more-checker="tr-read-more-@item.Id">
+
+                    <td>
+                        <label>@Model.Number</label>
+                    </td>
+
+                    <td>
+                        <label>В сети</label>
+                    </td>
+
+                    <td>
+                        <input type="checkbox" class="read-more-checker" id="read-more-checker-@item.Id" data-more-checker="read-more-@item.Id" />
+                        <div class="limiter">
+                            <label>@item.Title</label>
+                            <br>
+                            <label>@item.Created</label>
+                            <br>
+                            <label>@item.Content</label>
+                            <br>
+                            <div class="bottom"></div>
+                        </div>
+                        <label for="read-more-checker-@item.Id" class="read-more-button"></label>
+                    </td>
+
+                    <td>
+                        <form asp-controller="" asp-action="" method="post">
+
+                          @*  <input type="hidden" name="serialNumber" value="@item.SerialNumber" />
+                            <input type="hidden" name="userId" value="@Model.UserViewModel.User.Id" />*@
+
+                            <button type="submit" class="btn btn-sm enter_submit btn-user-width">
+                                Подробно
+                            </button>
+                        </form>
+
+                    </td>
+                </tr>
+            }
+        }     
+       
+    </table>
+</div>
+
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>
+
+
+

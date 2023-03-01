@@ -1,0 +1,61 @@
+﻿@model MyBlog.ViewModels.Users.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Регистрация пользователя";
+}
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.10/jquery.validate.unobtrusive.min.js"></script>
+
+<div class="block-reg background-white">
+    <h3 class="center">@ViewData["Title"]</h3>
+    <div class="bubble">
+        <form class="frm" method="post" asp-controller="RegisterUser" asp-action="Register">
+            <div asp-validation-summary="ModelOnly"></div>           
+
+            <div class="mrgn">
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="mrgn">
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div class="mrgn">
+                <input asp-for="Login" class="form-control" />
+                <span asp-validation-for="Login" class="text-danger"></span>
+            </div>
+
+            <div class="mrgn">
+                <input asp-for="EmailReg" class="form-control" />
+                <span asp-validation-for="EmailReg" class="text-danger"></span>
+            </div>
+
+            <div class="mrgn">
+                <input asp-for="CodeRegister" autocomple="off" class="form-control" />
+                <span asp-validation-for="CodeRegister" class="text-danger"></span>
+            </div>
+
+            <div class="mrgn">
+                <input asp-for="PasswordReg" class="form-control" />
+                <span asp-validation-for="PasswordReg" class="text-danger"></span>
+            </div>
+
+            <div class="mrgn">
+                <input asp-for="PasswordConfirm" class="form-control" />
+                <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
+            </div>
+
+            <div class="center">
+                <input class="enter_submit" type="submit" value="Регистрация" />
+            </div>
+        </form>
+    </div>
+    <label>* Если у Вас есть Код регистрации, то вы можете сразу определить роль, если нет то оставьте поле пустым</label>
+
+
+
+
+</div>
