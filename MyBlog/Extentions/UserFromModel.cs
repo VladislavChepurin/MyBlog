@@ -10,8 +10,7 @@ namespace MyBlog.Extentions
             user.LastName = usereditvm.LastName;
             user.FirstName = usereditvm.FirstName;
             user.Email = usereditvm.Email;
-            user.Company = usereditvm.Company;    
-            
+            user.Company = usereditvm.Company;               
             return user;
         }
     }

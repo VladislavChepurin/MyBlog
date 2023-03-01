@@ -8,7 +8,7 @@ namespace MyBlog.Data.Repository
     {
         public ArticleRepository(ApplicationDbContext db) : base(db)
         {
-            throw new NotImplementedException();
+           
         }
 
         public void CreateArticle(Article article)
@@ -34,7 +34,7 @@ namespace MyBlog.Data.Repository
     
         public List <Article> GetAllArticle()
         {
-            var articles = Set.AsEnumerable();
+            var articles = Set.AsEnumerable().Select(x=> x);
             return articles.ToList();
         }
     }

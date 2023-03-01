@@ -36,28 +36,32 @@ namespace MyBlog.Data.Repositiry
                         _logger.LogInformation($"Создана роль {role}");
                     }
                 }
-            }
+            }            
         }
 
-        public async Task AssignRoles(User user, string codeRole)
-        {
-            string output; //дайджест сообщения (хэш)
 
+        // метод заглушка после написания бека удалить!
+        // Для регистрации временно
+        // удалить!------------------------------------------------------------------------------------------------------------------
+
+        public async Task AssignRoles(User user, string codeRole)
+        {       
             MD5 MD5Hash = MD5.Create(); //создаем объект для работы с MD5
             byte[] inputBytes = Encoding.ASCII.GetBytes(codeRole); //преобразуем строку в массив байтов
             byte[] hash = MD5Hash.ComputeHash(inputBytes); //получаем хэш в виде массива байтов
-            output = Convert.ToHexString(hash); //преобразуем хэш из массива в строку, состоящую из шестнадцатеричных символов в верхнем регистре        
+            string output = Convert.ToHexString(hash); //преобразуем хэш из массива в строку, состоящую из шестнадцатеричных символов в верхнем регистре        
+
 
             switch (output)
             {
-                case "A9E6FD4D8A7772193EA1C94D11A5AEC8": // Role: Administrator
+                case "DF8DF10A6F943A15E742206AB665496D": // Role: Administrator
                     if ((await _userManager.AddToRoleAsync(user, roles[0])).Succeeded)
                     {
                         _logger.LogInformation($"Пользователю {user.UserName} присвоена роль {roles[0]}");
                     }
                     break;
 
-                case "108550CC9160AB741E3F6CC54E3C2AAF": // Role: Moderator
+                case "8BAFB3241D049CEC114B4A93BE26A00E": // Role: Moderator
                     if ((await _userManager.AddToRoleAsync(user, roles[1])).Succeeded)
                     {
                         _logger.LogInformation($"Пользователю {user.UserName} присвоена роль {roles[1]}");
@@ -71,6 +75,6 @@ namespace MyBlog.Data.Repositiry
                     }
                     break;
             }
-        }
+        }       
     }
 }

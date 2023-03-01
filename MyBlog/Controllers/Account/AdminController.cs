@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MyBlog.Data.Repositiry.Repository;
 using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
+using MyBlog.Models;
 using MyBlog.Models.Articles;
 using MyBlog.Models.Users;
 using MyBlog.ViewModels;
@@ -14,16 +17,18 @@ namespace MyBlog.Controllers.Account;
 public class AdminController : Controller
 {
     private readonly ILogger<AdminController> _logger;
-    RoleManager<IdentityRole> _roleManager;
-    UserManager<User> _userManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly UserManager<User> _userManager;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
 
-    public AdminController(ILogger<AdminController> logger, RoleManager<IdentityRole> roleManager, UserManager<User> userManager, IUnitOfWork unitOfWork)
+    public AdminController(ILogger<AdminController> logger, RoleManager<IdentityRole> roleManager, UserManager<User> userManager, IUnitOfWork unitOfWork, IMapper mapper)
     {
         _logger = logger;
         _roleManager = roleManager;
         _userManager = userManager;
         _unitOfWork=unitOfWork;
+        _mapper = mapper;        
     }
 
     [Route("Index")]
@@ -146,6 +151,19 @@ public class AdminController : Controller
         return NotFound();
     }
 
+    [Route("AddInvite")]
+    [HttpPost]
+    public IActionResult AddInvite(InviteViewModel model)
+    {     
+        if (model != null)
+        {       
+            var invite = _mapper.Map<Invate>(model);
+            var repository = _unitOfWork.GetRepository<Invate>() as InviteRepository;
+            repository?.CreateInvite(invite);
+            _unitOfWork.SaveChanges();
+        }
+        return RedirectToAction("Index");
+    }
 
     public List<Article> GetAllArticles(User user)
     {

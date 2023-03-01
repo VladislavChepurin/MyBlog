@@ -5,9 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using MyBlog;
 using MyBlog.Data;
 using MyBlog.Data.Repositiry;
+using MyBlog.Data.Repositiry.Repository;
 using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
 using MyBlog.Extentions;
+using MyBlog.Models;
 using MyBlog.Models.Articles;
 using MyBlog.Models.Users;
 using MyBlog.Validation;
@@ -35,6 +37,7 @@ services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connect
     .AddCustomRepository<Article, ArticleRepository>()
     .AddCustomRepository<Comment, CommentRepository>()
     .AddCustomRepository<Teg, TegRepository>()
+    .AddCustomRepository<Invate, InviteRepository>()
     .AddIdentity<User, IdentityRole>(opts =>
     {
         opts.Password.RequiredLength = 5;
