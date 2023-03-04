@@ -6,14 +6,14 @@ https://github.com/VladislavChepurin/UpsConnectService.git
 
 Пользователи и роли:
 
-Login: pupkin@mail.ru
-Password: 12345
-Role: Administrator
+Login: pupkin@mail.ru;
+Password: 12345;
+Role: Administrator.
 
-Login: ylia@mail.ru	
-Password: 12345
-Role: Moderator
+Login: ylia@mail.ru;	
+Password: 12345;
+Role: Moderator.
 
-Login: katia@mail.ru	
-Password: 12345
-Role: User
+Login: katia@mail.ru;	
+Password: 12345;
+Role: User.
