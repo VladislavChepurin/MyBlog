@@ -111,7 +111,7 @@ public class AccountController : Controller
     public List<Article> GetAllArticles(User user)
     {
         var repository = _unitOfWork.GetRepository<Article>() as ArticleRepository;
-        return repository.getArticleByUser(user);
+        return repository.GetArticleByUser(user);
     }
 
 }
