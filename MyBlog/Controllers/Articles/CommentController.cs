@@ -1,83 +1,92 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MyBlog.Controllers.Account;
+using MyBlog.Data;
+using MyBlog.Data.Repository;
+using MyBlog.Data.UoW;
+using MyBlog.Models.Articles;
+using MyBlog.Models.Users;
+using MyBlog.ViewModels.Articles;
+using MyBlog.ViewModels.Devises;
 
-namespace MyBlog.Controllers.Articles
+namespace MyBlog.Controllers.Articles;
+
+[Authorize]
+public class CommentController : Controller
 {
-    public class CommentController : Controller
+    private readonly ILogger<RegisterUserController> _logger;
+    private readonly IMapper _mapper;
+    private readonly UserManager<User> _userManager;
+    private readonly SignInManager<User> _signInManager;
+    private readonly ApplicationDbContext _context;
+    private readonly IUnitOfWork _unitOfWork;
+
+
+    public CommentController(ILogger<RegisterUserController> logger, IMapper mapper, ApplicationDbContext context, UserManager<User> userManager, SignInManager<User> signInManager, IUnitOfWork unitOfWork)
     {
-        // GET: CommentController
-        public ActionResult Index()
-        {
-            return View();
-        }
+        _logger = logger;
+        _mapper = mapper;
+        _userManager = userManager;
+        _signInManager = signInManager;
+        _context = context;
+        _unitOfWork = unitOfWork;
+    }
 
-        // GET: CommentController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+    [HttpPost]
+    [Route("Create")]
+    public async Task<ActionResult> CreateAsync(CommentViewModel model)
+    {
+        var comment = _mapper.Map<Comment>(model);
+        comment.Id = Guid.NewGuid();
+        comment.Created = DateTime.Now;
+        comment.User = await _userManager.FindByIdAsync(comment.UserId);
+        var repository = _unitOfWork.GetRepository<Comment>() as CommentRepository;
+        repository?.CreateComment(comment);
+        _unitOfWork.SaveChanges();
+        return View(comment);
+    }
 
-        // GET: CommentController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
 
-        // POST: CommentController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+    [HttpPost]
+    [Route("Update")]
+    public ActionResult Update(CommentViewModel model)
+    {
+        var comment = _mapper.Map<Comment>(model);
+        comment.Updated = DateTime.Now;
+        var repository = _unitOfWork.GetRepository<Comment>() as CommentRepository;
+        repository?.UpdateComment(comment);
+        _unitOfWork.SaveChanges();
+        return View();
+    }
 
-        // GET: CommentController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+    [HttpPost]
+    [Route("Delete")]
+    public ActionResult Delete(ArticleViewModel model)
+    {
+        var comment = _mapper.Map<Comment>(model);
+        var repository = _unitOfWork.GetRepository<Comment>() as CommentRepository;
+        repository?.DeleteComment(comment);
+        _unitOfWork.SaveChanges();
+        return View();
+    }
 
-        // POST: CommentController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+    [HttpPost]
+    [Route("CommentByUser")]
+    public ActionResult ArticleByUser(Article article)
+    {
+        var repository = _unitOfWork.GetRepository<Comment>() as CommentRepository;
+        var comment = repository?.GetCommentByArticle(article);
+        return View(comment);
+    }
 
-        // GET: CommentController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: CommentController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+    [HttpPost]
+    [Route("CommentById")]
+    public ActionResult ArticleByUserId(Guid id)
+    {
+        var repository = _unitOfWork.GetRepository<Comment>() as CommentRepository;
+        var comment = repository?.GetCommentById(id);
+        return View(comment);
     }
 }

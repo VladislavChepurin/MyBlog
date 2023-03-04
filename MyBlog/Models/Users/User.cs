@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace MyBlog.Models.Users
+namespace MyBlog.Models.Users;
+
+public class User : IdentityUser
 {
-    public class User : IdentityUser
-    {
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-        public string? Company { get; set; }
-    }
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+    public string? Company { get; set; }
 }

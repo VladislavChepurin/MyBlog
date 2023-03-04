@@ -1,9 +1,8 @@
-﻿namespace MyBlog.ViewModels
+﻿namespace MyBlog.ViewModels;
+
+public class InviteViewModel
 {
-    public class InviteViewModel
-    {
-        public string? Invite { get; set; }
-        public bool IsActive { get; set; } = true;
-        public string? Roles { get; set; }
-    }
+    public string? Invite { get; set; }
+    public bool IsActive { get; set; } = true;
+    public string? Roles { get; set; }
 }

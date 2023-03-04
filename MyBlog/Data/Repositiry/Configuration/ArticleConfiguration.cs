@@ -2,13 +2,12 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyBlog.Models.Articles;
 
-namespace MyBlog.Data.Repository
+namespace MyBlog.Data.Repository;
+
+public class ArticleConfiguration: IEntityTypeConfiguration<Article>
 {
-    public class ArticleConfiguration: IEntityTypeConfiguration<Article>
+    public void Configure(EntityTypeBuilder<Article> builder)
     {
-        public void Configure(EntityTypeBuilder<Article> builder)
-        {
-            builder.ToTable("ArticleTable").HasKey(p => p.Id);         
-        }
+        builder.ToTable("ArticleTable").HasKey(p => p.Id);         
     }
 }

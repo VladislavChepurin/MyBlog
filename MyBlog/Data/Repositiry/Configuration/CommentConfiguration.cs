@@ -2,13 +2,12 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyBlog.Models.Articles;
 
-namespace MyBlog.Data.Repository
+namespace MyBlog.Data.Repository;
+
+public class CommentConfiguration : IEntityTypeConfiguration<Comment>
 {
-    public class CommentConfiguration : IEntityTypeConfiguration<Comment>
+    public void Configure(EntityTypeBuilder<Comment> builder)
     {
-        public void Configure(EntityTypeBuilder<Comment> builder)
-        {
-            builder.ToTable("CommentTable").HasKey(p => p.Id);            
-        }
+        builder.ToTable("CommentTable").HasKey(p => p.Id);            
     }
 }
