@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MyBlog.Data.Repositiry;
 using MyBlog.Data.Repositiry.Repository;
 using MyBlog.Data.UoW;
 using MyBlog.Extentions;
