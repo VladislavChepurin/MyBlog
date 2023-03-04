@@ -8,8 +8,7 @@ namespace MyBlog.Data.Repositiry.Configuration
     {
         public void Configure(EntityTypeBuilder<Invate> builder)
         {
-            builder.ToTable("InviteTable").HasKey(p => p.Id);
-            //builder.Property(x => x.Id).UseIdentityColumn();
+            builder.ToTable("InviteTable").HasKey(p => p.Id);          
         }
     }
 }

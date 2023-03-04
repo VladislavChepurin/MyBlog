@@ -9,8 +9,7 @@
 
         <tr>      
             <th>Имя</th>
-            <th>Фамилия</th>
-            <th>Компания</th>
+            <th>Фамилия</th>           
             <th>Логин</th>
             <th>Эл. почта</th>
             <th>Права доступа</th>
@@ -29,10 +28,7 @@
                 </td>
                 <td>
                     @user.UserName
-                </td>
-                <td>
-                    @user.Company
-                </td>
+                </td>               
                 <td>
                     @user.Email
                 </td>
@@ -40,7 +36,7 @@
                     <a class="btn btn-sm btn-primary btn-user-width" asp-action="Edit" asp-route-userid="@user.Id">Права доступа</a>
                 </td>
                 <td>
-                    <a class="btn btn-sm btn-primary btn-user-width" asp-action="UserPage" asp-route-userid="@user.Id">Подробно</a>
+                    <a class="btn btn-sm btn-primary btn-user-width" asp-action="UserPage" asp-route-userid="@user.Id">Блоги пользователя</a>
                 </td>
                 <td>
                     <a class="btn btn-sm btn-primary btn-user-width" asp-action="DeleteUser" asp-route-userid="@user.Id">Удалить</a>

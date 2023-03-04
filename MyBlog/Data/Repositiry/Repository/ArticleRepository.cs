@@ -13,17 +13,16 @@ namespace MyBlog.Data.Repository
 
         public void CreateArticle(Article article)
         {
-            throw new NotImplementedException();
+            Create(article);
         }
 
         public void UpdateArticle(Article article)         
         {
-
             throw new NotImplementedException();
         }
         public void DeleteArticle(Article article)
         {
-            throw new NotImplementedException();
+            Delete(article);
         }
 
         public List<Article> getArticleByUser(User target)
@@ -31,10 +30,16 @@ namespace MyBlog.Data.Repository
             var articles = Set.AsEnumerable().Where(x => x?.User?.Id == target.Id);
             return articles.ToList();
         }
-    
-        public List <Article> GetAllArticle()
+
+        public List<Article> getArticleById(int id)
         {
-            var articles = Set.AsEnumerable().Select(x=> x);
+            var articles = Set.AsEnumerable().Where(x => x?.Id == id);
+            return articles.ToList();
+        }     
+           
+        public List<Article> GetAllArticle()
+        {
+            var articles = Set.AsEnumerable().Select(x => x);
             return articles.ToList();
         }
     }

@@ -8,9 +8,7 @@ namespace MyBlog.Data.Repository
     {
         public void Configure(EntityTypeBuilder<Article> builder)
         {
-            builder.ToTable("ArticleTable").HasKey(p => p.Id);
-            //builder.Property(x => x.Id).UseIdentityColumn();
+            builder.ToTable("ArticleTable").HasKey(p => p.Id);         
         }
-
     }
 }

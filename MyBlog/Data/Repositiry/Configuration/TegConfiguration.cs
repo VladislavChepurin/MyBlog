@@ -8,8 +8,7 @@ namespace MyBlog.Data.Repository
     {
         public void Configure(EntityTypeBuilder<Teg> builder)
         {
-            builder.ToTable("TegTable").HasKey(p => p.Id);
-            //builder.Property(x => x.Id).UseIdentityColumn();
+            builder.ToTable("TegTable").HasKey(p => p.Id);            
         }
 
     }

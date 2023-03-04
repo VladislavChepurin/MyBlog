@@ -32,7 +32,7 @@ public class AdminController : Controller
     }
 
     [Route("Index")]
-    public IActionResult Index() => View(   _userManager.Users.ToList());
+    public IActionResult Index() => View(_userManager.Users.ToList());
 
     public IActionResult Create() => View();
 
@@ -129,7 +129,7 @@ public class AdminController : Controller
         {
             await _userManager.DeleteAsync(user);
             _logger.LogInformation($"Удален пользователь {user.UserName} ** {user.Email}");
-            return RedirectToAction("UserList");
+            return RedirectToAction("Index");
         }
         return NotFound();
     }

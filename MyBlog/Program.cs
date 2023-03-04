@@ -55,8 +55,6 @@ var mapperConfig = new MapperConfiguration((v) =>
 IMapper mapper = mapperConfig.CreateMapper();
 services.AddSingleton(mapper);
 
-services.AddScoped<IRoleRepository, RoleRepository>();
-
 //Build services
 var app = builder.Build();
 //--------------------------------------------------

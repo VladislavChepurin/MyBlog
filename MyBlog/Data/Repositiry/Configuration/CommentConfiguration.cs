@@ -8,8 +8,7 @@ namespace MyBlog.Data.Repository
     {
         public void Configure(EntityTypeBuilder<Comment> builder)
         {
-            builder.ToTable("CommentTable").HasKey(p => p.Id);
-            //builder.Property(x => x.Id).UseIdentityColumn();
+            builder.ToTable("CommentTable").HasKey(p => p.Id);            
         }
     }
 }

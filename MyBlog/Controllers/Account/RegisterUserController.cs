@@ -17,16 +17,14 @@ public class RegisterUserController : Controller
     private readonly IMapper _mapper;
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
-    private readonly IRoleRepository _roleRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public RegisterUserController(ILogger<RegisterUserController> logger, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, IRoleRepository roleRepository, IUnitOfWork unitOfWork)
+    public RegisterUserController(ILogger<RegisterUserController> logger, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, IUnitOfWork unitOfWork)
     {
         _logger = logger;
         _mapper = mapper;
         _userManager = userManager;
         _signInManager = signInManager;
-        _roleRepository = roleRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -47,12 +45,6 @@ public class RegisterUserController : Controller
             var result = await _userManager.CreateAsync(user, model.PasswordReg);
             if (result.Succeeded)
             {
-                await _roleRepository.CreateInitRoles();
-
-                // идет на заглушку----------------------------------------------------------
-                await _roleRepository.AssignRoles(user, model.CodeRegister ?? String.Empty);
-                // идет на заглушку----------------------------------------------------------
-
                 var repository = _unitOfWork.GetRepository<Invate>() as InviteRepository;
                 var invite = repository?.GetInvite(model.CodeRegister.ConvertMD5());
                 if (invite != null)
@@ -64,15 +56,15 @@ public class RegisterUserController : Controller
                     repository?.ChangeStatusInvite(invite);
                     _unitOfWork.SaveChanges();
                 }
-                //----------------------------------Раскоментировать--------------------
-                //else
-                //{
-                //    if ((await _userManager.AddToRoleAsync(user, "User")).Succeeded)
-                //    {
-                //        _logger.LogInformation($"Пользователю {user.UserName} присвоена роль User");
-                //    }
-                //}
-                //----------------------------------------------------------------------
+  
+                else
+                {
+                    if ((await _userManager.AddToRoleAsync(user, "User")).Succeeded)
+                    {
+                        _logger.LogInformation($"Пользователю {user.UserName} присвоена роль User");
+                    }
+                }
+              
                 await _signInManager.SignInAsync(user, false);
                 _logger.LogInformation($"Зарегистрирован новый пользователь {user.UserName} ** {user.Email}");
                 return RedirectToAction("Index", "Home");
