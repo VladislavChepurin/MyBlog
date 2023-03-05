@@ -35,7 +35,7 @@ public class CommentController : Controller
     }
 
     [HttpPost]
-    [Route("Create")]
+    [Route("/[controller]/[action]")]
     public async Task<ActionResult> CreateAsync(CommentViewModel model)
     {
         var comment = _mapper.Map<Comment>(model);
@@ -50,7 +50,7 @@ public class CommentController : Controller
 
 
     [HttpPost]
-    [Route("Update")]
+    [Route("/[controller]/[action]")]
     public ActionResult Update(CommentViewModel model)
     {
         var comment = _mapper.Map<Comment>(model);
@@ -62,7 +62,7 @@ public class CommentController : Controller
     }
 
     [HttpPost]
-    [Route("Delete")]
+    [Route("/[controller]/[action]")]
     public ActionResult Delete(ArticleViewModel model)
     {
         var comment = _mapper.Map<Comment>(model);
@@ -73,7 +73,7 @@ public class CommentController : Controller
     }
 
     [HttpPost]
-    [Route("CommentByUser")]
+    [Route("/[controller]/[action]")]
     public ActionResult ArticleByUser(Article article)
     {
         var repository = _unitOfWork.GetRepository<Comment>() as CommentRepository;
@@ -82,7 +82,7 @@ public class CommentController : Controller
     }
 
     [HttpPost]
-    [Route("CommentById")]
+    [Route("/[controller]/[action]")]
     public ActionResult ArticleByUserId(Guid id)
     {
         var repository = _unitOfWork.GetRepository<Comment>() as CommentRepository;

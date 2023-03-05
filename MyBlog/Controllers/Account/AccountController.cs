@@ -49,7 +49,7 @@ public class AccountController : Controller
                 }
                 else
                 {
-                    return RedirectToAction("ServiceView", "Account");
+                    return RedirectToAction("BlogsView", "Account");
                 }
             }
             else
@@ -61,15 +61,15 @@ public class AccountController : Controller
     }
 
     [Authorize]
-    [Route("ServiceView")]
     [HttpGet]
-    public async Task<IActionResult> ServiceView()
+    [Route("BlogsView")]    
+    public async Task<IActionResult> BlogsView()
     {
         var user = User;
         var result = await _userManager.GetUserAsync(user);
         var model = new UserViewModel(result);
         model.AllArticles = GetAllArticles(model.User);
-        return View("ServiceView", model);
+        return View("BlogsView", model);
     }
 
     [Route("Logout")]
@@ -83,7 +83,7 @@ public class AccountController : Controller
 
     [Authorize]
     [HttpPost]
-    [Route("UserPage")]  
+    [Route("BlogsView")]  
     public async Task<IActionResult> UserPage()
     {
         var userClaims = User;

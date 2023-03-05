@@ -31,6 +31,7 @@ public class AdminController : Controller
         _mapper = mapper;        
     }
 
+    [HttpPost]
     [Route("Index")]
     public IActionResult Index() => View(_userManager.Users.ToList());
 

@@ -35,7 +35,7 @@ public class TegController : Controller
 
 
     [HttpPost]
-    [Route("Create")]
+    [Route("/[controller]/[action]")]
     public ActionResult Create(string content)
     {
         var teg = new Teg()
@@ -54,7 +54,7 @@ public class TegController : Controller
     }
 
     [HttpPost]
-    [Route("Update")]
+    [Route("/[controller]/[action]")]
     public ActionResult Update(TegViewModel model)
     {
         var teg = _mapper.Map<Teg>(model);
@@ -65,7 +65,7 @@ public class TegController : Controller
     }
 
     [HttpPost]
-    [Route("Delete")]
+    [Route("/[controller]/[action]")]
     public ActionResult Delete(ArticleViewModel model)
     {
         var teg = _mapper.Map<Teg>(model);
@@ -76,7 +76,7 @@ public class TegController : Controller
     }
 
     [HttpGet]
-    [Route("GetAllTeg")]
+    [Route("/[controller]/[action]")]
     public ActionResult GetAllTeg()
     {
         var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
@@ -85,7 +85,7 @@ public class TegController : Controller
     }
 
     [HttpPost]
-    [Route("GetTegId")]
+    [Route("/[controller]/[action]")]
     public ActionResult GetTegId(Guid id)
     {
         var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;

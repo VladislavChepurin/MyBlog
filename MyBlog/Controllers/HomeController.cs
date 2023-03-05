@@ -11,7 +11,7 @@ public class HomeController : Controller
     {
     }
 
-
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("")]
     [Route("[controller]/[action]")]
     public IActionResult Index()
@@ -19,6 +19,7 @@ public class HomeController : Controller
         return View(new LoginViewModel());
     }
 
+    [HttpGet]
     [Route("[action]")]
     public IActionResult Privacy()
     {

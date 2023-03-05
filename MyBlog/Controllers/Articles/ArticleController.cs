@@ -33,7 +33,7 @@ public class ArticleController : Controller
     }                    
 
     [HttpPost]
-    [Route("Create")]
+    [Route("/[controller]/[action]")]
     public async Task<ActionResult> CreateAsync(ArticleViewModel model)
     {
         var article = _mapper.Map<Article>(model);
@@ -47,7 +47,7 @@ public class ArticleController : Controller
     }
 
     [HttpPost]
-    [Route("Update")]
+    [Route("/[controller]/[action]")]
     public async Task<ActionResult> UpdateAsync(ArticleViewModel model)
     {
         var article = _mapper.Map<Article>(model);
@@ -60,7 +60,7 @@ public class ArticleController : Controller
     }
 
     [HttpPost]
-    [Route("Delete")]
+    [Route("/[controller]/[action]")]
     public ActionResult Delete(ArticleViewModel model)
     {
         var article = _mapper.Map<Article>(model);
@@ -71,7 +71,7 @@ public class ArticleController : Controller
     }
 
     [HttpPost]
-    [Route("ArticleByUser")]
+    [Route("/[controller]/[action]")]
     public ActionResult ArticleByUser(User user)
     {                     
         var repository = _unitOfWork.GetRepository<Article>() as ArticleRepository;
@@ -80,7 +80,7 @@ public class ArticleController : Controller
     }
 
     [HttpPost]
-    [Route("ArticleById")]
+    [Route("/[controller]/[action]")]
     public ActionResult ArticleById(Guid id)
     {
         var repository = _unitOfWork.GetRepository<Article>() as ArticleRepository;
