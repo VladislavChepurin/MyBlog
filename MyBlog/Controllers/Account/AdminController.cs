@@ -150,21 +150,7 @@ public class AdminController : Controller
             return View("User", model);
         }
         return NotFound();
-    }
-
-    [Route("AddInvite")]
-    [HttpPost]
-    public IActionResult AddInvite(InviteViewModel model)
-    {     
-        if (model != null)
-        {       
-            var invite = _mapper.Map<Invate>(model);
-            var repository = _unitOfWork.GetRepository<Invate>() as InviteRepository;
-            repository?.CreateInvite(invite);
-            _unitOfWork.SaveChanges();
-        }
-        return RedirectToAction("Index");
-    }
+    }   
 
     public List<Article> GetAllArticles(User user)
     {

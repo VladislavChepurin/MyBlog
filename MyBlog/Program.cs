@@ -39,7 +39,6 @@ services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connect
     .AddCustomRepository<Article, ArticleRepository>()
     .AddCustomRepository<Comment, CommentRepository>()
     .AddCustomRepository<Teg, TegRepository>()
-    .AddCustomRepository<Invate, InviteRepository>()
     .AddIdentity<User, IdentityRole>(opts =>
     {
         opts.Password.RequiredLength = 5;

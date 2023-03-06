@@ -44,26 +44,10 @@ public class RegisterUserController : Controller
             var result = await _userManager.CreateAsync(user, model.PasswordReg);
             if (result.Succeeded)
             {
-                var repository = _unitOfWork.GetRepository<Invate>() as InviteRepository;
-                var invite = repository?.GetInvite(model.CodeRegister.ConvertMD5());
-                if (invite != null)
+                if ((await _userManager.AddToRoleAsync(user, "User")).Succeeded)
                 {
-                    if ((await _userManager.AddToRoleAsync(user, invite.Roles)).Succeeded)
-                    {
-                        _logger.LogInformation($"Пользователю {user.UserName} присвоена роль {invite.Roles}");
-                    }
-                    repository?.ChangeStatusInvite(invite);
-                    _unitOfWork.SaveChanges();
+                    _logger.LogInformation($"Пользователю {user.UserName} присвоена роль User");
                 }
-  
-                else
-                {
-                    if ((await _userManager.AddToRoleAsync(user, "User")).Succeeded)
-                    {
-                        _logger.LogInformation($"Пользователю {user.UserName} присвоена роль User");
-                    }
-                }
-              
                 await _signInManager.SignInAsync(user, false);
                 _logger.LogInformation($"Зарегистрирован новый пользователь {user.UserName} ** {user.Email}");
                 return RedirectToAction("Index", "Home");

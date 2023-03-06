@@ -4,7 +4,7 @@
 }
 
 <div class="block-reg background-white">
-    <h3 class="center">Добро пожаловать!</h3>
+    <h3 class="center">Вход в приложение</h3>
     <div class="bubble">
         <form class="frm" method="post" asp-controller="Account" asp-action="Login">
             <div asp-validation-summary="ModelOnly"></div>
@@ -31,7 +31,8 @@
             </div>
         </form>      
 
-        <a class="" asp-area="" asp-controller="RegisterUser" asp-action="Register">Регистрация пользователя</a>
+        <label>Еще нет аккуанта?  </label>
+        <a class="" asp-area="" asp-controller="RegisterUser" asp-action="Register">Зарегистрируйтесь</a>
 
     </div>
 </div>

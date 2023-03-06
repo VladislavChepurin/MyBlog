@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MyBlog.Data.Repositiry.Configuration;
 using MyBlog.Data.Repository;
 using MyBlog.Models.Users;
 
@@ -19,6 +18,5 @@ public class ApplicationDbContext : IdentityDbContext<User>
         builder.ApplyConfiguration(new ArticleConfiguration());
         builder.ApplyConfiguration(new CommentConfiguration());
         builder.ApplyConfiguration(new TegConfiguration());
-        builder.ApplyConfiguration(new InviteConfiguration());
     }
 }

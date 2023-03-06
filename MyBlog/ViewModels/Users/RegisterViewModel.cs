@@ -19,10 +19,6 @@ public class RegisterViewModel
     [Display(Name = "Email", Prompt = "Введите адрес электронной почты")]
     public string? EmailReg { get; set; }
 
-    [DataType(DataType.Text)]
-    [Display(Name = "Код", Prompt = "Введите код для регистрации*")]
-    public string? CodeRegister { get; set; }
-
     [Required(ErrorMessage = "Поле Пароль обязательно для заполнения")]
     [DataType(DataType.Password)]
     [Display(Name = "Пароль", Prompt = "Введите пароль")]

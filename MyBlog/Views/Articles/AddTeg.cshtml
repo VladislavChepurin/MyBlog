@@ -1,0 +1,25 @@
+﻿@model MyBlog.ViewModels.Articles.TegViewModel
+
+@{
+    ViewData["Title"] = "Добавление тега";
+}
+
+<div class="block-reg background-white">
+    <h3 class="center">@ViewData["Title"]</h3>
+    <div class="bubble">
+        <form class="frm" method="post" asp-controller="Teg" asp-action="Create">
+            <div asp-validation-summary="ModelOnly"></div>
+
+            <div class="mrgn">
+                <input asp-for="Teg.Content" class="form-control" />
+                <span asp-validation-for="Teg.Content" class="text-danger"></span>
+            </div>
+                                  
+            <div class="center">
+                <input class="enter_submit" type="submit" value="Добавить" />
+            </div>
+        </form>
+
+        <a class="" asp-area="" asp-controller="Teg" asp-action="GetAllTeg">Перейти к списку всех тегов</a>
+    </div>
+</div>
