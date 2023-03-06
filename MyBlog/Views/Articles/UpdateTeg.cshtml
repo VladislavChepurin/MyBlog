@@ -1,7 +1,7 @@
 ﻿@model string
 
 @{
-    ViewData["Title"] = "Добавление тега";
+    ViewData["Title"] = "Редактирование тега";
 }
 
 <div class="block-reg background-white">
@@ -9,11 +9,11 @@
 
     <form class="frm" method="post" asp-controller="Teg" asp-action="Create">
         <div class="form-group">
-            <label for="name">Новый тег</label>
+            <label for="name">Изменить тег</label>
             <input name="name" class="form-control" />
         </div>
         <br>
-        <button type="submit" class="btn btn-primary">Добавить</button>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
     </form>
     <br>
     <a class="" asp-area="" asp-controller="Teg" asp-action="GetAllTeg">Перейти к списку всех тегов</a>

@@ -1,0 +1,40 @@
+﻿@model MyBlog.ViewModels.Articles.Add.AddArticleViewModel
+
+
+@{
+    ViewData["Title"] = "Добавление статьи";
+}
+
+<div class="block-reg background-white">
+    <h3 class="center">@ViewData["Title"]</h3>
+
+    @if (Model.Tegs != null)
+    {
+        foreach (var item in Model.Tegs)
+        {
+            <input type="checkbox" name="tegsCurrent" value="@item"
+           @(Model.Tegs.Contains(item) ? "checked=\"checked\"" : "") />
+            @item <br />
+        }
+    }
+    <form class="frm" method="post" asp-controller="Article" asp-action="Create">
+        <div asp-validation-summary="ModelOnly"></div>
+
+        <div class="mrgn">
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+
+        <div class="mrgn">
+            <input asp-for="Content" class="form-control" />
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+
+        <div class="center">
+            <input class="enter_submit" type="submit" value="Добавить" />
+        </div>
+    </form>
+
+    <a class="" asp-area="" asp-controller="Article" asp-action="GetAllArticles">Вернуться к списку всех статей</a>
+</div>
