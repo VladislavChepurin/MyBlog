@@ -31,7 +31,7 @@ public class AdminController : Controller
         _mapper = mapper;        
     }
 
-    [HttpPost]
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("Index")]
     public IActionResult Index() => View(_userManager.Users.ToList());
 
@@ -39,6 +39,7 @@ public class AdminController : Controller
 
     public IActionResult RoleList() => View(_roleManager.Roles.ToList());
 
+    [Route("Create")]
     [HttpPost]
     public async Task<IActionResult> Create(string name)
     {
@@ -61,6 +62,7 @@ public class AdminController : Controller
         return View(name);
     }
 
+    [Route("Delete")]
     [HttpPost]
     public async Task<IActionResult> Delete(string id)
     {
