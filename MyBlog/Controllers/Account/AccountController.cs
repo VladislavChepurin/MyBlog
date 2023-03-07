@@ -26,7 +26,6 @@ public class AccountController : Controller
         _unitOfWork = unitOfWork;
     }
 
-    [Authorize]
     public IActionResult AccessDenied()
     {
         return View();

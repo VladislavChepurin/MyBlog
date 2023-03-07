@@ -4,12 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyBlog;
 using MyBlog.Data;
-using MyBlog.Data.Repositiry;
-using MyBlog.Data.Repositiry.Repository;
 using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
 using MyBlog.Extentions;
-using MyBlog.Models;
 using MyBlog.Models.Articles;
 using MyBlog.Models.Users;
 using MyBlog.Validation;
@@ -58,23 +55,16 @@ services.AddSingleton(mapper);
 
 //Build services
 var app = builder.Build();
-//--------------------------------------------------
-var webSocketOptions = new WebSocketOptions
-{
-    KeepAliveInterval = TimeSpan.FromMinutes(2)
-};
-app.UseWebSockets(webSocketOptions);
-
-//--------------------------------------------------
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 else
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI(
     //    c =>
@@ -84,7 +74,6 @@ else
     //}
     );
 }
-
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

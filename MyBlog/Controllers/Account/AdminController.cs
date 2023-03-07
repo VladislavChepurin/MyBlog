@@ -1,11 +1,8 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MyBlog.Data.Repositiry.Repository;
 using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
-using MyBlog.Models;
 using MyBlog.Models.Articles;
 using MyBlog.Models.Users;
 using MyBlog.ViewModels;
@@ -20,17 +17,15 @@ public class AdminController : Controller
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly UserManager<User> _userManager;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
 
-    public AdminController(ILogger<AdminController> logger, RoleManager<IdentityRole> roleManager, UserManager<User> userManager, IUnitOfWork unitOfWork, IMapper mapper)
+    public AdminController(ILogger<AdminController> logger, RoleManager<IdentityRole> roleManager, UserManager<User> userManager, IUnitOfWork unitOfWork)
     {
         _logger = logger;
         _roleManager = roleManager;
         _userManager = userManager;
-        _unitOfWork=unitOfWork;
-        _mapper = mapper;        
+        _unitOfWork=unitOfWork;        
     }
-
+        
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route("Index")]
     public IActionResult Index() => View(_userManager.Users.ToList());
@@ -115,8 +110,7 @@ public class AdminController : Controller
             var removedRoles = userRoles.Except(roles);
             await _userManager.AddToRolesAsync(user, addedRoles);
             await _userManager.RemoveFromRolesAsync(user, removedRoles);
-
-            _logger.LogInformation($"Изменены права доступа пользователя {user.UserName} ** {user.Email}");
+            _logger.LogError(0, "Изменены права доступа пользователя {Name} ** {Email}", user.UserName, user.Email);
             return RedirectToAction("Index");
         }
         return NotFound();
@@ -131,7 +125,7 @@ public class AdminController : Controller
         if (user != null)
         {
             await _userManager.DeleteAsync(user);
-            _logger.LogInformation($"Удален пользователь {user.UserName} ** {user.Email}");
+            _logger.LogError(0, "Удален пользователь {Name} ** {Email}", user.UserName, user.Email);
             return RedirectToAction("Index");
         }
         return NotFound();

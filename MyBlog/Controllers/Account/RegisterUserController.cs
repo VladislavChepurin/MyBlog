@@ -16,15 +16,13 @@ public class RegisterUserController : Controller
     private readonly IMapper _mapper;
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
-    private readonly IUnitOfWork _unitOfWork;
 
-    public RegisterUserController(ILogger<RegisterUserController> logger, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, IUnitOfWork unitOfWork)
+    public RegisterUserController(ILogger<RegisterUserController> logger, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager)
     {
         _logger = logger;
         _mapper = mapper;
         _userManager = userManager;
         _signInManager = signInManager;
-        _unitOfWork = unitOfWork;
     }
 
     [Route("Register")]
@@ -46,10 +44,10 @@ public class RegisterUserController : Controller
             {
                 if ((await _userManager.AddToRoleAsync(user, "User")).Succeeded)
                 {
-                    _logger.LogInformation($"Пользователю {user.UserName} присвоена роль User");
+                    _logger.LogError(0, "Пользователю {Name} присвоена роль User", user.UserName);
                 }
                 await _signInManager.SignInAsync(user, false);
-                _logger.LogInformation($"Зарегистрирован новый пользователь {user.UserName} ** {user.Email}");
+                _logger.LogError(0, "Зарегистрирован новый пользователь {Name} ** {Email}", user.UserName, user.Email);
                 return RedirectToAction("Index", "Home");
             }
             else
