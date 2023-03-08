@@ -9,7 +9,6 @@ using MyBlog.Data.UoW;
 using MyBlog.Models.Articles;
 using MyBlog.Models.Users;
 using MyBlog.ViewModels.Articles;
-using MyBlog.ViewModels.Devises;
 
 namespace MyBlog.Controllers.Articles;
 

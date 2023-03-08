@@ -8,7 +8,7 @@ using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
 using MyBlog.Models.Articles;
 using MyBlog.Models.Users;
-using MyBlog.ViewModels.Devises;
+using MyBlog.ViewModels.Articles;
 
 namespace MyBlog.Controllers.Articles;
 

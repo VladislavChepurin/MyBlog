@@ -5,22 +5,15 @@
 }
 
 <div class="block-reg background-white">
-    <h2>@ViewData["Title"]</h2>
-    <a class="" asp-area="" asp-controller="Articles" asp-action="Create">Добавить статью</a>
-
-    @if (Model.Articles != null)
-    {
-        @foreach (var item in Model.Articles)
-        {
+    <h2 class="center">@ViewData["Title"]</h2>
+    <a class="" asp-area="" asp-controller="Articles" asp-action="Create">Добовить статью</a>
+    @foreach (var item in Model.Articles)
+    {      
             <div class="bubble">
                 <h3>@item.Title</h3>
                 <br>
                 <br>
                 <br>
             </div>
-        }
-    }
+    }       
 </div>
-
-
-

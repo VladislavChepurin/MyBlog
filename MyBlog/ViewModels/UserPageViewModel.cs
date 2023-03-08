@@ -1,4 +1,4 @@
-﻿using MyBlog.ViewModels.Devises;
+﻿using MyBlog.ViewModels.Articles;
 using MyBlog.ViewModels.Users;
 
 

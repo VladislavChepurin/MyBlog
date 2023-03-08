@@ -13,8 +13,8 @@ namespace MyBlog.Controllers
         }
 
 
-        [Route("404")]
-        public ActionResult Http404()
+        [Route("Page404")]
+        public ActionResult Page404()
         {
             return View();
         }

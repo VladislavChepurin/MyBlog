@@ -7,6 +7,7 @@ using MyBlog.Data.UoW;
 using MyBlog.Models.Articles;
 using MyBlog.Models.Users;
 using MyBlog.ViewModels;
+using MyBlog.ViewModels.Articles;
 using MyBlog.ViewModels.Users;
 
 namespace MyBlog.Controllers.Account;
@@ -61,14 +62,15 @@ public class AccountController : Controller
 
     [Authorize]
     [HttpGet]
-    [Route("BlogsView")]    
-    public async Task<IActionResult> BlogsView()
+    [Route("BlogsView")]
+    public IActionResult BlogsView()
     {
-        var user = User;
-        var result = await _userManager.GetUserAsync(user);
-        var model = new UserViewModel(result);
-        model.AllArticles = GetAllArticles(model.User);
-        return View("BlogsView", model);
+        if (_unitOfWork.GetRepository<Article>() is ArticleRepository repository)
+        {
+            var model = new ArticleViewModel(repository.GetAllArticle());       
+            return View("BlogsView", model);
+        }
+        return NoContent();
     }
 
     [Route("Logout")]

@@ -4,9 +4,10 @@ namespace MyBlog.ViewModels.Articles;
 
 public class TegViewModel
 {
-    public Teg Teg { get; set; }
-    public TegViewModel(Teg teg)
+    public List<Teg> Tegs { get; set; } 
+
+    public TegViewModel(List<Teg> tegs)
     {
-        Teg = teg;
+        Tegs = tegs;
     }
 }
