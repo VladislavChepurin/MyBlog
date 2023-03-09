@@ -32,14 +32,28 @@ public class ArticleController : Controller
         _unitOfWork = unitOfWork;
     }
 
+
+    [Authorize]
+    [HttpGet]
+    [Route("Index")]
+    public IActionResult Index()
+    {
+        if (_unitOfWork.GetRepository<Article>() is ArticleRepository repository)
+        {
+            var model = new ArticleViewModel(repository.GetAllArticle());
+            return View(model);
+        }
+        return NoContent();
+    }
+
+
+
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route("/[controller]/[action]")]
     public ActionResult CreateArticle()
     {
         var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
         var tegs = repository?.GetAllTeg();
-
-
         return View(new AddArticleViewModel(tegs));
     }
 

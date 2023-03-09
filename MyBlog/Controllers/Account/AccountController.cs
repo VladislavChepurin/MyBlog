@@ -49,7 +49,7 @@ public class AccountController : Controller
                 }
                 else
                 {
-                    return RedirectToAction("BlogsView", "Account");
+                    return RedirectToAction("Index", "Article");
                 }
             }
             else
@@ -58,20 +58,7 @@ public class AccountController : Controller
             }
         }
         return View("~/Views/Home/Index.cshtml", new LoginViewModel());
-    }
-
-    [Authorize]
-    [HttpGet]
-    [Route("BlogsView")]
-    public IActionResult BlogsView()
-    {
-        if (_unitOfWork.GetRepository<Article>() is ArticleRepository repository)
-        {
-            var model = new ArticleViewModel(repository.GetAllArticle());       
-            return View("BlogsView", model);
-        }
-        return NoContent();
-    }
+    }       
 
     [Route("Logout")]
     [HttpPost]
@@ -82,20 +69,20 @@ public class AccountController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    [Authorize]
-    [HttpPost]
-    [Route("BlogsView")]  
-    public async Task<IActionResult> UserPage()
-    {
-        var userClaims = User;
-        var user = await _userManager.GetUserAsync(userClaims);
-        var model =new UserPageViewModel
-        { 
-            UserViewModel = new UserViewModel(user)
-        };
-        model.UserViewModel.AllArticles = GetAllArticles(user);
-        return View("User", model);
-    }
+    //[Authorize]
+    //[HttpPost]
+    //[Route("BlogsView")]  
+    //public async Task<IActionResult> UserPage()
+    //{
+    //    var userClaims = User;
+    //    var user = await _userManager.GetUserAsync(userClaims);
+    //    var model =new UserPageViewModel
+    //    { 
+    //        UserViewModel = new UserViewModel(user)
+    //    };
+    //    model.UserViewModel.AllArticles = GetAllArticles(user);
+    //    return View("User", model);
+    //}
 
     [HttpGet]
     [Route("Login")]

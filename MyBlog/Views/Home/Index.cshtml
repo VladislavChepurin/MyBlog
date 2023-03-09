@@ -1,30 +1,17 @@
-﻿@using Microsoft.AspNetCore.Identity;
-@using MyBlog.Models.Users;
-@using MyBlog.Controllers.Account;
-@inject UserManager<User> UserManager;
-@inject SignInManager<User> SignInManager
-
-@model MyBlog.ViewModels.Users.LoginViewModel
+﻿@model MyBlog.ViewModels.Users.LoginViewModel
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
-@if (SignInManager.IsSignedIn(User))
-{
-    <meta http-equiv="refresh" content="0; URL= ../BlogsView" />
-}
-else
-{
-    <div class="row">
-        <div class="side">
-            <div class="center">
-                Пространство блогов
-            </div>       
-        </div>
-
-        <div class="main">
-            <partial name="Login"/>
+<div class="row">
+    <div class="side">
+        <div class="center">
+            Пространство блогов
         </div>
     </div>
-}
+
+    <div class="main">
+        <partial name="Login" />
+    </div>
+</div>

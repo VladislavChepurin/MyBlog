@@ -1,0 +1,22 @@
+﻿@model MyBlog.ViewModels.Tegs.TegViewModel
+
+@{
+    ViewData["Title"] = "Все теги";
+}
+
+<div class="block-reg background-white">
+    <h2>@ViewData["Title"]</h2>
+    <a class="" asp-area="" asp-controller="Teg" asp-action="">Добавить тег</a>
+
+    @if (Model.Tegs != null)
+    {
+        @foreach (var item in Model.Tegs)
+        {
+            <div class="bubble">
+                <h3>@item.Content</h3>
+                <label>Статей по тегу:</label>
+                <br>
+            </div>
+        }
+    }   
+</div>

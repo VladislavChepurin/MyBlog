@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,14 @@ public class TegController : Controller
         _unitOfWork = unitOfWork;
     }
 
+    [ApiExplorerSettings(IgnoreApi = true)]
+    [Route("/[controller]/[action]")]
+    public ActionResult Index()
+    {
+        var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
+        var tegs = repository?.GetAllTeg();
+        return View(new TegViewModel(tegs));
+    }
 
     [HttpPost]
     [Route("/[controller]/[action]")]
