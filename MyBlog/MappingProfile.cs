@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using MyBlog.Models.Articles;
 using MyBlog.Models.Users;
-using MyBlog.ViewModels.Articles;
+using MyBlog.ViewModels.Comments;
+using MyBlog.ViewModels.Tegs;
 using MyBlog.ViewModels.Users;
 
 namespace MyBlog;

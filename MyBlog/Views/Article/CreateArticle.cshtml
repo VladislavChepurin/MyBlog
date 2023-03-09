@@ -1,4 +1,4 @@
-﻿@model MyBlog.ViewModels.Articles.Add.AddArticleViewModel
+﻿@model MyBlog.ViewModels.Articles.AddArticleViewModel
 
 
 @{
@@ -6,7 +6,7 @@
 }
 
 <div class="block-reg background-white">
-    <h3 class="center">@ViewData["Title"]</h3>
+    <h3 >@ViewData["Title"]</h3>
 
     @if (Model.Tegs != null)
     {
@@ -27,7 +27,7 @@
 
 
         <div class="mrgn">
-            <input asp-for="Content" class="form-control" />
+            <textarea asp-for="Content" class="form-control"> </textarea>
             <span asp-validation-for="Content" class="text-danger"></span>
         </div>
 
@@ -36,5 +36,5 @@
         </div>
     </form>
 
-    <a class="" asp-area="" asp-controller="Article" asp-action="GetAllArticles">Вернуться к списку всех статей</a>
+    <a class="" asp-area="" asp-controller="Account" asp-action="BlogsView">Вернуться к списку всех статей</a>
 </div>

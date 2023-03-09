@@ -1,7 +1,7 @@
 ﻿using MyBlog.Models.Articles;
 using System.ComponentModel.DataAnnotations;
 
-namespace MyBlog.ViewModels.Articles.Add
+namespace MyBlog.ViewModels.Articles
 {
     public class AddArticleViewModel
     {
@@ -16,5 +16,10 @@ namespace MyBlog.ViewModels.Articles.Add
         [DataType(DataType.Text)]
         [Display(Name = "Контент", Prompt = "Введите текст статьи")]
         public string? Content { get; set; }
+
+        public AddArticleViewModel(List<Teg>? tegs)
+        {
+            Tegs = tegs;
+        }
     }
 }

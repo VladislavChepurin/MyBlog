@@ -10,7 +10,7 @@ using MyBlog.Models.Articles;
 using MyBlog.Models.Users;
 using MyBlog.ViewModels.Articles;
 
-namespace MyBlog.Controllers.Articles;
+namespace MyBlog.Controllers;
 
 [Authorize]
 public class ArticleController : Controller
@@ -30,7 +30,19 @@ public class ArticleController : Controller
         _signInManager = signInManager;
         _context = context;
         _unitOfWork = unitOfWork;
-    }                    
+    }
+
+    [ApiExplorerSettings(IgnoreApi = true)]
+    [Route("/[controller]/[action]")]
+    public ActionResult CreateArticle()
+    {
+        var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
+        var tegs = repository?.GetAllTeg();
+
+
+        return View(new AddArticleViewModel(tegs));
+    }
+
 
     [HttpPost]
     [Route("/[controller]/[action]")]
@@ -73,7 +85,7 @@ public class ArticleController : Controller
     [HttpPost]
     [Route("/[controller]/[action]")]
     public ActionResult ArticleByUser(User user)
-    {                     
+    {
         var repository = _unitOfWork.GetRepository<Article>() as ArticleRepository;
         var article = repository?.GetArticleByUser(user);
         return View(article);

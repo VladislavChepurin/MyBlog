@@ -1,10 +1,10 @@
 ﻿using MyBlog.Models.Articles;
 
-namespace MyBlog.ViewModels.Articles;
+namespace MyBlog.ViewModels.Tegs;
 
 public class TegViewModel
 {
-    public List<Teg> Tegs { get; set; } 
+    public List<Teg> Tegs { get; set; }
 
     public TegViewModel(List<Teg> tegs)
     {

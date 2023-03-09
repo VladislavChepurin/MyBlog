@@ -1,6 +1,6 @@
 ﻿using MyBlog.Models.Articles;
 
-namespace MyBlog.ViewModels.Articles;
+namespace MyBlog.ViewModels.Comments;
 
 public class CommentViewModel
 {

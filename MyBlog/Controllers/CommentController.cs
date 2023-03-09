@@ -9,8 +9,9 @@ using MyBlog.Data.UoW;
 using MyBlog.Models.Articles;
 using MyBlog.Models.Users;
 using MyBlog.ViewModels.Articles;
+using MyBlog.ViewModels.Comments;
 
-namespace MyBlog.Controllers.Articles;
+namespace MyBlog.Controllers;
 
 [Authorize]
 public class CommentController : Controller
