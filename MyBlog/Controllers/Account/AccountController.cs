@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyBlog.Data;
 using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
 using MyBlog.Models.Articles;
 using MyBlog.Models.Users;
-using MyBlog.ViewModels;
-using MyBlog.ViewModels.Articles;
 using MyBlog.ViewModels.Users;
 
 namespace MyBlog.Controllers.Account;
@@ -27,10 +24,10 @@ public class AccountController : Controller
         _unitOfWork = unitOfWork;
     }
 
-    public IActionResult AccessDenied()
-    {
-        return View();
-    }
+    public IActionResult AllUsers() => View(_userManager.Users.ToList());
+    public IActionResult AccessDenied() => View();
+    public IActionResult Index() => View();
+
 
     [HttpPost]
     [Route("Login")]
@@ -69,31 +66,11 @@ public class AccountController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    //[Authorize]
-    //[HttpPost]
-    //[Route("BlogsView")]  
-    //public async Task<IActionResult> UserPage()
-    //{
-    //    var userClaims = User;
-    //    var user = await _userManager.GetUserAsync(userClaims);
-    //    var model =new UserPageViewModel
-    //    { 
-    //        UserViewModel = new UserViewModel(user)
-    //    };
-    //    model.UserViewModel.AllArticles = GetAllArticles(user);
-    //    return View("User", model);
-    //}
-
     [HttpGet]
     [Route("Login")]
     public IActionResult Login()
     {
         return View("Login");
-    }
-
-    public IActionResult Index()
-    {
-        return View();
     }
 
     public List<Article> GetAllArticles(User user)

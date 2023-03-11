@@ -9,8 +9,7 @@ public static class UserFromModel
     {
         user.LastName = usereditvm.LastName;
         user.FirstName = usereditvm.FirstName;
-        user.Email = usereditvm.Email;
-        user.Company = usereditvm.Company;               
+        user.Email = usereditvm.Email;            
         return user;
     }
 }

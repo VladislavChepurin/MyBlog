@@ -26,15 +26,24 @@ public class AdminController : Controller
         _unitOfWork=unitOfWork;        
     }
         
-    [ApiExplorerSettings(IgnoreApi = true)]
-    [Route("Index")]
     public IActionResult Index() => View(_userManager.Users.ToList());
 
     public IActionResult Create() => View();
 
     public IActionResult RoleList() => View(_roleManager.Roles.ToList());
 
-    [Route("Create")]
+    [Route("Delete")]
+    [HttpPost]
+    public async Task<IActionResult> Delete(string id)
+    {
+        IdentityRole role = await _roleManager.FindByIdAsync(id);
+        if (role != null)
+        {
+            await _roleManager.DeleteAsync(role);
+        }
+        return RedirectToAction("Index");
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create(string name)
     {
@@ -55,18 +64,6 @@ public class AdminController : Controller
             }
         }
         return View(name);
-    }
-
-    [Route("Delete")]
-    [HttpPost]
-    public async Task<IActionResult> Delete(string id)
-    {
-        IdentityRole role = await _roleManager.FindByIdAsync(id);
-        if (role != null)
-        {
-            await _roleManager.DeleteAsync(role);
-        }
-        return RedirectToAction("Index");
     }
 
     [Route("Edit")]

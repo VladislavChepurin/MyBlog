@@ -8,8 +8,7 @@
     <table class="table">
 
         <tr>      
-            <th>Имя</th>
-            <th>Фамилия</th>           
+            <th>Имя, фамилия</th>          
             <th>Логин</th>
             <th>Эл. почта</th>
             <th>Права доступа</th>
@@ -21,11 +20,8 @@
         {
             <tr>
                 <td>
-                    @user.FirstName
-                </td>
-                <td>
-                    @user.LastName
-                </td>
+                    @user.GetFullName()
+                </td>                
                 <td>
                     @user.UserName
                 </td>               

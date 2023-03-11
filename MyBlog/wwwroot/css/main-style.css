@@ -106,6 +106,8 @@ code {
     font-size: 100%;
 }
 
-textarea {
-    rows : 5;
+.card-container {
+    display: grid;
+    grid-column-gap: 5px;
+    grid-template-columns: repeat(auto-fit, minmax( 260px, 1fr));
 }

@@ -1,0 +1,54 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using MyBlog.Models.Users;
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@model IEnumerable<MyBlog.Models.Users.User>
+
+
+@{
+    ViewData["Title"] = "Все пользователи";
+}
+
+<h3>@ViewData["Title"]</h3>
+
+
+<div class="card-container">
+
+    @foreach (var user in Model)
+    {
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">@user.GetFullName()</h5>
+
+                @foreach (var item in await UserManager.GetRolesAsync(user))
+                {
+                    <span class="badge bg-primary">@item</span>                    
+                }
+                <br>                
+                <br>
+                <p class="card-text">@user.Email</p>
+
+                @if (ViewContext.HttpContext.User.IsInRole("Administrator"))
+                {
+                    <a asp-controller="Admin" asp-action="UserPage" asp-route-userid="@user.Id" class="card-link">Подробно</a>
+                }                   
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

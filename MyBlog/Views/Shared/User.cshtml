@@ -5,7 +5,7 @@
     ViewData["Title"] = "Страница пользователя";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h3>@ViewData["Title"]</h3>
 
 <div class="user-container">
     <div class="user-info-left">
@@ -13,7 +13,6 @@
         <p>Имя: <code>@Model.UserViewModel.User.FirstName</code><p />
         <p>Фамилия: <code>@Model.UserViewModel.User.LastName</code><p />
         <p>Логин: <code>@Model.UserViewModel.User.UserName</code><p />
-        <p>Компания: <code>@Model.UserViewModel.User.Company</code><p />
         <p>Email: <code>@Model.UserViewModel.User.Email</code><p />
 
         <form asp-controller="Edit" asp-action="EditUser" asp-route-userid="@Model.UserViewModel.User.Id" method="post">
@@ -21,38 +20,7 @@
                 Редактировать
             </button>
         </form>
-    </div>
-
-    <div class="user-info-right">
-        <h4>Привязать устойство</h4>
-
-        @*<div>
-            <form class="frm" method="post" asp-controller="RegisterDevice" asp-action="RegisterNewDevice">
-                <input type="hidden" name="userId" value="@Model.UserViewModel.User.Id" />
-                <div asp-validation-summary="ModelOnly"></div>
-
-                <div class="mrgn">
-                    <input asp-for="RegisterViewsModel.ManufactureCode" class="form-control" />
-                    <span asp-validation-for="RegisterViewsModel.ManufactureCode" class="text-danger"></span>
-                </div>
-
-                <div class="mrgn">
-                    <input asp-for="RegisterViewsModel.NameDevices" class="form-control" />
-                    <span asp-validation-for="RegisterViewsModel.NameDevices" class="text-danger"></span>
-                </div>
-
-                <div class="mrgn">
-                    <input asp-for="RegisterViewsModel.SerialNumber" class="form-control" />
-                    <span asp-validation-for="RegisterViewsModel.SerialNumber" class="text-danger"></span>
-                </div>
-
-                <div class="center">
-                    <input class="enter_submit btn-sm" type="submit" value="Регистрация" />
-                </div>
-
-            </form>
-        </div>*@
-    </div>
+    </div>  
 </div>
 
 

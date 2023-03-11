@@ -6,7 +6,6 @@ namespace MyBlog.ViewModels.Users;
 public class UserViewModel
 {
     public User User { get; set; }
-
     public List<Article>? AllArticles { get; set; }
 
     private int number = default;
