@@ -1,4 +1,4 @@
-﻿using MyBlog.Models.Articles;
+﻿using MyBlog.Models.Tegs;
 
 namespace MyBlog.ViewModels.Tegs;
 

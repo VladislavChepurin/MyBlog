@@ -1,5 +1,6 @@
 ﻿using MyBlog.Data.Repositiry;
 using MyBlog.Models.Articles;
+using MyBlog.Models.Comments;
 
 namespace MyBlog.Data.Repository;
 
@@ -26,7 +27,8 @@ public class CommentRepository : Repository<Comment>
     }
     public List<Comment> GetCommentByArticle(Article article)
     {
-        var articles = Set.AsEnumerable().Where(x => x?.Article?.Id == article.Id);
+
+        var articles = Set.AsEnumerable().Where(x => x?.ArticleId == article.Id);
         return articles.ToList();
     }
 

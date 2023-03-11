@@ -1,5 +1,6 @@
-﻿using MyBlog.Models.Articles;
-using System.Data.Common;
+﻿using MyBlog.Models;
+using MyBlog.Models.Articles;
+using MyBlog.Models.Tegs;
 
 namespace MyBlog.Data.Repositiry.Repository
 {
@@ -9,16 +10,11 @@ namespace MyBlog.Data.Repositiry.Repository
         {
         }
 
-        public void AddTegInArticles (Article article, Teg teg)
-        {
-            var model = new ArticleTeg() { ArticlesId = article.Id, TegsId = teg.Id };
-            Create(model);            
-        }
+       
 
-        public void DeleteTegInArticles(Article article, Teg teg)
+        public void DeleteTegInArticles(Article article, List<Guid> teg)
         {
-            var model = new ArticleTeg() { ArticlesId = article.Id, TegsId = teg.Id };
-            Delete(model);
+            throw new NotImplementedException();
         }
     }
 }

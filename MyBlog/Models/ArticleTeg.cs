@@ -1,4 +1,4 @@
-﻿namespace MyBlog.Models.Articles
+﻿namespace MyBlog.Models
 {
     public class ArticleTeg
     {

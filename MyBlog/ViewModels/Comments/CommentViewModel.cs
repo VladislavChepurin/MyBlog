@@ -1,4 +1,4 @@
-﻿using MyBlog.Models.Articles;
+﻿using MyBlog.Models.Comments;
 
 namespace MyBlog.ViewModels.Comments;
 

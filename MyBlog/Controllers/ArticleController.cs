@@ -4,11 +4,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyBlog.Controllers.Account;
 using MyBlog.Data;
+using MyBlog.Data.Repositiry.Repository;
 using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
+using MyBlog.Models;
 using MyBlog.Models.Articles;
+using MyBlog.Models.Tegs;
 using MyBlog.Models.Users;
 using MyBlog.ViewModels.Articles;
+using System.Data;
 
 namespace MyBlog.Controllers;
 
@@ -54,22 +58,29 @@ public class ArticleController : Controller
     {
         var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
         var tegs = repository?.GetAllTeg();
-        return View(new AddArticleViewModel(tegs));
+        return View(new AddArticleViewModel() { Tegs = tegs});
     }
 
 
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public async Task<ActionResult> CreateAsync(ArticleViewModel model)
+    public async Task<ActionResult> Create(AddArticleViewModel model, List<Guid> tegsCurrent)
     {
         var article = _mapper.Map<Article>(model);
         article.Id = Guid.NewGuid();
         article.Created = DateTime.Now;
-        article.User = await _userManager.FindByIdAsync(article.UserId);
-        var repository = _unitOfWork.GetRepository<Article>() as ArticleRepository;
-        repository?.CreateArticle(article);
+        var user = User;
+        var result = await _userManager.GetUserAsync(user);
+        article.UserId = result.Id;
+
+        var articleRepository = _unitOfWork.GetRepository<Article>() as ArticleRepository;
+        articleRepository?.CreateArticle(article);
+
+        var tegRepository = _unitOfWork.GetRepository<Teg>() as TegRepository;
+        tegRepository?.AddTegInArticles(article, tegsCurrent);
+
         _unitOfWork.SaveChanges();
-        return View(article);
+        return RedirectToAction("Index");
     }
 
     [HttpPost]

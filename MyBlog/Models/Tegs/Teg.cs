@@ -1,4 +1,6 @@
-﻿namespace MyBlog.Models.Articles;
+﻿using MyBlog.Models.Articles;
+
+namespace MyBlog.Models.Tegs;
 
 public class Teg
 {

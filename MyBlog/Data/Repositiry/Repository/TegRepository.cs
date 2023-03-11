@@ -1,5 +1,6 @@
 ﻿using MyBlog.Data.Repositiry;
 using MyBlog.Models.Articles;
+using MyBlog.Models.Tegs;
 
 namespace MyBlog.Data.Repository;
 
@@ -24,12 +25,21 @@ public class TegRepository: Repository<Teg>
         Delete(teg);
     }
 
-    public List<Teg> GetTegById(Guid id)
+    public Teg GetTegById(Guid id)
     {
-        var articles = Set.AsEnumerable().Where(x => x?.Id == id);
-        return articles.ToList();
+        var teg = Set.AsEnumerable().Where(x => x?.Id == id).FirstOrDefault();
+        return teg;
     }
 
+    public void AddTegInArticles(Article article, List<Guid> teg)
+    {
+        var tegsCurrent = new List<Teg>();
+        foreach (Guid id in teg)
+        {
+            tegsCurrent.Add(GetTegById(id));
+        }
+        article?.Tegs?.AddRange(tegsCurrent);
+    }
 
     public List<Teg> GetAllTeg()
     {

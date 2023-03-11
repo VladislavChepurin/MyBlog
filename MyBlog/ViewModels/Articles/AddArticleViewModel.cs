@@ -1,11 +1,11 @@
-﻿using MyBlog.Models.Articles;
+﻿using MyBlog.Models.Tegs;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyBlog.ViewModels.Articles
 {
     public class AddArticleViewModel
     {
-        public List<Teg>? Tegs { get; set; }
+      
 
         [Required(ErrorMessage = "Поле обязательно для заполнения")]
         [DataType(DataType.Text)]
@@ -17,9 +17,17 @@ namespace MyBlog.ViewModels.Articles
         [Display(Name = "Контент", Prompt = "Введите текст статьи")]
         public string? Content { get; set; }
 
-        public AddArticleViewModel(List<Teg>? tegs)
+        public List<Teg>? Tegs { get; set; }
+
+        public IList<Guid>? TegList { get; set; }
+        public AddArticleViewModel()
         {
-            Tegs = tegs;
+            TegList = new List<Guid>();
         }
+
+        //public AddArticleViewModel(List<Teg>? tegs)
+        //{
+        //    Tegs = tegs;
+        //}
     }
 }

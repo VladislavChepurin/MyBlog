@@ -7,6 +7,7 @@ using MyBlog.Data;
 using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
 using MyBlog.Models.Articles;
+using MyBlog.Models.Comments;
 using MyBlog.Models.Users;
 using MyBlog.ViewModels.Articles;
 using MyBlog.ViewModels.Comments;
@@ -39,7 +40,6 @@ public class CommentController : Controller
     public async Task<ActionResult> CreateAsync(CommentViewModel model)
     {
         var comment = _mapper.Map<Comment>(model);
-        comment.Id = Guid.NewGuid();
         comment.Created = DateTime.Now;
         comment.User = await _userManager.FindByIdAsync(comment.UserId);
         var repository = _unitOfWork.GetRepository<Comment>() as CommentRepository;

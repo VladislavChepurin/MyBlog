@@ -5,8 +5,8 @@
 }
 
 <div class="block-reg background-white">
-    <h2>@ViewData["Title"]</h2>
-    <a class="" asp-area="" asp-controller="Teg" asp-action="">Добавить тег</a>
+    <h3>@ViewData["Title"]</h3>
+    <a asp-action="Create">Добавить тег</a>
 
     @if (Model.Tegs != null)
     {

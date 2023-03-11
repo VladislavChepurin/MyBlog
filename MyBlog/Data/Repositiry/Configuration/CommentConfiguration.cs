@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MyBlog.Models.Articles;
+using MyBlog.Models.Comments;
 
 namespace MyBlog.Data.Repository;
 

@@ -7,10 +7,11 @@ using MyBlog.Controllers.Account;
 using MyBlog.Data;
 using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
-using MyBlog.Models.Articles;
+using MyBlog.Models.Tegs;
 using MyBlog.Models.Users;
 using MyBlog.ViewModels.Articles;
 using MyBlog.ViewModels.Tegs;
+using System.Xml.Linq;
 
 namespace MyBlog.Controllers;
 
@@ -43,23 +44,25 @@ public class TegController : Controller
         return View(new TegViewModel(tegs));
     }
 
+    public IActionResult Create() => View();
+
     [HttpPost]
     [Route("/[controller]/[action]")]
     public ActionResult Create(string content)
     {
-        var teg = new Teg()
+        if (!string.IsNullOrEmpty(content))
         {
-            Content = content
-        };
-        var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
-        repository?.CreateTeg(
-            new Teg()
-            {
-                Id = Guid.NewGuid(),
-                Content = content
-            });
-        _unitOfWork.SaveChanges();
-        return View();
+            var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
+            repository?.CreateTeg(
+                new Teg()
+                {
+                    Id = Guid.NewGuid(),
+                    Content = content
+                });
+            _unitOfWork.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        return View(content);       
     }
 
     [HttpPost]

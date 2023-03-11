@@ -8,23 +8,24 @@
 <div class="block-reg background-white">
     <h3 >@ViewData["Title"]</h3>
 
-    @if (Model.Tegs != null)
-    {
-        foreach (var item in Model.Tegs)
-        {
-            <input type="checkbox" name="tegsCurrent" value="@item"
-           @(Model.Tegs.Contains(item) ? "checked=\"checked\"" : "") />
-            @item <br />
-        }
-    }
+   
     <form class="frm" method="post" asp-controller="Article" asp-action="Create">
-        <div asp-validation-summary="ModelOnly"></div>
-
+        <div asp-validation-summary="ModelOnly"></div>        
+        <div class="form-group">
+            @if (Model.Tegs != null)
+            {
+                foreach (var item in Model.Tegs)
+                {
+                    <input type="checkbox" name="tegsCurrent" value="@item.Id"
+                   @(Model.Tegs.Contains(item) ? "checked=\"checked\"" : "") />
+                    @item.Content <br />
+                }
+            }
+        </div>
         <div class="mrgn">
             <input asp-for="Title" class="form-control" />
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
-
 
         <div class="mrgn">
             <textarea rows="10" asp-for="Content" class="form-control"> </textarea>
@@ -36,5 +37,5 @@
         </div>
     </form>
 
-    <a class="" asp-area="" asp-controller="Account" asp-action="BlogsView">Вернуться к списку всех статей</a>
+    <a asp-action="Index">Вернуться к списку всех статей</a>
 </div>
