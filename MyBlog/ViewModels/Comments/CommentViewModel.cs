@@ -4,8 +4,8 @@ namespace MyBlog.ViewModels.Comments;
 
 public class CommentViewModel
 {
-    public Comment Comment { get; set; }
-    public CommentViewModel(Comment comment)
+    public List<Comment>? Comment { get; set; }
+    public CommentViewModel(List<Comment>? comment)
     {
         Comment = comment;
     }

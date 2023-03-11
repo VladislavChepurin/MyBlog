@@ -1,5 +1,4 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +10,6 @@ using MyBlog.Models.Tegs;
 using MyBlog.Models.Users;
 using MyBlog.ViewModels.Articles;
 using MyBlog.ViewModels.Tegs;
-using System.Xml.Linq;
 
 namespace MyBlog.Controllers;
 
@@ -44,7 +42,21 @@ public class TegController : Controller
         return View(new TegViewModel(tegs));
     }
 
+    [ApiExplorerSettings(IgnoreApi = true)]
     public IActionResult Create() => View();
+
+    [ApiExplorerSettings(IgnoreApi = true)]
+    public IActionResult UpdateTeg(Guid id)
+    {
+        var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
+        var teg = repository?.GetTegById(id);
+        if (teg != null)
+        {
+            var tegView = new TegUpdateViewModel(teg);
+            return View(tegView);
+        }
+        return RedirectToAction("Index");      
+    }
 
     [HttpPost]
     [Route("/[controller]/[action]")]
@@ -55,8 +67,7 @@ public class TegController : Controller
             var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
             repository?.CreateTeg(
                 new Teg()
-                {
-                    Id = Guid.NewGuid(),
+                {                 
                     Content = content
                 });
             _unitOfWork.SaveChanges();
@@ -67,13 +78,19 @@ public class TegController : Controller
 
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public ActionResult Update(TegViewModel model)
+    public ActionResult UpdateTeg(string contentTeg, Guid idTeg)
     {
-        var teg = _mapper.Map<Teg>(model);
+        //var teg = _mapper.Map<Teg>(model);
+
         var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
-        repository?.UpdateTeg(teg);
+        var teg = repository?.GetTegById(idTeg);
+        if (teg != null)
+        {
+            teg.Content = contentTeg;
+            repository?.UpdateTeg(teg);
+        }      
         _unitOfWork.SaveChanges();
-        return View();
+        return RedirectToAction("Index");
     }
 
     [HttpPost]

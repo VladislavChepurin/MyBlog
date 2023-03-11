@@ -1,4 +1,4 @@
-﻿@model string
+﻿@model MyBlog.ViewModels.Tegs.TegUpdateViewModel
 
 @{
     ViewData["Title"] = "Редактирование тега";
@@ -7,15 +7,19 @@
 <div class="block-reg background-white">
     <h3 class="center">@ViewData["Title"]</h3>
 
-    <form class="frm" method="post" asp-controller="Teg" asp-action="Create">
-        <div class="form-group">
-            <label for="name">Изменить тег</label>
-            <input name="name" class="form-control" />
+    <form class="frm" method="post" asp-action="UpdateTeg">
+        <input type="hidden" name="idTeg" value="@Model.Id" />
+        <div asp-validation-summary="ModelOnly"></div>
+
+        <div class="mrgn">
+            <input asp-for="Content" name="contentTeg" class="form-control" />
+            <div asp-validation-summary="ModelOnly"></div>
         </div>
+
         <br>
         <button type="submit" class="btn btn-primary">Сохранить</button>
     </form>
     <br>
-    <a class="" asp-area="" asp-controller="Teg" asp-action="GetAllTeg">Перейти к списку всех тегов</a>
+    <a asp-action="Index">Перейти к списку всех тегов</a>
 
 </div>

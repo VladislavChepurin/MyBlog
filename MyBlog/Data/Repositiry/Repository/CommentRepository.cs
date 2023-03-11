@@ -37,4 +37,13 @@ public class CommentRepository : Repository<Comment>
         var articles = Set.AsEnumerable().Where(x => x?.Id == id).FirstOrDefault();
         return articles;
     }
+
+    public List<Comment> GetAllComment()
+    {
+        var articles = Set.AsEnumerable().Select(x => x);
+        return articles.ToList();
+    }
+
+
+
 }

@@ -1,6 +1,5 @@
 ﻿@model MyBlog.ViewModels.Articles.AddArticleViewModel
 
-
 @{
     ViewData["Title"] = "Редактирование  статьи";
 }
@@ -25,9 +24,8 @@
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
 
-
         <div class="mrgn">
-            <input asp-for="Content" class="form-control" />
+            <textarea rows="10" asp-for="Content" class="form-control"> </textarea>
             <span asp-validation-for="Content" class="text-danger"></span>
         </div>
 
@@ -36,5 +34,5 @@
         </div>
     </form>
 
-    <a class="" asp-area="" asp-controller="Article" asp-action="GetAllArticles">Выйти без сохраниения</a>
+    <a asp-action="Index">Выйти без сохраниения</a>
 </div>

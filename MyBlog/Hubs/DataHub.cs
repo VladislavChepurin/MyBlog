@@ -6,7 +6,5 @@ public class DataHub : Hub
 {        
     public DataHub()
     {
-
-
     }      
 }

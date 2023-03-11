@@ -107,6 +107,7 @@ code {
 }
 
 .card-container {
+    margin: 0.3rem;
     display: grid;
     grid-column-gap: 5px;
     grid-template-columns: repeat(auto-fit, minmax( 260px, 1fr));

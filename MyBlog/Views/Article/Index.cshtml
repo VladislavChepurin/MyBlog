@@ -6,18 +6,22 @@
 
 <div class="block-reg background-white">
     <h2>@ViewData["Title"]</h2>
-    <a class="" asp-area="" asp-controller="Article" asp-action="CreateArticle">Добавить статью</a>
+    <a asp-action="CreateArticle">Добавить статью</a>
 
     @if (Model.Articles != null)
     {
-        @foreach (var item in Model.Articles)
-        {
-            <div class="bubble">
-                <h3>@item.Title</h3>
-                <br>
-                <br>
-                <br>
-            </div>
-        }
+        <div class="card-container">
+            @foreach (var item in Model.Articles)
+            {
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Title</h5>
+
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            }
+        </div>
     }
 </div>

@@ -20,6 +20,6 @@ public class MappingProfile : Profile
 
         CreateMap<AddArticleViewModel, Article>();              
         CreateMap<CommentViewModel, Comment>();
-        CreateMap<TegViewModel, Teg>();
+        CreateMap<TegUpdateViewModel, Teg>();
     }
 }

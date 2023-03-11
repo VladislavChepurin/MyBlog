@@ -35,6 +35,19 @@ public class CommentController : Controller
         _unitOfWork = unitOfWork;
     }
 
+    [Authorize]
+    [ApiExplorerSettings(IgnoreApi = true)]
+    [Route("/[controller]/[action]")]
+    public IActionResult Index()
+    {
+        if (_unitOfWork.GetRepository<Comment>() is CommentRepository repository)
+        {
+            var model = new CommentViewModel(repository.GetAllComment());
+            return View(model);
+        }
+        return NotFound();
+    }
+
     [HttpPost]
     [Route("/[controller]/[action]")]
     public async Task<ActionResult> CreateAsync(CommentViewModel model)

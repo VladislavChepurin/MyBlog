@@ -5,16 +5,12 @@ namespace MyBlog.ViewModels.Articles
 {
     public class AddArticleViewModel
     {
-      
-
-        [Required(ErrorMessage = "Поле обязательно для заполнения")]
         [DataType(DataType.Text)]
-        [Display(Name = "Заголовок", Prompt = "Введите заголовок")]
+        [Display(Name = "Заголовок", Prompt = "Введите заголовок, минимум 3 символа")]
         public string? Title { get; set; }
 
-        [Required(ErrorMessage = "Поле обязательно для заполнения")]
         [DataType(DataType.Text)]
-        [Display(Name = "Контент", Prompt = "Введите текст статьи")]
+        [Display(Name = "Контент", Prompt = "Введите текст статьи, минимум 20 символов")]
         public string? Content { get; set; }
 
         public List<Teg>? Tegs { get; set; }
@@ -24,10 +20,5 @@ namespace MyBlog.ViewModels.Articles
         {
             TegList = new List<Guid>();
         }
-
-        //public AddArticleViewModel(List<Teg>? tegs)
-        //{
-        //    Tegs = tegs;
-        //}
     }
 }

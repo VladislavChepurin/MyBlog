@@ -10,13 +10,19 @@
 
     @if (Model.Tegs != null)
     {
-        @foreach (var item in Model.Tegs)
-        {
-            <div class="bubble">
-                <h3>@item.Content</h3>
-                <label>Статей по тегу:</label>
-                <br>
-            </div>
-        }
+        <div class="card-container">
+            @foreach (var item in Model.Tegs)
+            {
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title"><a asp-action="UpdateTeg" asp-route-id="@item.Id">@item.Content</a></h5>
+                        <br>
+                        <p class="card-text">Статей по тегу:</p>
+                    </div>
+                </div>
+            }
+        </div>
     }   
 </div>
+
+
