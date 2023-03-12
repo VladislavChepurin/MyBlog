@@ -1,6 +1,10 @@
 ﻿@model IEnumerable<MyBlog.Models.Users.User>
 
-<h2>Список пользователей</h2>
+@{
+    ViewData["Title"] = "Список пользователей";
+}
+
+<h3>@ViewData["Title"]</h3>
 
 <a asp-action="RoleList">Список ролей</a>
 

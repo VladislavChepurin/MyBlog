@@ -8,6 +8,6 @@ public class ArticleConfiguration: IEntityTypeConfiguration<Article>
 {
     public void Configure(EntityTypeBuilder<Article> builder)
     {
-        builder.ToTable("ArticleTable").HasKey(p => p.Id);         
+        builder.ToTable("ArticleTable").HasKey(p => p.Id);          
     }
 }

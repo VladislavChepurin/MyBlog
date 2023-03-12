@@ -33,10 +33,10 @@
                                 <a class="nav-link active" aria-current="page" method="post" asp-area="" asp-controller="Comment" asp-action="Index">Комментарии</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" method="post" asp-area="" asp-controller="Teg" asp-action="Index">Теги</a>
+                                <a class="nav-link active" method="post" asp-controller="Teg" asp-action="Index">Теги</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" method="post" asp-area="" asp-controller="Account" asp-action="AllUsers">Пользователи</a>
+                                <a class="nav-link active" method="post" asp-controller="Account" asp-action="AllUsers">Пользователи</a>
                             </li>
 
                             @if (ViewContext.HttpContext.User.IsInRole("Administrator"))

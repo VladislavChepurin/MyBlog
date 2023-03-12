@@ -1,13 +1,17 @@
 ﻿using MyBlog.Models.Articles;
+using MyBlog.Models.Comments;
 
-namespace MyBlog.ViewModels.Articles;
-
-public class ArticleViewModel
+namespace MyBlog.ViewModels.Articles
 {
-    public List<Article> Articles { get; set; }
-
-    public ArticleViewModel(List<Article> аrticles)
+    public class ArticleViewModel
     {
-        Articles = аrticles;
+        public Article? Article { get; set; }       
+        public List<Comment>? Comments { get; set; }
+
+        public ArticleViewModel(Article? article, List<Comment>? comments)
+        {
+            Article = article;           
+            Comments = comments;
+        }
     }
 }

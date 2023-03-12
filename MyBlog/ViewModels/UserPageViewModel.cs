@@ -8,5 +8,5 @@ public class UserPageViewModel
 {
     public UserViewModel? UserViewModel { get; set; }
 
-    public ArticleViewModel? RegisterViewsModel { get; set; }
+    public AllArticlesViewModel? RegisterViewsModel { get; set; }
 }

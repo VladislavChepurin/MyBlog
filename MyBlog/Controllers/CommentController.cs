@@ -76,7 +76,7 @@ public class CommentController : Controller
 
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public ActionResult Delete(ArticleViewModel model)
+    public ActionResult Delete(AllArticlesViewModel model)
     {
         var comment = _mapper.Map<Comment>(model);
         var repository = _unitOfWork.GetRepository<Comment>() as CommentRepository;

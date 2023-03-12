@@ -4,23 +4,21 @@
     ViewData["Title"] = "Все комментарии";
 }
 
-<div class="block-reg background-white">
-    <h3>@ViewData["Title"]</h3>
-    @if (Model.Comment != null)
-    {
-        <div class="card-container">
-            @foreach (var item in Model.Comment)
-            {
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                  @*      <h5 class="card-title"><a asp-action="UpdateTeg" asp-route-id="@item.Id">@item.Content</a></h5>*@
-                        <br>
-                        <p class="card-text">@item.Content</p>
-                    </div>
+<h3>@ViewData["Title"]</h3>
+@if (Model.Comment != null)
+{
+    <div class="card-container">
+        @foreach (var item in Model.Comment)
+        {
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    @*      <h5 class="card-title"><a asp-action="UpdateTeg" asp-route-id="@item.Id">@item.Content</a></h5>*@
+                    <br>
+                    <p class="card-text">@item.Content</p>
                 </div>
-            }
-        </div>
-    }   
-</div>
+            </div>
+        }
+    </div>
+}
 
 

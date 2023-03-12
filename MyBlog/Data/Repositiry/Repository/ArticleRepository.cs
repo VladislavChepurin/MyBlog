@@ -1,4 +1,5 @@
-﻿using MyBlog.Data.Repositiry;
+﻿using Microsoft.EntityFrameworkCore;
+using MyBlog.Data.Repositiry;
 using MyBlog.Models.Articles;
 using MyBlog.Models.Users;
 
@@ -6,6 +7,8 @@ namespace MyBlog.Data.Repository;
 
 public class ArticleRepository : Repository<Article>
 {
+
+
     public ArticleRepository(ApplicationDbContext db) : base(db)
     {
        
@@ -31,15 +34,13 @@ public class ArticleRepository : Repository<Article>
         return articles.ToList();
     }
 
-    public List<Article> GetArticleById(Guid id)
-    {
-        var articles = Set.AsEnumerable().Where(x => x?.Id == id);
-        return articles.ToList();
+    public Article GetArticleById(Guid id)
+    {       
+        return Articles.Include(t => t.Tegs).Where(f => f.Id == id).FirstOrDefault(); ;
     }     
        
     public List<Article> GetAllArticle()
-    {
-        var articles = Set.AsEnumerable().Select(x => x);
-        return articles.ToList();
+    {     
+        return Articles.Include(t => t.Tegs).ToList();
     }    
 }

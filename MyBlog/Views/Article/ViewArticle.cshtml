@@ -1,0 +1,27 @@
+﻿@model MyBlog.ViewModels.Articles.ArticleViewModel
+
+@{
+    ViewData["Title"] = @Model.Article?.Title;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+@if (Model.Article?.Tegs != null)
+{
+    @foreach (var teg in Model.Article.Tegs)
+    {
+        <span class="badge bg-primary">@teg.Content</span>
+    }
+}
+
+<label class="fs-6 fw-normal lh-sm">@Model.Article?.Content</label>
+
+@if (Model.Comments != null)
+{
+    @foreach (var comment in Model.Comments)
+    {
+        <hr>
+        <label class="fs-3 fw-normal lh-sm">@comment.User?.GetFullName()</label>
+        <label class="fs-3 fw-normal lh-sm">@comment.Content</label>
+    }
+}

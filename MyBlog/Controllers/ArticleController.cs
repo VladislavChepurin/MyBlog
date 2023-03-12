@@ -4,17 +4,16 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MyBlog.Controllers.Account;
 using MyBlog.Data;
-using MyBlog.Data.Repositiry.Repository;
 using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
-using MyBlog.Models;
 using MyBlog.Models.Articles;
+using MyBlog.Models.Comments;
 using MyBlog.Models.Tegs;
 using MyBlog.Models.Users;
 using MyBlog.ViewModels.Articles;
-using System.Data;
 
 namespace MyBlog.Controllers;
 
@@ -41,7 +40,6 @@ public class ArticleController : Controller
         _validator = validator;
     }
 
-
     [Authorize]
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route("/[controller]/[action]")]
@@ -49,7 +47,7 @@ public class ArticleController : Controller
     {
         if (_unitOfWork.GetRepository<Article>() is ArticleRepository repository)
         {
-            var model = new ArticleViewModel(repository.GetAllArticle());
+            var model = new AllArticlesViewModel(repository.GetAllArticle());
             return View(model);
         }
         return NotFound();
@@ -64,6 +62,17 @@ public class ArticleController : Controller
         return View(new AddArticleViewModel() { Tegs = tegs});
     }
 
+    [ApiExplorerSettings(IgnoreApi = true)]
+    [Route("/[controller]/[action]")]
+    public ActionResult ViewArticle(Guid id)
+    {
+        var articleRepository = _unitOfWork.GetRepository<Article>() as ArticleRepository;       
+        var commentRepository = _unitOfWork.GetRepository<Comment>() as CommentRepository;
+        var article = articleRepository?.GetArticleById(id);       
+        var articleView = new ArticleViewModel(article, null);
+        return View(articleView);
+
+    }
 
     [HttpPost]
     [Route("/[controller]/[action]")]
@@ -124,15 +133,18 @@ public class ArticleController : Controller
         return View("UpdateArticle", view);
     }
 
-    [HttpPost]
+    [HttpGet]
     [Route("/[controller]/[action]")]
-    public ActionResult Delete(ArticleViewModel model)
+    public ActionResult Delete(Guid id)
     {
-        var article = _mapper.Map<Article>(model);
-        var repository = _unitOfWork.GetRepository<Article>() as ArticleRepository;
-        repository?.DeleteArticle(article);
-        _unitOfWork.SaveChanges();
-        return View();
+        var repository = _unitOfWork.GetRepository<Article>() as ArticleRepository;        
+        var article = repository?.GetArticleById(id);
+        if (article != null)        
+        {
+            repository?.DeleteArticle(article);
+            _unitOfWork.SaveChanges();
+        }
+        return RedirectToAction("Index");
     }
 
     [HttpPost]
@@ -152,5 +164,4 @@ public class ArticleController : Controller
         var article = repository?.GetArticleById(id);
         return View(article);
     }
-
 }

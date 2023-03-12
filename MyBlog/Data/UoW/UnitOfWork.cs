@@ -5,12 +5,12 @@ namespace MyBlog.Data.UoW;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly ApplicationDbContext _appContext;
+    private readonly ApplicationDbContext _context;
     private Dictionary<Type, object>? _repositories;
 
-    public UnitOfWork(ApplicationDbContext app)
+    public UnitOfWork(ApplicationDbContext context)
     {
-        _appContext = app;
+        _context = context;
     }
 
     public void Dispose()
@@ -27,7 +27,7 @@ public class UnitOfWork : IUnitOfWork
 
         if (hasCustomRepository)
         {
-            var customRepo = _appContext.GetService<IRepository<TEntity>>();
+            var customRepo = _context.GetService<IRepository<TEntity>>();
             if (customRepo != null)
             {
                 return customRepo;
@@ -37,7 +37,7 @@ public class UnitOfWork : IUnitOfWork
         var type = typeof(TEntity);
         if (!_repositories.ContainsKey(type))
         {
-            _repositories[type] = new Repository<TEntity>(_appContext);
+            _repositories[type] = new Repository<TEntity>(_context);
         }
 
         return (IRepository<TEntity>)_repositories[type];
@@ -45,6 +45,6 @@ public class UnitOfWork : IUnitOfWork
     }
     public void SaveChanges()
     {
-        _appContext.SaveChanges();
+        _context.SaveChanges();
     }
 }

@@ -112,3 +112,8 @@ code {
     grid-column-gap: 5px;
     grid-template-columns: repeat(auto-fit, minmax( 260px, 1fr));
 }
+
+.content-flex-end {
+    display: flex;
+    align-items: flex-end;
+}

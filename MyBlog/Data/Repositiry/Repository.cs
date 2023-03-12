@@ -1,10 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyBlog.Models.Articles;
 
 namespace MyBlog.Data.Repositiry;
 
 public class Repository<T> : IRepository<T> where T : class
 {
-    protected DbContext _db;
+    protected DbContext _context;
+
+    public DbSet<Article>? Articles { get; set; }
 
     public DbSet<T> Set
     {
@@ -12,13 +15,16 @@ public class Repository<T> : IRepository<T> where T : class
         private set;
     }
 
-    public Repository(ApplicationDbContext db)
+    public Repository(ApplicationDbContext context)
     {
-        _db = db;
-        var set = _db.Set<T>();
+        _context = context;
+        var set = _context.Set<T>();
         set.Load();
-
         Set = set;
+
+        var articles = context.Articles;
+        articles?.Load();
+        Articles = articles;
     }
 
     public void Create(T item)

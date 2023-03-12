@@ -4,25 +4,22 @@
     ViewData["Title"] = "Все теги";
 }
 
-<div class="block-reg background-white">
-    <h3>@ViewData["Title"]</h3>
-    <a asp-action="Create">Добавить тег</a>
+<h3>@ViewData["Title"]</h3>
+<a asp-action="Create">Добавить тег</a>
 
-    @if (Model.Tegs != null)
-    {
-        <div class="card-container">
-            @foreach (var item in Model.Tegs)
-            {
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title"><a asp-action="UpdateTeg" asp-route-id="@item.Id">@item.Content</a></h5>
-                        <br>
-                        <p class="card-text">Статей по тегу:</p>
-                    </div>
+@if (Model.Tegs != null)
+{
+    <div class="card-container">
+        @foreach (var item in Model.Tegs)
+        {
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title"><a asp-action="UpdateTeg" asp-route-id="@item.Id">@item.Content</a></h5>
+                    <br>
+                    <p class="card-text">Статей по тегу:</p>
                 </div>
-            }
-        </div>
-    }   
-</div>
-
+            </div>
+        }
+    </div>
+}
 

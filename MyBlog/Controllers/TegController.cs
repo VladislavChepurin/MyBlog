@@ -40,10 +40,7 @@ public class TegController : Controller
         var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
         var tegs = repository?.GetAllTeg();
         return View(new TegViewModel(tegs));
-    }
-
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public IActionResult Create() => View();
+    }  
 
     [ApiExplorerSettings(IgnoreApi = true)]
     public IActionResult UpdateTeg(Guid id)
@@ -57,6 +54,26 @@ public class TegController : Controller
         }
         return RedirectToAction("Index");      
     }
+
+    [HttpPost]
+    [Route("/[controller]/[action]")]
+    public ActionResult UpdateTeg(string contentTeg, Guid idTeg)
+    {
+        //var teg = _mapper.Map<Teg>(model);
+
+        var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
+        var teg = repository?.GetTegById(idTeg);
+        if (teg != null)
+        {
+            teg.Content = contentTeg;
+            repository?.UpdateTeg(teg);
+        }
+        _unitOfWork.SaveChanges();
+        return RedirectToAction("Index");
+    }
+
+    [ApiExplorerSettings(IgnoreApi = true)]
+    public IActionResult Create() => View();
 
     [HttpPost]
     [Route("/[controller]/[action]")]
@@ -78,24 +95,7 @@ public class TegController : Controller
 
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public ActionResult UpdateTeg(string contentTeg, Guid idTeg)
-    {
-        //var teg = _mapper.Map<Teg>(model);
-
-        var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
-        var teg = repository?.GetTegById(idTeg);
-        if (teg != null)
-        {
-            teg.Content = contentTeg;
-            repository?.UpdateTeg(teg);
-        }      
-        _unitOfWork.SaveChanges();
-        return RedirectToAction("Index");
-    }
-
-    [HttpPost]
-    [Route("/[controller]/[action]")]
-    public ActionResult Delete(ArticleViewModel model)
+    public ActionResult Delete(AllArticlesViewModel model)
     {
         var teg = _mapper.Map<Teg>(model);
         var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
