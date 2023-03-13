@@ -5,9 +5,10 @@ using MyBlog.Models.Users;
 
 namespace MyBlog.Data.Repository;
 
+#nullable disable
+
 public class ArticleRepository : Repository<Article>
 {
-
 
     public ArticleRepository(ApplicationDbContext db) : base(db)
     {
@@ -36,7 +37,7 @@ public class ArticleRepository : Repository<Article>
 
     public Article GetArticleById(Guid id)
     {       
-        return Articles.Include(t => t.Tegs).Where(f => f.Id == id).FirstOrDefault(); ;
+        return Articles.Include(t => t.Tegs).Include(u => u.User).Include(c => c.Comments).Where(f => f.Id == id).FirstOrDefault(); ;
     }     
        
     public List<Article> GetAllArticle()

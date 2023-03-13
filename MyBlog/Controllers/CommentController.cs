@@ -50,15 +50,25 @@ public class CommentController : Controller
 
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public async Task<ActionResult> CreateAsync(CommentViewModel model)
+    public async Task<ActionResult> Create(Guid idArticle, string content)
     {
-        var comment = _mapper.Map<Comment>(model);
-        comment.Created = DateTime.Now;
-        comment.User = await _userManager.FindByIdAsync(comment.UserId);
-        var repository = _unitOfWork.GetRepository<Comment>() as CommentRepository;
-        repository?.CreateComment(comment);
-        _unitOfWork.SaveChanges();
-        return View(comment);
+        if (content != null) 
+        {
+            var user = User;
+            var currentUser = await _userManager.GetUserAsync(user);
+
+            var comment = new Comment()
+            {
+                Content = content,
+                Created = DateTime.Now,
+                UserId = currentUser.Id,
+                ArticleId = idArticle
+            };
+            var commentRepository = _unitOfWork.GetRepository<Comment>() as CommentRepository;    
+            commentRepository?.CreateComment(comment);
+            _unitOfWork.SaveChanges();
+        }
+        return RedirectToAction("ViewArticle", "Article", new { id = idArticle });            
     }
 
 

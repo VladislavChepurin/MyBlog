@@ -4,13 +4,11 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MyBlog.Controllers.Account;
 using MyBlog.Data;
 using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
 using MyBlog.Models.Articles;
-using MyBlog.Models.Comments;
 using MyBlog.Models.Tegs;
 using MyBlog.Models.Users;
 using MyBlog.ViewModels.Articles;
@@ -67,9 +65,8 @@ public class ArticleController : Controller
     public ActionResult ViewArticle(Guid id)
     {
         var articleRepository = _unitOfWork.GetRepository<Article>() as ArticleRepository;       
-        var commentRepository = _unitOfWork.GetRepository<Comment>() as CommentRepository;
         var article = articleRepository?.GetArticleById(id);       
-        var articleView = new ArticleViewModel(article, null);
+        var articleView = new ArticleViewModel(article);
         return View(articleView);
 
     }
@@ -107,33 +104,20 @@ public class ArticleController : Controller
 
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public async Task<ActionResult> Update(AddArticleViewModel model, List<Guid> tegsCurrent)
+    public ActionResult Update(Article article)
     {
-        var article = _mapper.Map<Article>(model);
         var tegRepository = _unitOfWork.GetRepository<Teg>() as TegRepository;
         var articleRepository = _unitOfWork.GetRepository<Article>() as ArticleRepository;
-
-        ValidationResult result = await _validator.ValidateAsync(article);
-        if (result.IsValid)
-        {
-            article.Updated = DateTime.Now;
-            article.User = await _userManager.FindByIdAsync(article.UserId);          
-            articleRepository?.UpdateArticle(article);
-            _unitOfWork.SaveChanges();
-            return View(article);
-        }
 
         var tegs = tegRepository?.GetAllTeg();
         var view = new AddArticleViewModel()
         {
-            Title = model.Title,
-            Content = model.Content,
-            Tegs = tegs
+
         };
         return View("UpdateArticle", view);
     }
 
-    [HttpGet]
+    [HttpPost]
     [Route("/[controller]/[action]")]
     public ActionResult Delete(Guid id)
     {

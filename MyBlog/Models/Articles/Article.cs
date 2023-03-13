@@ -13,6 +13,7 @@ public class Article
     public User? User { get; set; }
     public DateTime Created { get; set; }
     public DateTime Updated { get; set; }
+    public int CountView { get; set; }
     public List<Comment>? Comments { get; set; }
     public List<Teg>? Tegs { get; set; }
 

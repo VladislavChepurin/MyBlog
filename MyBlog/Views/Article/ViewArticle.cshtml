@@ -15,13 +15,38 @@
 }
 
 <label class="fs-6 fw-normal lh-sm">@Model.Article?.Content</label>
+<hr>
+<p class="fs-6 fw-normal text-end">@Model.Article?.User?.Email</p>
 
-@if (Model.Comments != null)
+@if (Model?.Article?.Comments != null)
 {
-    @foreach (var comment in Model.Comments)
+    @foreach (var comment in Model.Article.Comments)
     {
-        <hr>
-        <label class="fs-3 fw-normal lh-sm">@comment.User?.GetFullName()</label>
-        <label class="fs-3 fw-normal lh-sm">@comment.Content</label>
+        <div class="card">           
+            <div class="card-body">
+                <p class="card-text">@comment.Content</p>
+            </div>
+            <div class="card-footer text-muted text-end">
+                @comment.User?.Email @comment.Created
+            </div>
+        </div>
+        <br>
     }
 }
+
+<form class="frm" method="post" asp-controller="Comment" asp-action="Create">
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <input type="hidden" name="idArticle" value="@Model?.Article?.Id" />  
+
+    <div class="mrgn">
+        <textarea rows="5" name="content" class="form-control"> </textarea>   
+    </div>
+
+    <div class="center">
+        <input class="enter_submit" type="submit" value="Добавить комментарий" />
+    </div>
+</form>
+
+
+
