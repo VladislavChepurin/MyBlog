@@ -18,7 +18,8 @@ public class MappingProfile : Profile
             .ForMember(x => x.Email, opt => opt.MapFrom(c => c.EmailReg))
             .ForMember(x => x.UserName, opt => opt.MapFrom(c => c.Login));
 
-        CreateMap<AddArticleViewModel, Article>();              
+        CreateMap<AddArticleViewModel, Article>();
+        CreateMap<UpdateArticleViewModel, Article>();
         CreateMap<CommentViewModel, Comment>();
         CreateMap<TegUpdateViewModel, Teg>();
     }

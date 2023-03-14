@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MyBlog.Data.Repositiry;
+﻿using MyBlog.Data.Repositiry;
 using MyBlog.Models.Articles;
 using MyBlog.Models.Tegs;
 
+#nullable disable
 
 namespace MyBlog.Data.Repository;
 
@@ -43,10 +43,25 @@ public class TegRepository: Repository<Teg>
         article?.Tegs?.AddRange(tegsCurrent);
     }
 
-    //public List<Teg> GetTegInArticles(Article article)
-    //{
-        
-    //}
+    public void DeleteTegInArticle(Article article, List<Guid> teg)
+    {
+        foreach (Guid id in teg)
+        {
+            article?.Tegs?.Remove(GetTegById(id));
+        }
+    }
+
+    public void UpdateTegsInArticles(Article article, List<Guid> tegsCurrent)
+    {
+        var idTegsArticle = new List<Guid>();
+        foreach (var teg in article.Tegs)
+            idTegsArticle.Add(teg.Id);
+        var deleteTeg = idTegsArticle.Except(tegsCurrent).ToList();
+        var addTeg = tegsCurrent.Except(idTegsArticle).ToList();
+        DeleteTegInArticle(article, deleteTeg);
+        AddTegInArticles(article, addTeg);
+    }
+
     public List<Teg> GetAllTeg()
     {
         var articles = Set.AsEnumerable().Select(x => x);

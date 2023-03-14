@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyBlog.Data;
 using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
 using MyBlog.Models.Articles;
 using MyBlog.Models.Users;
+using MyBlog.ViewModels;
 using MyBlog.ViewModels.Users;
 
 namespace MyBlog.Controllers.Account;
@@ -28,6 +30,19 @@ public class AccountController : Controller
     public IActionResult AccessDenied() => View();
     public IActionResult Index() => View();
 
+    [Authorize]
+    [HttpPost]
+    [Route("UserPage")]
+    public async Task<IActionResult> UserPage()
+    {
+        var userClaims = User;
+        var user = await _userManager.GetUserAsync(userClaims);
+        var model = new UserPageViewModel
+        {
+            UserViewModel = new UserViewModel(user)
+        };      
+        return View("User", model);
+    }
 
     [HttpPost]
     [Route("Login")]

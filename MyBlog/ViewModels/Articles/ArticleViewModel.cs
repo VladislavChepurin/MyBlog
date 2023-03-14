@@ -1,5 +1,4 @@
 ﻿using MyBlog.Models.Articles;
-using MyBlog.Models.Comments;
 
 namespace MyBlog.ViewModels.Articles
 {
@@ -10,6 +9,10 @@ namespace MyBlog.ViewModels.Articles
         public ArticleViewModel(Article? article)
         {
             Article = article;
+            if (article != null)
+            {
+                article.Comments = Article?.Comments?.OrderBy(d => d.Created).ToList();
+            }            
         }
     }
 }

@@ -4,8 +4,6 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MyBlog.Controllers.Account;
-using MyBlog.Data;
 using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
 using MyBlog.Models.Articles;
@@ -18,22 +16,15 @@ namespace MyBlog.Controllers;
 [Authorize]
 public class ArticleController : Controller
 {
-    private readonly ILogger<RegisterUserController> _logger;
     private readonly IMapper _mapper;
     private readonly UserManager<User> _userManager;
-    private readonly SignInManager<User> _signInManager;
-    private readonly ApplicationDbContext _context;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<Article> _validator;
 
-
-    public ArticleController(ILogger<RegisterUserController> logger, IMapper mapper, ApplicationDbContext context, UserManager<User> userManager, SignInManager<User> signInManager, IUnitOfWork unitOfWork, IValidator<Article> validator)
-    {
-        _logger = logger;
+    public ArticleController(IMapper mapper, UserManager<User> userManager, IUnitOfWork unitOfWork, IValidator<Article> validator)
+    {;
         _mapper = mapper;
         _userManager = userManager;
-        _signInManager = signInManager;
-        _context = context;
         _unitOfWork = unitOfWork;
         _validator = validator;
     }
@@ -68,7 +59,6 @@ public class ArticleController : Controller
         var article = articleRepository?.GetArticleById(id);       
         var articleView = new ArticleViewModel(article);
         return View(articleView);
-
     }
 
     [HttpPost]
@@ -102,20 +92,48 @@ public class ArticleController : Controller
         return View("CreateArticle", view);
     }
 
+    [HttpGet]
+    [Route("/[controller]/[action]")]
+    public ActionResult Update(Guid id)
+    {
+        var articleRepository = _unitOfWork.GetRepository<Article>() as ArticleRepository;
+        var tegRepository = _unitOfWork.GetRepository<Teg>() as TegRepository;
+        var article = articleRepository?.GetArticleById(id);
+
+        if (article != null)
+        {
+            var view = new UpdateArticleViewModel()
+            {
+                Id = article.Id,
+                Title = article.Title,
+                Content = article.Content,
+                UserTegs = article.Tegs,
+                TegList = tegRepository?.GetAllTeg()
+            };
+            return View("UpdateArticle", view);
+        }     
+        return NotFound();
+    }
+
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public ActionResult Update(Article article)
+    public ActionResult Update(UpdateArticleViewModel model, List<Guid> tegsCurrent)
     {
-        var tegRepository = _unitOfWork.GetRepository<Teg>() as TegRepository;
         var articleRepository = _unitOfWork.GetRepository<Article>() as ArticleRepository;
-
-        var tegs = tegRepository?.GetAllTeg();
-        var view = new AddArticleViewModel()
+        var tegRepository = _unitOfWork.GetRepository<Teg>() as TegRepository;
+        var article = articleRepository?.GetArticleById(model.Id);
+        if (article != null)
         {
-
-        };
-        return View("UpdateArticle", view);
+            article.Updated = DateTime.Now;
+            article.Content = model.Content;
+            article.Title = model.Title;
+            articleRepository?.Update(article);
+            tegRepository?.UpdateTegsInArticles(article, tegsCurrent);
+            _unitOfWork.SaveChanges();
+        }   
+        return RedirectToAction("Index");
     }
+
 
     [HttpPost]
     [Route("/[controller]/[action]")]

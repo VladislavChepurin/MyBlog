@@ -6,7 +6,6 @@ using MyBlog.Models.Users;
 namespace MyBlog.Data.Repository;
 
 #nullable disable
-
 public class ArticleRepository : Repository<Article>
 {
 

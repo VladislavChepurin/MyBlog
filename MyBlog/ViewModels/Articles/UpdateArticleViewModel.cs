@@ -3,8 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyBlog.ViewModels.Articles
 {
-    public class AddArticleViewModel
+    public class UpdateArticleViewModel
     {
+        public Guid Id { get; set; }
+
         [DataType(DataType.Text)]
         [Display(Name = "Заголовок", Prompt = "Введите заголовок, минимум 3 символа")]
         public string? Title { get; set; }
@@ -13,11 +15,13 @@ namespace MyBlog.ViewModels.Articles
         [Display(Name = "Контент", Prompt = "Введите текст статьи, минимум 20 символов")]
         public string? Content { get; set; }
 
-        public List<Teg>? Tegs { get; set; }
+        public List<Teg>? UserTegs { get; set; }
 
-        public AddArticleViewModel()
+        public IList<Teg>? TegList { get; set; }
+        public UpdateArticleViewModel()
         {
-            Tegs = new List<Teg>();        
+            UserTegs = new List<Teg>();
+            TegList = new List<Teg>();
         }
     }
 }
