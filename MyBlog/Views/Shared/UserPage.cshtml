@@ -10,55 +10,74 @@
 <div class="user-container">
     <div class="user-info-left">
         <h4>Данные пользователя</h4>
-        <p>Имя: <code>@Model.UserViewModel.User.FirstName</code><p />
-        <p>Фамилия: <code>@Model.UserViewModel.User.LastName</code><p />
-        <p>Логин: <code>@Model.UserViewModel.User.UserName</code><p />
-        <p>Email: <code>@Model.UserViewModel.User.Email</code><p />
 
-        <form asp-controller="Edit" asp-action="EditUser" asp-route-userid="@Model.UserViewModel.User.Id" method="post">
-            <button type="submit" class="enter_submit btn-user-width btn-sm">
+        <p>Имя: <code>@Model.UserViewModel?.User.FirstName</code><p />
+        <p>Фамилия: <code>@Model.UserViewModel?.User.LastName</code><p />
+        <p>Логин: <code>@Model.UserViewModel?.User.UserName</code><p />
+        <p>Email: <code>@Model.UserViewModel?.User.Email</code><p />
+
+        <form asp-controller="Edit" asp-action="EditUser" asp-route-userid="@Model.UserViewModel?.User.Id" method="post">
+            <button type="submit" class="btn btn-logout">
                 Редактировать
             </button>
         </form>
-    </div>  
+    </div>
 </div>
 
+<hr>
 
-    <hr>
-    <hr>
+<div class="list-device">
+    <h4>Страница блогов</h4>
 
-    <div class="list-device">
-        <h4>Страница блогов</h4>
-
-    <table>
+    @if (@Model.UserViewModel?.AllArticles != null)
+    {
         @foreach (var item in Model.UserViewModel.AllArticles)
-            {
-                <tr>
-                    <td>
-                        <label>@Model.UserViewModel.Number</label>
-                    </td>
-                    <td>
-                        <label>Название статьи: <code>@item.Title</code></label>
-                        <br>
-                        <label>Дата создания: <code>@item.Created</code></label>
-                    </td>
+        {
+            <div class="card">
+                <div class="card-header">
+                    <div class="">
+                        Дата создания: <code>@item.Created</code>
+                    </div>
+                    <div class="">
+                        Дата редактирования: <code>@item.Updated</code>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
 
+                    <a class="btn btn-logout" asp-controller="Article" asp-action="Update" asp-route-id="@item.Id">Редактировать</a>
 
-                    <td>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Удалить
+                    </button>
 
-                    <form asp-controller="RegisterDevice" asp-action="DeleteDevice" method="post">
-
-                        <input type="hidden" name="serialNumber" value="@item.Id" />
-                        <input type="hidden" name="userId" value="@Model.UserViewModel.User.Id" />
-
-                        <button type="submit" class="btn btn-sm enter_submit btn-user-width">
-                            Удалить статью
-                        </button>
-                    </form>
-                
-                    </td>
-                </tr>
-            }
-        </table>   
-    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Внимание! После нажатия на кнопку "удалить" вы не сможете вернуть статью! Будьте очень внимательны!
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Не удалять</button>
+                                    <form asp-controller="Article" asp-action="Delete" asp-route-id="@item.Id" method="post">
+                                        <button type="submit" class="btn btn-outline-danger">
+                                            Удалить
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        }
+    }
+</div>
 

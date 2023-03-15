@@ -31,8 +31,7 @@ public class AccountController : Controller
     public IActionResult Index() => View();
 
     [Authorize]
-    [HttpPost]
-    [Route("UserPage")]
+    [Route("/[controller]/[action]")]
     public async Task<IActionResult> UserPage()
     {
         var userClaims = User;
@@ -40,8 +39,9 @@ public class AccountController : Controller
         var model = new UserPageViewModel
         {
             UserViewModel = new UserViewModel(user)
-        };      
-        return View("User", model);
+        };
+        model.UserViewModel.AllArticles = GetAllArticles(user);
+        return View(model);
     }
 
     [HttpPost]

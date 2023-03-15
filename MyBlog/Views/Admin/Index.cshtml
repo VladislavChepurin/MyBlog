@@ -33,13 +33,13 @@
                     @user.Email
                 </td>
                 <td>
-                    <a class="btn btn-sm btn-primary btn-user-width" asp-action="Edit" asp-route-userid="@user.Id">Права доступа</a>
+                    <a class="btn btn-outline-primary" asp-action="Edit" asp-route-userid="@user.Id">Права доступа</a>
                 </td>
                 <td>
-                    <a class="btn btn-sm btn-primary btn-user-width" asp-action="UserPage" asp-route-userid="@user.Id">Блоги пользователя</a>
+                    <a class="btn btn-outline-primary" asp-action="UserPage" asp-route-userid="@user.Id">Блоги пользователя</a>
                 </td>
                 <td>
-                    <a class="btn btn-sm btn-primary btn-user-width" asp-action="DeleteUser" asp-route-userid="@user.Id">Удалить</a>
+                    <a class="btn btn-outline-primary" asp-action="DeleteUser" asp-route-userid="@user.Id">Удалить</a>
                 </td>
             </tr>
         }

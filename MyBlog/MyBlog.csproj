@@ -44,12 +44,6 @@
     <Content Update="wwwroot\image\userLogin.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\js\chat.js">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\js\signalr\dist\browser\signalr.js">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
     <Content Update="wwwroot\js\site.js">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>

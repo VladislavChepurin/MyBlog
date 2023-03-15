@@ -12,7 +12,6 @@ using MyBlog.Models.Comments;
 using MyBlog.Models.Tegs;
 using MyBlog.Models.Users;
 using MyBlog.Validation;
-using SignalRChat.Hubs;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +21,6 @@ var services = builder.Services;
 services.AddSwaggerGen();
 
 services.AddRazorPages();
-services.AddSignalR();
 
 // Add services to the container.
 services.AddControllersWithViews();
@@ -104,7 +102,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
-app.MapHub<DataHub>("/chatHub");
 
 app.Run();
 

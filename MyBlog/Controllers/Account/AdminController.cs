@@ -140,7 +140,7 @@ public class AdminController : Controller
                 UserViewModel = new UserViewModel(user)
             };
             model.UserViewModel.AllArticles = GetAllArticles(user);
-            return View("UserPage", model);
+            return View(model);
         }
         return NotFound();
     }   

@@ -56,7 +56,7 @@ public class EditController : Controller
                 {
                     UserViewModel = new UserViewModel(user)
                 };
-                return View("User", model);
+                return View("UserPage", model);
             }
             else
             {
@@ -66,7 +66,7 @@ public class EditController : Controller
         else
         {
             ModelState.AddModelError("", "Некорректные данные");
-            return View("EditUser", userEdit);
+            return RedirectToAction("EditUser", new { userId = userEdit.UserId});
         }
     }
 }
