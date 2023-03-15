@@ -16,7 +16,7 @@
                 <div class="card-body">
                     <h5 class="card-title"><a asp-action="UpdateTeg" asp-route-id="@item.Id">@item.Content</a></h5>
                     <br>
-                    <p class="card-text">Статей по тегу:</p>
+                    <p class="card-text">Статей по тегу: @item.Articles?.Count()</p>
                 </div>
             </div>
         }

@@ -55,8 +55,8 @@ public class ArticleController : Controller
     [Route("/[controller]/[action]")]
     public ActionResult ViewArticle(Guid id)
     {
-        var articleRepository = _unitOfWork.GetRepository<Article>() as ArticleRepository;       
-        var article = articleRepository?.GetArticleById(id);       
+        var articleRepository = _unitOfWork.GetRepository<Article>() as ArticleRepository;        
+        var article = articleRepository?.GetArticleById(id); 
         var articleView = new ArticleViewModel(article);
         return View(articleView);
     }

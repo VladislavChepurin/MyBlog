@@ -1,8 +1,11 @@
-﻿using MyBlog.Data.Repositiry;
+﻿using Microsoft.EntityFrameworkCore;
+using MyBlog.Data.Repositiry;
 using MyBlog.Models.Articles;
 using MyBlog.Models.Comments;
 
 namespace MyBlog.Data.Repository;
+
+#nullable disable
 
 public class CommentRepository : Repository<Comment>
 {
@@ -39,11 +42,7 @@ public class CommentRepository : Repository<Comment>
     }
 
     public List<Comment> GetAllComment()
-    {
-        var articles = Set.AsEnumerable().Select(x => x);
-        return articles.ToList();
+    {       
+        return Comments.Include(c => c.User).Include(c => c.Article).ToList();
     }
-
-
-
 }

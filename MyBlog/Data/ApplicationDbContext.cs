@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyBlog.Data.Repository;
 using MyBlog.Models.Articles;
+using MyBlog.Models.Comments;
 using MyBlog.Models.Tegs;
 using MyBlog.Models.Users;
 
@@ -24,6 +25,5 @@ public class ApplicationDbContext : IdentityDbContext<User>
 
     public DbSet<Article>? Articles { get; set; }
     public DbSet<Teg>? Tegs { get; set; }
-
-
+    public DbSet<Comment>? Comments { get; set; }
 }

@@ -10,11 +10,17 @@
     <div class="card-container">
         @foreach (var item in Model.Comment)
         {
-            <div class="card" style="width: 18rem;">
+            <div class="card">
+
+                <div class="card-header">
+                    <a asp-controller="Article" asp-action="ViewArticle" asp-route-id="@item.Article?.Id">@item.Article?.Title</a>
+                </div>
                 <div class="card-body">
-                    @*      <h5 class="card-title"><a asp-action="UpdateTeg" asp-route-id="@item.Id">@item.Content</a></h5>*@
-                    <br>
                     <p class="card-text">@item.Content</p>
+                </div>
+                <div class="card-footer text-muted text-end">
+                    <span class="badge bg-info text-dark">@item.User?.Email</span>
+                    @item.Created
                 </div>
             </div>
         }

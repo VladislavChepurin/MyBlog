@@ -27,7 +27,8 @@
                 <p class="card-text">@comment.Content</p>
             </div>
             <div class="card-footer text-muted text-end">
-                @comment.User?.Email @comment.Created
+                <span class="badge bg-info text-dark">@comment.User?.Email</span>  
+                @comment.Created
             </div>
         </div>
         <br>

@@ -1,4 +1,5 @@
-﻿using MyBlog.Data.Repositiry;
+﻿using Microsoft.EntityFrameworkCore;
+using MyBlog.Data.Repositiry;
 using MyBlog.Models.Articles;
 using MyBlog.Models.Tegs;
 
@@ -64,7 +65,6 @@ public class TegRepository: Repository<Teg>
 
     public List<Teg> GetAllTeg()
     {
-        var articles = Set.AsEnumerable().Select(x => x);
-        return articles.ToList();
+        return Tegs.Include(t => t.Articles).ToList();
     }
 }

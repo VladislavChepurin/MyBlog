@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyBlog.Models.Articles;
+using MyBlog.Models.Comments;
+using MyBlog.Models.Tegs;
 
 namespace MyBlog.Data.Repositiry;
 
@@ -8,6 +10,8 @@ public class Repository<T> : IRepository<T> where T : class
     protected DbContext _context;
 
     public DbSet<Article>? Articles { get; set; }
+    public DbSet<Teg>? Tegs { get; set; }
+    public DbSet<Comment>? Comments { get; set; }
 
     public DbSet<T> Set
     {
@@ -25,6 +29,14 @@ public class Repository<T> : IRepository<T> where T : class
         var articles = context.Articles;
         articles?.Load();
         Articles = articles;
+
+        var tegs = context.Tegs;
+        tegs?.Load();
+        Tegs = tegs;
+
+        var comments = context.Comments;
+        comments?.Load();
+        Comments = comments;
     }
 
     public void Create(T item)

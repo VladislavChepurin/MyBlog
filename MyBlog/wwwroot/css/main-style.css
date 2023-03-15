@@ -110,8 +110,13 @@ code {
     margin: 0.3rem;
     display: grid;
     grid-column-gap: 5px;
-    grid-template-columns: repeat(auto-fit, minmax( 260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax( 280px, 1fr));
 }
+
+.card{
+    margin: 5px
+}
+
 
 .content-flex-end {
     display: flex;
