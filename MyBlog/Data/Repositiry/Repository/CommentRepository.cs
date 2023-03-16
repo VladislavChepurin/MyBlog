@@ -2,6 +2,7 @@
 using MyBlog.Data.Repositiry;
 using MyBlog.Models.Articles;
 using MyBlog.Models.Comments;
+using MyBlog.Models.Users;
 
 namespace MyBlog.Data.Repository;
 
@@ -32,6 +33,12 @@ public class CommentRepository : Repository<Comment>
     {
 
         var articles = Set.AsEnumerable().Where(x => x?.ArticleId == article.Id);
+        return articles.ToList();
+    }
+
+    public List<Comment> GetCommentByUser(User target)
+    {
+        var articles = Set.AsEnumerable().Where(x => x?.User?.Id == target.Id);
         return articles.ToList();
     }
 

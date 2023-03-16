@@ -32,11 +32,14 @@ public class ArticleController : Controller
     [Authorize]
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route("/[controller]/[action]")]
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         if (_unitOfWork.GetRepository<Article>() is ArticleRepository repository)
         {
             var model = new AllArticlesViewModel(repository.GetAllArticle());
+            var user = User;
+            var currentUser = await _userManager.GetUserAsync(user);
+            model.CurrentUser = currentUser.Id;
             return View(model);
         }
         return NotFound();
@@ -56,7 +59,14 @@ public class ArticleController : Controller
     public ActionResult ViewArticle(Guid id)
     {
         var articleRepository = _unitOfWork.GetRepository<Article>() as ArticleRepository;        
-        var article = articleRepository?.GetArticleById(id); 
+        var article = articleRepository?.GetArticleById(id);
+
+        if (article != null) {
+            ++article.CountView;
+            articleRepository?.Update(article);
+            _unitOfWork.SaveChanges();
+        }
+
         var articleView = new ArticleViewModel(article);
         return View(articleView);
     }
@@ -135,7 +145,7 @@ public class ArticleController : Controller
     }
 
 
-    [HttpPost]
+    [HttpGet]
     [Route("/[controller]/[action]")]
     public ActionResult Delete(Guid id)
     {

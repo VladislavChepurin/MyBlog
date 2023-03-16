@@ -17,6 +17,14 @@
                 </div>
                 <div class="card-body">
                     <p class="card-text">@item.Content</p>
+
+                    @if (ViewContext.HttpContext.User.IsInRole("Administrator") || ViewContext.HttpContext.User.IsInRole("Moderator") || item.User?.Id == Model.CurrentUser)
+                    {
+                        <div class="center content-flex-end">
+                            <a class="btn btn-logout" asp-action="Update" asp-route-id="@item.Id">Редактировать</a>
+                            <a class="btn btn-logout" asp-action="Delete" asp-route-id="@item.Id">Удалить</a>         
+                        </div>
+                    }
                 </div>
                 <div class="card-footer text-muted text-end">
                     <span class="badge bg-info text-dark">@item.User?.Email</span>

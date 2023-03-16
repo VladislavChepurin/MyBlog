@@ -26,58 +26,70 @@
 
 <hr>
 
-<div class="list-device">
-    <h4>Страница блогов</h4>
-
-    @if (@Model.UserViewModel?.AllArticles != null)
-    {
-        @foreach (var item in Model.UserViewModel.AllArticles)
-        {
-            <div class="card">
-                <div class="card-header">
-                    <div class="">
-                        Дата создания: <code>@item.Created</code>
-                    </div>
-                    <div class="">
-                        Дата редактирования: <code>@item.Updated</code>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">@item.Title</h5>
-
-                    <a class="btn btn-logout" asp-controller="Article" asp-action="Update" asp-route-id="@item.Id">Редактировать</a>
-
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        Удалить
-                    </button>
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Внимание! После нажатия на кнопку "удалить" вы не сможете вернуть статью! Будьте очень внимательны!
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Не удалять</button>
-                                    <form asp-controller="Article" asp-action="Delete" asp-route-id="@item.Id" method="post">
-                                        <button type="submit" class="btn btn-outline-danger">
-                                            Удалить
-                                        </button>
-                                    </form>
-                                </div>
+<div class="list-device">  
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#articles" type="button" role="tab" aria-controls="home" aria-selected="true">Статьи</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#comments" type="button" role="tab" aria-controls="profile" aria-selected="false">Комментарии</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="articles" role="tabpanel" aria-labelledby="home-tab">
+            @if (@Model.UserViewModel?.AllArticles != null)
+            {
+                @foreach (var item in Model.UserViewModel.AllArticles)
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="">
+                                Дата создания: <code>@item.Created</code>
+                            </div>
+                            <div class="">
+                                Дата редактирования: <code>@item.Updated</code>
                             </div>
                         </div>
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Title</h5>                          
+                        </div>
                     </div>
-                </div>
-            </div>
-            <br>
-        }
-    }
-</div>
+                    <br>
+                }
+                @if (@Model.UserViewModel?.AllArticles.Count == 0)
+                {
+                    <br>
+                    <p class="text-start">Пользователь пока не написал пока ни одной статьи.</p>
+                }
+            }
+        </div>
 
+        <div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="profile-tab">
+            @if (@Model.UserViewModel?.AllComments != null)
+            {               
+                @foreach (var item in Model.UserViewModel.AllComments)
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="">
+                                Дата создания: <code>@item.Created</code>
+                            </div>
+                            <div class="">
+                                Дата редактирования: <code>@item.Updated</code>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Content</h5>                            
+                        </div>
+                    </div>
+                    <br>
+                }
+                @if (@Model.UserViewModel?.AllComments.Count == 0)
+                {
+                    <br>
+                    <p class="text-start">Пользователь пока не написал пока ни одного комментария.</p>
+                }
+            }          
+        </div>
+    </div>   
+</div>

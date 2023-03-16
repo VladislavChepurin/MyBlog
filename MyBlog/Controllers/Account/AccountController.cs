@@ -5,6 +5,7 @@ using MyBlog.Data;
 using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
 using MyBlog.Models.Articles;
+using MyBlog.Models.Comments;
 using MyBlog.Models.Users;
 using MyBlog.ViewModels;
 using MyBlog.ViewModels.Users;
@@ -40,7 +41,8 @@ public class AccountController : Controller
         {
             UserViewModel = new UserViewModel(user)
         };
-        model.UserViewModel.AllArticles = GetAllArticles(user);
+        model.UserViewModel.AllArticles = GetUserArticles(user);
+        model.UserViewModel.AllComments = GetUserComments(user);
         return View(model);
     }
 
@@ -88,10 +90,21 @@ public class AccountController : Controller
         return View("Login");
     }
 
-    public List<Article> GetAllArticles(User user)
+    public List<Comment> GetUserComments(User user)
     {
-        var repository = _unitOfWork.GetRepository<Article>() as ArticleRepository;
-        return repository.GetArticleByUser(user);
+        if (_unitOfWork.GetRepository<Comment>() is CommentRepository repository)
+        {
+            return repository.GetCommentByUser(user);
+        }
+        return new List<Comment>();
     }
 
+    public List<Article> GetUserArticles(User user)
+    {
+        if (_unitOfWork.GetRepository<Article>() is ArticleRepository repository)
+        {
+            return repository.GetArticleByUser(user);
+        }
+        return new List<Article>();
+    }
 }

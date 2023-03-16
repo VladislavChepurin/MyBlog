@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
 using MyBlog.Models.Articles;
+using MyBlog.Models.Comments;
 using MyBlog.Models.Users;
 using MyBlog.ViewModels;
 using MyBlog.ViewModels.Users;
@@ -128,8 +129,8 @@ public class AdminController : Controller
         return NotFound();
     }
 
-    [Route("UserPage")]
     [HttpGet]
+    [Route("/[controller]/[action]")]
     public async Task<IActionResult> UserPage(string userId)
     {
         User user = await _userManager.FindByIdAsync(userId);
@@ -139,16 +140,29 @@ public class AdminController : Controller
             {
                 UserViewModel = new UserViewModel(user)
             };
-            model.UserViewModel.AllArticles = GetAllArticles(user);
+            model.UserViewModel.AllArticles = GetUserArticles(user);
+            model.UserViewModel.AllComments = GetUserComments(user);
             return View(model);
         }
         return NotFound();
-    }   
+    }
 
-    public List<Article> GetAllArticles(User user)
+    public List<Comment> GetUserComments(User user)
     {
-        var repository = _unitOfWork.GetRepository<Article>() as ArticleRepository;
-        return repository.GetArticleByUser(user);
+        if (_unitOfWork.GetRepository<Comment>() is CommentRepository repository)
+        {
+            return repository.GetCommentByUser(user);
+        }
+        return new List<Comment>();
+    }
+
+    public List<Article> GetUserArticles(User user)
+    {
+        if (_unitOfWork.GetRepository<Article>() is ArticleRepository repository)
+        {
+            return repository.GetArticleByUser(user);
+        }
+        return new List<Article>();
     }
 }
 

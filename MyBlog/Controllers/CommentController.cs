@@ -38,14 +38,17 @@ public class CommentController : Controller
     [Authorize]
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route("/[controller]/[action]")]
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         if (_unitOfWork.GetRepository<Comment>() is CommentRepository repository)
         {
             var model = new CommentViewModel(repository.GetAllComment());
+            var user = User;
+            var currentUser = await _userManager.GetUserAsync(user);
+            model.CurrentUser = currentUser.Id;
             return View(model);
         }
-        return NotFound();
+        return RedirectToAction("Index");
     }
 
     [HttpPost]
@@ -74,25 +77,28 @@ public class CommentController : Controller
 
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public ActionResult Update(CommentViewModel model)
+    public ActionResult Update(Guid id)
     {
-        var comment = _mapper.Map<Comment>(model);
-        comment.Updated = DateTime.Now;
-        var repository = _unitOfWork.GetRepository<Comment>() as CommentRepository;
-        repository?.UpdateComment(comment);
-        _unitOfWork.SaveChanges();
+        //var comment = _mapper.Map<Comment>(model);
+        //comment.Updated = DateTime.Now;
+        //var repository = _unitOfWork.GetRepository<Comment>() as CommentRepository;
+        //repository?.UpdateComment(comment);
+        //_unitOfWork.SaveChanges();
         return View();
     }
 
-    [HttpPost]
+    [HttpGet]
     [Route("/[controller]/[action]")]
-    public ActionResult Delete(AllArticlesViewModel model)
-    {
-        var comment = _mapper.Map<Comment>(model);
+    public ActionResult Delete(Guid id)
+    {        
         var repository = _unitOfWork.GetRepository<Comment>() as CommentRepository;
-        repository?.DeleteComment(comment);
-        _unitOfWork.SaveChanges();
-        return View();
+        var comment = repository?.GetCommentById(id);
+        if (comment != null)
+        {
+            repository?.DeleteComment(comment);
+            _unitOfWork.SaveChanges();
+        }
+        return RedirectToAction("Index");
     }
 
     [HttpPost]
