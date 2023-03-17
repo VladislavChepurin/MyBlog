@@ -15,9 +15,16 @@ namespace MyBlog.ViewModels.Articles
 
         public List<Teg>? Tegs { get; set; }
 
+        public AddArticleViewModel(AddArticleViewModel model, List<Teg>? tegs)
+        {
+            Title = model.Title;
+            Content = model.Content;
+            Tegs = tegs;        
+        }
+
         public AddArticleViewModel()
         {
-            Tegs = new List<Teg>();        
+            Tegs = new List<Teg>();
         }
     }
 }

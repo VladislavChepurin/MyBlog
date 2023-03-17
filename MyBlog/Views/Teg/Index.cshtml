@@ -14,9 +14,19 @@
         {
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
-                    <h5 class="card-title"><a asp-action="UpdateTeg" asp-route-id="@item.Id">@item.Content</a></h5>
+                    <h5 class="card-title">@item.Content</h5>
                     <br>
                     <p class="card-text">Статей по тегу: @item.Articles?.Count()</p>
+
+                    <div class="center content-flex-end">
+                        @if (ViewContext.HttpContext.User.IsInRole("Administrator") || ViewContext.HttpContext.User.IsInRole("Moderator"))
+                        {
+                            <div class="center content-flex-end">
+                                <a class="btn btn-logout" asp-action="Update" asp-route-id="@item.Id">Редактировать</a>
+                                <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         }

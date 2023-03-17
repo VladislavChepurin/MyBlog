@@ -7,8 +7,8 @@
 <div class="block-reg background-white">
     <h3 class="center">@ViewData["Title"]</h3>
 
-    <form class="frm" method="post" asp-action="UpdateTeg">
-        <input type="hidden" name="idTeg" value="@Model.Id" />
+    <form class="frm" method="post" asp-action="Update">
+        <input type="hidden" name="id" value="@Model.Id" />
         <div asp-validation-summary="ModelOnly"></div>
 
         <div class="mrgn">

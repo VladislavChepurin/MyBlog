@@ -1,14 +1,10 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyBlog.Controllers.Account;
-using MyBlog.Data;
 using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
+using MyBlog.Models.Articles;
+using MyBlog.Models.Comments;
 using MyBlog.Models.Tegs;
-using MyBlog.Models.Users;
-using MyBlog.ViewModels.Articles;
 using MyBlog.ViewModels.Tegs;
 
 namespace MyBlog.Controllers;
@@ -16,37 +12,28 @@ namespace MyBlog.Controllers;
 [Authorize]
 public class TegController : Controller
 {
-    private readonly ILogger<RegisterUserController> _logger;
-    private readonly IMapper _mapper;
-    private readonly UserManager<User> _userManager;
-    private readonly SignInManager<User> _signInManager;
-    private readonly ApplicationDbContext _context;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly TegRepository? TegRepository;
 
-    public TegController(ILogger<RegisterUserController> logger, IMapper mapper, ApplicationDbContext context, UserManager<User> userManager, SignInManager<User> signInManager, IUnitOfWork unitOfWork)
+    public TegController(IUnitOfWork unitOfWork)
     {
-        _logger = logger;
-        _mapper = mapper;
-        _userManager = userManager;
-        _signInManager = signInManager;
-        _context = context;
         _unitOfWork = unitOfWork;
+        TegRepository = _unitOfWork.GetRepository<Teg>() as TegRepository;
     }
 
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route("/[controller]/[action]")]
     public ActionResult Index()
-    {
-        var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
-        var tegs = repository?.GetAllTeg();
+    {       
+        var tegs = TegRepository?.GetAllTeg();
         return View(new TegViewModel(tegs));
-    }  
+    }
 
+    [HttpGet]
     [ApiExplorerSettings(IgnoreApi = true)]
-    public IActionResult UpdateTeg(Guid id)
+    public IActionResult Update(Guid id)
     {
-        var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
-        var teg = repository?.GetTegById(id);
+        var teg = TegRepository?.GetTegById(id);
         if (teg != null)
         {
             var tegView = new TegUpdateViewModel(teg);
@@ -57,16 +44,13 @@ public class TegController : Controller
 
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public ActionResult UpdateTeg(string contentTeg, Guid idTeg)
-    {
-        //var teg = _mapper.Map<Teg>(model);
-
-        var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
-        var teg = repository?.GetTegById(idTeg);
+    public ActionResult Update(string contentTeg, Guid id)
+    {  
+        var teg = TegRepository?.GetTegById(id);
         if (teg != null)
         {
             teg.Content = contentTeg;
-            repository?.UpdateTeg(teg);
+            TegRepository?.UpdateTeg(teg);
         }
         _unitOfWork.SaveChanges();
         return RedirectToAction("Index");
@@ -81,8 +65,7 @@ public class TegController : Controller
     {
         if (!string.IsNullOrEmpty(content))
         {
-            var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
-            repository?.CreateTeg(
+            TegRepository?.CreateTeg(
                 new Teg()
                 {                 
                     Content = content
@@ -93,32 +76,29 @@ public class TegController : Controller
         return View(content);       
     }
 
-    [HttpPost]
+    [HttpGet]
     [Route("/[controller]/[action]")]
-    public ActionResult Delete(AllArticlesViewModel model)
-    {
-        var teg = _mapper.Map<Teg>(model);
-        var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
-        repository?.DeleteTeg(teg);
+    public ActionResult Delete(Guid id)
+    {   
+        var teg = TegRepository?.GetTegById(id);
+        TegRepository?.DeleteTeg(teg);
         _unitOfWork.SaveChanges();
-        return View();
+        return RedirectToAction("Index");
     }
 
     [HttpGet]
     [Route("/[controller]/[action]")]
     public ActionResult GetAllTeg()
-    {
-        var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
-        var result = repository?.GetAllTeg();
+    {       
+        var result = TegRepository?.GetAllTeg();
         return View(result);
     }
 
     [HttpPost]
     [Route("/[controller]/[action]")]
     public ActionResult GetTegId(Guid id)
-    {
-        var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
-        var result = repository?.GetTegById(id);
+    {       
+        var result = TegRepository?.GetTegById(id);
         return View(result);
     }
 }

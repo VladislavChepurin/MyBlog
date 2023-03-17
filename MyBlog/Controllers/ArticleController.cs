@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
 using MyBlog.Models.Articles;
+using MyBlog.Models.Comments;
 using MyBlog.Models.Tegs;
 using MyBlog.Models.Users;
 using MyBlog.ViewModels.Articles;
@@ -20,13 +21,17 @@ public class ArticleController : Controller
     private readonly UserManager<User> _userManager;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<Article> _validator;
+    private readonly ArticleRepository? ArticleRepository;
+    private readonly TegRepository? TegRepository;
 
     public ArticleController(IMapper mapper, UserManager<User> userManager, IUnitOfWork unitOfWork, IValidator<Article> validator)
-    {;
+    {
         _mapper = mapper;
         _userManager = userManager;
         _unitOfWork = unitOfWork;
         _validator = validator;
+        ArticleRepository = _unitOfWork.GetRepository<Article>() as ArticleRepository;
+        TegRepository = _unitOfWork.GetRepository<Teg>() as TegRepository;
     }
 
     [Authorize]
@@ -34,9 +39,9 @@ public class ArticleController : Controller
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> Index()
     {
-        if (_unitOfWork.GetRepository<Article>() is ArticleRepository repository)
+        if (ArticleRepository != null)
         {
-            var model = new AllArticlesViewModel(repository.GetAllArticle());
+            var model = new AllArticlesViewModel(ArticleRepository.GetAllArticle());
             var user = User;
             var currentUser = await _userManager.GetUserAsync(user);
             model.CurrentUser = currentUser.Id;
@@ -47,26 +52,22 @@ public class ArticleController : Controller
 
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route("/[controller]/[action]")]
-    public ActionResult CreateArticle()
-    {
-        var repository = _unitOfWork.GetRepository<Teg>() as TegRepository;
-        var tegs = repository?.GetAllTeg();
+    public ActionResult Create()
+    {       
+        var tegs = TegRepository?.GetAllTeg();
         return View(new AddArticleViewModel() { Tegs = tegs});
     }
 
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route("/[controller]/[action]")]
-    public ActionResult ViewArticle(Guid id)
-    {
-        var articleRepository = _unitOfWork.GetRepository<Article>() as ArticleRepository;        
-        var article = articleRepository?.GetArticleById(id);
-
+    public ActionResult View(Guid id)
+    {            
+        var article = ArticleRepository?.GetArticleById(id);
         if (article != null) {
             ++article.CountView;
-            articleRepository?.Update(article);
+            ArticleRepository?.Update(article);
             _unitOfWork.SaveChanges();
         }
-
         var articleView = new ArticleViewModel(article);
         return View(articleView);
     }
@@ -75,10 +76,7 @@ public class ArticleController : Controller
     [Route("/[controller]/[action]")]
     public async Task<ActionResult> Create(AddArticleViewModel model, List<Guid> tegsCurrent)
     {         
-        var article = _mapper.Map<Article>(model);
-        var tegRepository = _unitOfWork.GetRepository<Teg>() as TegRepository;
-        var articleRepository = _unitOfWork.GetRepository<Article>() as ArticleRepository;
-
+        var article = _mapper.Map<Article>(model);   
         ValidationResult result = await _validator.ValidateAsync(article);
         if (result.IsValid)
         {        
@@ -86,41 +84,26 @@ public class ArticleController : Controller
             var user = User;
             var currentUser = await _userManager.GetUserAsync(user);
             article.UserId = currentUser.Id;
-            
-            articleRepository?.CreateArticle(article);          
-            tegRepository?.AddTegInArticles(article, tegsCurrent);
+
+            ArticleRepository?.CreateArticle(article);
+            TegRepository?.AddTegInArticles(article, tegsCurrent);
             _unitOfWork.SaveChanges();
             return RedirectToAction("Index");
-        }
-               
-        var tegs = tegRepository?.GetAllTeg();
-        var view = new AddArticleViewModel() 
-        { 
-            Title = model.Title,
-            Content = model.Content,
-            Tegs = tegs };
+        }               
+        var tegs = TegRepository?.GetAllTeg();
+        var view = new AddArticleViewModel(model, tegs);        
         return View("CreateArticle", view);
     }
 
     [HttpGet]
     [Route("/[controller]/[action]")]
     public ActionResult Update(Guid id)
-    {
-        var articleRepository = _unitOfWork.GetRepository<Article>() as ArticleRepository;
-        var tegRepository = _unitOfWork.GetRepository<Teg>() as TegRepository;
-        var article = articleRepository?.GetArticleById(id);
-
+    {           
+        var article = ArticleRepository?.GetArticleById(id);
         if (article != null)
         {
-            var view = new UpdateArticleViewModel()
-            {
-                Id = article.Id,
-                Title = article.Title,
-                Content = article.Content,
-                UserTegs = article.Tegs,
-                TegList = tegRepository?.GetAllTeg()
-            };
-            return View("UpdateArticle", view);
+            var view = new UpdateArticleViewModel(article, TegRepository);
+            return View(view);
         }     
         return NotFound();
     }
@@ -128,32 +111,28 @@ public class ArticleController : Controller
     [HttpPost]
     [Route("/[controller]/[action]")]
     public ActionResult Update(UpdateArticleViewModel model, List<Guid> tegsCurrent)
-    {
-        var articleRepository = _unitOfWork.GetRepository<Article>() as ArticleRepository;
-        var tegRepository = _unitOfWork.GetRepository<Teg>() as TegRepository;
-        var article = articleRepository?.GetArticleById(model.Id);
+    {       
+        var article = ArticleRepository?.GetArticleById(model.Id);
         if (article != null)
         {
             article.Updated = DateTime.Now;
             article.Content = model.Content;
             article.Title = model.Title;
-            articleRepository?.Update(article);
-            tegRepository?.UpdateTegsInArticles(article, tegsCurrent);
+            ArticleRepository?.Update(article);
+            TegRepository?.UpdateTegsInArticles(article, tegsCurrent);
             _unitOfWork.SaveChanges();
         }   
         return RedirectToAction("Index");
     }
 
-
     [HttpGet]
     [Route("/[controller]/[action]")]
     public ActionResult Delete(Guid id)
-    {
-        var repository = _unitOfWork.GetRepository<Article>() as ArticleRepository;        
-        var article = repository?.GetArticleById(id);
+    {       
+        var article = ArticleRepository?.GetArticleById(id);
         if (article != null)        
         {
-            repository?.DeleteArticle(article);
+            ArticleRepository?.DeleteArticle(article);
             _unitOfWork.SaveChanges();
         }
         return RedirectToAction("Index");
@@ -162,18 +141,16 @@ public class ArticleController : Controller
     [HttpPost]
     [Route("/[controller]/[action]")]
     public ActionResult ArticleByUser(User user)
-    {
-        var repository = _unitOfWork.GetRepository<Article>() as ArticleRepository;
-        var article = repository?.GetArticleByUser(user);
+    {        
+        var article = ArticleRepository?.GetArticleByUser(user);
         return View(article);
     }
 
     [HttpPost]
     [Route("/[controller]/[action]")]
     public ActionResult ArticleById(Guid id)
-    {
-        var repository = _unitOfWork.GetRepository<Article>() as ArticleRepository;
-        var article = repository?.GetArticleById(id);
+    {       
+        var article = ArticleRepository?.GetArticleById(id);
         return View(article);
     }
 }

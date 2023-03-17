@@ -8,7 +8,7 @@
     <h3 class="center">@ViewData["Title"]</h3>
 
 
-    <form class="frm" method="post" asp-controller="Article" asp-action="Update">
+    <form class="frm" method="post" asp-action="Update">
         <div asp-validation-summary="ModelOnly"></div>
 
         <input type="hidden" asp-for="Id" value="@Model.Id" />

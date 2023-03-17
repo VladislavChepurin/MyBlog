@@ -12,4 +12,4 @@ public static class UserFromModel
         user.Email = usereditvm.Email;            
         return user;
     }
-}
+ }

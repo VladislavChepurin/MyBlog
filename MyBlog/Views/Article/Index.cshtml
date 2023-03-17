@@ -9,7 +9,7 @@
 }
 
 <h3>@ViewData["Title"]</h3>
-<a asp-action="CreateArticle">Добавить статью</a>
+<a asp-action="Create">Добавить статью</a>
 
 @if (Model.Articles != null)
 {
@@ -18,7 +18,7 @@
         {
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
-                    <h5 class="card-title"><a asp-action="ViewArticle" asp-route-id="@item.Id">@item.Title</a></h5>
+                    <h5 class="card-title"><a asp-action="View" asp-route-id="@item.Id">@item.Title</a></h5>
 
                     @if (item.Tegs != null)
                     {
@@ -33,7 +33,7 @@
                     {
                         <div class="center content-flex-end">
                             <a class="btn btn-logout" asp-action="Update" asp-route-id="@item.Id">Редактировать</a>
-                            <a class="btn btn-logout" asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                            <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
                         </div>
                     }
                 </div>

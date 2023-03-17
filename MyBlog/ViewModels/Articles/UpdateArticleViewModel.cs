@@ -1,4 +1,6 @@
-﻿using MyBlog.Models.Tegs;
+﻿using MyBlog.Data.Repository;
+using MyBlog.Models.Articles;
+using MyBlog.Models.Tegs;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyBlog.ViewModels.Articles
@@ -22,6 +24,15 @@ namespace MyBlog.ViewModels.Articles
         {
             UserTegs = new List<Teg>();
             TegList = new List<Teg>();
+        }
+
+        public UpdateArticleViewModel(Article article, TegRepository? tegRepository)
+        {
+            Id = article.Id;
+            Title = article.Title;
+            Content = article.Content;
+            UserTegs = article.Tegs;
+            TegList = tegRepository?.GetAllTeg();
         }
     }
 }
