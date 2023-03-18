@@ -1,4 +1,8 @@
-﻿@model MyBlog.ViewModels.Articles.ArticleViewModel
+﻿@using Microsoft.AspNetCore.Identity;
+@using MyBlog.Models.Users;
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@model MyBlog.ViewModels.Articles.ArticleViewModel
 
 @{
     ViewData["Title"] = @Model.Article?.Title;
@@ -26,9 +30,20 @@
             <div class="card-body">
                 <p class="card-text">@comment.Content</p>
             </div>
-            <div class="card-footer text-muted text-end">
-                <span class="badge bg-info text-dark">@comment.User?.Email</span>  
-                @comment.Created
+            <div class="card-footer">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        @if (ViewContext.HttpContext.User.IsInRole("Administrator") || ViewContext.HttpContext.User.IsInRole("Moderator") || comment.UserId == Model.CurrentUser)
+                        {
+                            <a class="btn btn-sm btn-logout" asp-controller="Comment" asp-action="Update" asp-route-id="@comment.Id">Редактировать</a>
+                            <a class="btn  btn-sm btn-outline-danger" asp-controller="Comment" asp-action="Delete" asp-route-id="@comment.Id">Удалить</a>
+                        }     
+                    </div>
+                    <div>
+                        <span class="badge bg-info text-dark">@comment.User?.Email</span>
+                        @comment.Created  
+                    </div>
+                </div>    
             </div>
         </div>
         <br>

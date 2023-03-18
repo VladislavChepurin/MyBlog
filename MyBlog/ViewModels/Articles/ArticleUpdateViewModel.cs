@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyBlog.ViewModels.Articles
 {
-    public class UpdateArticleViewModel
+    public class ArticleUpdateViewModel
     {
         public Guid Id { get; set; }
 
@@ -20,13 +20,13 @@ namespace MyBlog.ViewModels.Articles
         public List<Teg>? UserTegs { get; set; }
 
         public IList<Teg>? TegList { get; set; }
-        public UpdateArticleViewModel()
+        public ArticleUpdateViewModel()
         {
             UserTegs = new List<Teg>();
             TegList = new List<Teg>();
         }
 
-        public UpdateArticleViewModel(Article article, TegRepository? tegRepository)
+        public ArticleUpdateViewModel(Article article, TegRepository? tegRepository)
         {
             Id = article.Id;
             Title = article.Title;

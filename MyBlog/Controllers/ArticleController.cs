@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
 using MyBlog.Models.Articles;
-using MyBlog.Models.Comments;
 using MyBlog.Models.Tegs;
 using MyBlog.Models.Users;
 using MyBlog.ViewModels.Articles;
@@ -52,7 +51,7 @@ public class ArticleController : Controller
 
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route("/[controller]/[action]")]
-    public ActionResult Create()
+    public IActionResult Create()
     {       
         var tegs = TegRepository?.GetAllTeg();
         return View(new AddArticleViewModel() { Tegs = tegs});
@@ -60,21 +59,25 @@ public class ArticleController : Controller
 
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route("/[controller]/[action]")]
-    public ActionResult View(Guid id)
+    public async Task<IActionResult> View(Guid id)
     {            
         var article = ArticleRepository?.GetArticleById(id);
         if (article != null) {
+
             ++article.CountView;
             ArticleRepository?.Update(article);
             _unitOfWork.SaveChanges();
         }
         var articleView = new ArticleViewModel(article);
+        var user = User;
+        var currentUser = await _userManager.GetUserAsync(user);
+        articleView.CurrentUser = currentUser.Id;
         return View(articleView);
     }
 
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public async Task<ActionResult> Create(AddArticleViewModel model, List<Guid> tegsCurrent)
+    public async Task<IActionResult> Create(AddArticleViewModel model, List<Guid> tegsCurrent)
     {         
         var article = _mapper.Map<Article>(model);   
         ValidationResult result = await _validator.ValidateAsync(article);
@@ -97,12 +100,12 @@ public class ArticleController : Controller
 
     [HttpGet]
     [Route("/[controller]/[action]")]
-    public ActionResult Update(Guid id)
+    public IActionResult Update(Guid id)
     {           
         var article = ArticleRepository?.GetArticleById(id);
         if (article != null)
         {
-            var view = new UpdateArticleViewModel(article, TegRepository);
+            var view = new ArticleUpdateViewModel(article, TegRepository);
             return View(view);
         }     
         return NotFound();
@@ -110,7 +113,7 @@ public class ArticleController : Controller
 
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public ActionResult Update(UpdateArticleViewModel model, List<Guid> tegsCurrent)
+    public IActionResult Update(ArticleUpdateViewModel model, List<Guid> tegsCurrent)
     {       
         var article = ArticleRepository?.GetArticleById(model.Id);
         if (article != null)
@@ -127,7 +130,7 @@ public class ArticleController : Controller
 
     [HttpGet]
     [Route("/[controller]/[action]")]
-    public ActionResult Delete(Guid id)
+    public IActionResult Delete(Guid id)
     {       
         var article = ArticleRepository?.GetArticleById(id);
         if (article != null)        
@@ -140,7 +143,7 @@ public class ArticleController : Controller
 
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public ActionResult ArticleByUser(User user)
+    public IActionResult ArticleByUser(User user)
     {        
         var article = ArticleRepository?.GetArticleByUser(user);
         return View(article);
@@ -148,7 +151,7 @@ public class ArticleController : Controller
 
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public ActionResult ArticleById(Guid id)
+    public IActionResult ArticleById(Guid id)
     {       
         var article = ArticleRepository?.GetArticleById(id);
         return View(article);

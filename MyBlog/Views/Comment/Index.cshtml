@@ -13,7 +13,7 @@
             <div class="card">
 
                 <div class="card-header">
-                    <a asp-controller="Article" asp-action="ViewArticle" asp-route-id="@item.Article?.Id">@item.Article?.Title</a>
+                    <a asp-controller="Article" asp-action="View" asp-route-id="@item.Article?.Id">@item.Article?.Title</a>
                 </div>
                 <div class="card-body">
                     <p class="card-text">@item.Content</p>

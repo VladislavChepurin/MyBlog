@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
-using MyBlog.Models.Articles;
-using MyBlog.Models.Comments;
 using MyBlog.Models.Tegs;
 using MyBlog.ViewModels.Tegs;
 

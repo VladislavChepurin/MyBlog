@@ -19,7 +19,7 @@ public class MappingProfile : Profile
             .ForMember(x => x.UserName, opt => opt.MapFrom(c => c.Login));
 
         CreateMap<AddArticleViewModel, Article>();
-        CreateMap<UpdateArticleViewModel, Article>();
+        CreateMap<ArticleUpdateViewModel, Article>();
         CreateMap<CommentViewModel, Comment>();
         CreateMap<TegUpdateViewModel, Teg>();
     }

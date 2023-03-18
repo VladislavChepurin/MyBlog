@@ -7,6 +7,7 @@ using MyBlog.Models.Articles;
 using MyBlog.Models.Comments;
 using MyBlog.Models.Tegs;
 using MyBlog.Models.Users;
+using MyBlog.ViewModels.Articles;
 using MyBlog.ViewModels.Comments;
 
 namespace MyBlog.Controllers;
@@ -69,17 +70,34 @@ public class CommentController : Controller
     }
 
 
-    [HttpPost]
+    [HttpGet]
     [Route("/[controller]/[action]")]
     public ActionResult Update(Guid id)
     {
-        //var comment = _mapper.Map<Comment>(model);
-        //comment.Updated = DateTime.Now;
-        //var repository = _unitOfWork.GetRepository<Comment>() as CommentRepository;
-        //repository?.UpdateComment(comment);
-        //_unitOfWork.SaveChanges();
-        return View();
+        var comment = CommentRepository?.GetCommentById(id);
+        if (comment != null)
+        {
+            var view = new CommentUpdateViewModel(comment);
+            return View(view);
+        }
+        return NotFound();
     }
+
+    [HttpPost]
+    [Route("/[controller]/[action]")]
+    public ActionResult Update(CommentUpdateViewModel model)
+    {
+        var comment = CommentRepository?.GetCommentById(model.Id);
+        if (comment != null)
+        {
+            comment.Updated = DateTime.Now;
+            comment.Content = model.Content;
+            CommentRepository?.UpdateComment(comment);
+        }
+        _unitOfWork.SaveChanges();
+        return RedirectToAction("Index");
+    }
+
 
     [HttpGet]
     [Route("/[controller]/[action]")]

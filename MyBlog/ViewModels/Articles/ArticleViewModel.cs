@@ -4,7 +4,12 @@ namespace MyBlog.ViewModels.Articles
 {
     public class ArticleViewModel
     {
-        public Article? Article { get; set; }       
+        public Article? Article { get; set; }
+        public string? CurrentUser { get; set; }
+
+        public ArticleViewModel() 
+        {
+        }
 
         public ArticleViewModel(Article? article)
         {
