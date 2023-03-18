@@ -7,7 +7,6 @@ using MyBlog.Models.Users;
 namespace MyBlog.Data.Repository;
 
 #nullable disable
-
 public class CommentRepository : Repository<Comment>
 {
     public CommentRepository(ApplicationDbContext db) : base(db)

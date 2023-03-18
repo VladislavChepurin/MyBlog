@@ -17,17 +17,13 @@ public class CommentController : Controller
 {
     private readonly UserManager<User> _userManager;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ArticleRepository? ArticleRepository;
-    private readonly TegRepository? TegRepository;
     private readonly CommentRepository? CommentRepository;
 
 
     public CommentController(UserManager<User> userManager, IUnitOfWork unitOfWork)
     {
         _userManager = userManager;
-        _unitOfWork = unitOfWork;
-        ArticleRepository = _unitOfWork.GetRepository<Article>() as ArticleRepository;
-        TegRepository = _unitOfWork.GetRepository<Teg>() as TegRepository;
+        _unitOfWork = unitOfWork;      
         CommentRepository = _unitOfWork.GetRepository<Comment>() as CommentRepository;
     }
 

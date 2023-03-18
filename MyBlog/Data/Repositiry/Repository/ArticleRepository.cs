@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyBlog.Data.Repositiry;
 using MyBlog.Models.Articles;
-using MyBlog.Models.Comments;
 using MyBlog.Models.Users;
 
 namespace MyBlog.Data.Repository;

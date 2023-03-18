@@ -5,13 +5,15 @@ using MyBlog.Models.Tegs;
 
 namespace MyBlog.Data.Repositiry;
 
+#nullable disable
+
 public class Repository<T> : IRepository<T> where T : class
 {
     protected DbContext _context;
 
-    public DbSet<Article>? Articles { get; set; }
-    public DbSet<Teg>? Tegs { get; set; }
-    public DbSet<Comment>? Comments { get; set; }
+    public DbSet<Article> Articles { get; set; }
+    public DbSet<Teg> Tegs { get; set; }
+    public DbSet<Comment> Comments { get; set; }
 
     public DbSet<T> Set
     {
