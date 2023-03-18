@@ -2,25 +2,27 @@
     padding: 5px;
 }
 
-.enter_submit {
-    border: none;
-    color: white;
-    background-color: #02b416;
-    align-content: center;
-    font-size: 14px;
-    padding: 10px;
-    width: 100%;
-    font-size: 15px;
-}
-
-.btn-logout {
-    color: #02b416;
+.btn-success {
     border-color: #02b416;
+    background: #02b416;
+    width: 100%;
+    max-width: 330px;
 }
 
-.btn-logout:hover {
+    .btn-success:hover {
+        border-color: #009900;
+        background: #009900;
+    }
+
+.btn-outline-success {
+    border-color: #02b416;
+    color: #02b416
+}
+
+.btn-outline-success:hover {
+    border-color: #02b416;
     background: #02b416;
-    color: white;
+    color: white
 }
 
 .container{
@@ -54,6 +56,14 @@
         font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
         font-size: 100%;
     }
+
+
+code {
+    color: black;
+    word-break: break-word;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: 100%;
+}
 
 .login-area {
     display: flex
@@ -97,13 +107,6 @@
     height: 0;
     border: none;
     border-top: 2px dashed #ddd;
-}
-
-code {
-    color: black;
-    word-break: break-word;
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-    font-size: 100%;
 }
 
 .card-container {

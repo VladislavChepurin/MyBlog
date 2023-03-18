@@ -35,7 +35,7 @@
                     <div>
                         @if (ViewContext.HttpContext.User.IsInRole("Administrator") || ViewContext.HttpContext.User.IsInRole("Moderator") || comment.UserId == Model.CurrentUser)
                         {
-                            <a class="btn btn-sm btn-logout" asp-controller="Comment" asp-action="Update" asp-route-id="@comment.Id">Редактировать</a>
+                            <a class="btn btn-sm btn-outline-success" asp-controller="Comment" asp-action="Update" asp-route-id="@comment.Id">Редактировать</a>
                             <a class="btn  btn-sm btn-outline-danger" asp-controller="Comment" asp-action="Delete" asp-route-id="@comment.Id">Удалить</a>
                         }     
                     </div>
@@ -60,9 +60,6 @@
     </div>
 
     <div class="center">
-        <input class="enter_submit" type="submit" value="Добавить комментарий" />
+        <input class="btn btn-success" type="submit" value="Добавить комментарий" />
     </div>
 </form>
-
-
-

@@ -36,8 +36,8 @@ public class ArticleRepository : Repository<Article>
     }
 
     public Article GetArticleById(Guid id)
-    {          
-        var article = Articles.Include(t => t.Tegs).Include(u => u.User).Include(c => c.Comments).Where(f => f.Id == id).FirstOrDefault();      
+    {
+        var article = Articles.Include(t => t.Tegs).Include(u => u.User).Include(c => c.Comments).ThenInclude(u => u.User).Where(f => f.Id == id).FirstOrDefault();      
         return article;
     }     
        

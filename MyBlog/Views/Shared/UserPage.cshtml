@@ -17,7 +17,7 @@
         <p>Email: <code>@Model.UserViewModel?.User.Email</code><p />
 
         <form asp-controller="Edit" asp-action="EditUser" asp-route-userid="@Model.UserViewModel?.User.Id" method="post">
-            <button type="submit" class="btn btn-logout">
+            <button type="submit" class="btn btn-success">
                 Редактировать
             </button>
         </form>
@@ -42,16 +42,22 @@
                 @foreach (var item in Model.UserViewModel.AllArticles)
                 {
                     <div class="card">
-                        <div class="card-header">
-                            <div class="">
-                                Дата создания: <code>@item.Created</code>
+                        <div class="card-header">      
+                            <div>
+                                Дата создания: @item.Created
                             </div>
-                            <div class="">
-                                Дата редактирования: <code>@item.Updated</code>
+                            @if (item.Created < item.Updated)
+                            {
+                                <div>
+                                    Дата редактирования: @item.Updated
+                                </div>
+                            }
+                            <div>
+                               Количество коментариев: @item.Comments?.Count()
                             </div>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">@item.Title</h5>                          
+                            <h5 class="card-title"><a asp-controller="Article" asp-action="View" asp-route-id="@item.Id">@item.Title</a></h5>                            
                         </div>
                     </div>
                     <br>
@@ -59,7 +65,7 @@
                 @if (@Model.UserViewModel?.AllArticles.Count == 0)
                 {
                     <br>
-                    <p class="text-start">Пользователь пока не написал пока ни одной статьи.</p>
+                    <p class="text-start">Пользователь не написал пока ни одной статьи.</p>
                 }
             }
         </div>
@@ -71,12 +77,15 @@
                 {
                     <div class="card">
                         <div class="card-header">
-                            <div class="">
+                            <div>
                                 Дата создания: <code>@item.Created</code>
                             </div>
-                            <div class="">
-                                Дата редактирования: <code>@item.Updated</code>
-                            </div>
+                            @if (item.Created < item.Updated)
+                            {
+                                <div>
+                                    Дата редактирования: <code>@item.Updated</code>
+                                </div>
+                            }    
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">@item.Content</h5>                            
@@ -87,7 +96,7 @@
                 @if (@Model.UserViewModel?.AllComments.Count == 0)
                 {
                     <br>
-                    <p class="text-start">Пользователь пока не написал пока ни одного комментария.</p>
+                    <p class="text-start">Пользователь не написал пока ни одного комментария.</p>
                 }
             }          
         </div>
