@@ -16,11 +16,13 @@ public class CommentRepository : Repository<Comment>
 
     public void CreateComment(Comment comment)
     {
+        comment.Created = DateTime.Now;
         Create(comment);
     }
 
     public void UpdateComment(Comment comment)
     {
+        comment.Updated = DateTime.Now;
         Update(comment);
     }
 

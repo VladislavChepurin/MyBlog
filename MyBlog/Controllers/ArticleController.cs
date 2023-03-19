@@ -34,15 +34,11 @@ public class ArticleController : Controller
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> Index()
     {
-        if (ArticleRepository != null)
-        {
-            var model = new AllArticlesViewModel(ArticleRepository.GetAllArticle());
-            var user = User;
-            var currentUser = await _userManager.GetUserAsync(user);
-            model.CurrentUser = currentUser.Id;
-            return View(model);
-        }
-        return NotFound();
+        var model = new AllArticlesViewModel(ArticleRepository!.GetAllArticle());
+        var user = User;
+        var currentUser = await _userManager.GetUserAsync(user);
+        model.CurrentUser = currentUser?.Id;
+        return View(model);
     }
 
     [ApiExplorerSettings(IgnoreApi = true)]
@@ -58,16 +54,15 @@ public class ArticleController : Controller
     public async Task<IActionResult> View(Guid id)
     {            
         var article = ArticleRepository?.GetArticleById(id);
-        if (article != null) {
 
-            ++article.CountView;
-            ArticleRepository?.Update(article);
-            _unitOfWork.SaveChanges();
-        }
+        ++article!.CountView;
+        ArticleRepository?.Update(article);
+        _unitOfWork.SaveChanges();
+
         var articleView = new ArticleViewModel(article);
         var user = User;
         var currentUser = await _userManager.GetUserAsync(user);
-        articleView.CurrentUser = currentUser.Id;
+        articleView.CurrentUser = currentUser?.Id;
         return View(articleView);
     }
 
@@ -81,7 +76,7 @@ public class ArticleController : Controller
         {           
             var user = User;
             var currentUser = await _userManager.GetUserAsync(user);
-            article.UserId = currentUser.Id;
+            article.UserId = currentUser?.Id;
 
             ArticleRepository?.CreateArticle(article);
             TegRepository?.AddTegInArticles(article, tegsCurrent);
@@ -98,36 +93,27 @@ public class ArticleController : Controller
     public IActionResult Update(Guid id)
     {           
         var article = ArticleRepository?.GetArticleById(id);
-        if (article != null)
-        {
-            var view = new ArticleUpdateViewModel(article, TegRepository);
-            return View(view);
-        }     
-        return NotFound();
+        var view = new ArticleUpdateViewModel(article!, TegRepository);
+        return View(view);
     }
 
     [HttpPost]
     [Route("/[controller]/[action]")]
     public IActionResult Update(ArticleUpdateViewModel model, List<Guid> tegsCurrent)
-    {         
-        Article? article = ArticleRepository?.GetArticleById(model.Id);
-        if (article != null)
+    {
+       var article = ArticleRepository?.GetArticleById(model.Id);
+
+        if (ModelState.IsValid)
         {
-            if (ModelState.IsValid)
-            {  
-                article.Content = model.Content;
-                article.Title = model.Title;
-                ArticleRepository?.UpdateArticle(article);
-                TegRepository?.UpdateTegsInArticles(article, tegsCurrent);
-                _unitOfWork.SaveChanges();
-            }
-            else
-            {
-                var view = new ArticleUpdateViewModel(article, TegRepository);
-                return View(view);
-            }           
+            article!.Content = model.Content;
+            article.Title = model.Title;
+            ArticleRepository?.UpdateArticle(article);
+            TegRepository?.UpdateTegsInArticles(article, tegsCurrent);
+            _unitOfWork.SaveChanges();
+            return RedirectToAction("Index");
         }
-        return RedirectToAction("Index");  
+        var view = new ArticleUpdateViewModel(article!, TegRepository);
+        return View(view);
     }
 
     [HttpGet]
@@ -135,11 +121,8 @@ public class ArticleController : Controller
     public IActionResult Delete(Guid id)
     {       
         var article = ArticleRepository?.GetArticleById(id);
-        if (article != null)        
-        {
-            ArticleRepository?.DeleteArticle(article);
-            _unitOfWork.SaveChanges();
-        }
+        ArticleRepository?.DeleteArticle(article);
+        _unitOfWork.SaveChanges();
         return RedirectToAction("Index");
     }
 

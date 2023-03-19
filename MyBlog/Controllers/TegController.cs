@@ -32,26 +32,24 @@ public class TegController : Controller
     public IActionResult Update(Guid id)
     {
         var teg = TegRepository?.GetTegById(id);
-        if (teg != null)
-        {
-            var tegView = new TegUpdateViewModel(teg);
-            return View(tegView);
-        }
-        return RedirectToAction("Index");      
+        var tegView = new TegUpdateViewModel(teg!);
+        return View(tegView);
     }
 
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public ActionResult Update(string contentTeg, Guid id)
-    {  
-        var teg = TegRepository?.GetTegById(id);
-        if (teg != null)
+    public ActionResult Update(TegUpdateViewModel model)
+    {
+        var teg = TegRepository?.GetTegById(model.Id);
+        if (ModelState.IsValid)
         {
-            teg.Content = contentTeg;
+            teg!.Content = model.Content;
             TegRepository?.UpdateTeg(teg);
+            _unitOfWork.SaveChanges();
+            return RedirectToAction("Index");
         }
-        _unitOfWork.SaveChanges();
-        return RedirectToAction("Index");
+        var tegView = new TegUpdateViewModel(teg!);
+        return View(tegView);
     }
 
     [ApiExplorerSettings(IgnoreApi = true)]

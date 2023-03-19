@@ -8,12 +8,12 @@
     <h3 class="center">@ViewData["Title"]</h3>
 
     <form class="frm" method="post" asp-action="Update">
-        <input type="hidden" name="id" value="@Model.Id" />
         <div asp-validation-summary="ModelOnly"></div>
+        <input type="hidden" name="id" value="@Model.Id" />       
 
         <div class="mrgn">
             <textarea rows="5" asp-for="Content" class="form-control"> </textarea>
-            <div asp-validation-summary="ModelOnly"></div>
+            <span asp-validation-for="Content" class="text-danger"></span>
         </div>
 
         <br>

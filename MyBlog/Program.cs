@@ -25,7 +25,7 @@ services.AddControllersWithViews();
 
 services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+string? connection = builder.Configuration.GetConnectionString("DefaultConnection");
 services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connection))
     .AddUnitOfWork()
     .AddCustomRepository<Article, ArticleRepository>()
