@@ -95,7 +95,7 @@ public class ArticleController : Controller
         }               
         var tegs = TegRepository?.GetAllTeg();
         var view = new AddArticleViewModel(model, tegs);        
-        return View("CreateArticle", view);
+        return View("Create", view);
     }
 
     [HttpGet]
