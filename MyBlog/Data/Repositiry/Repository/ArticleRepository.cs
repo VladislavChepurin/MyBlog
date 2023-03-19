@@ -16,11 +16,13 @@ public class ArticleRepository : Repository<Article>
 
     public void CreateArticle(Article article)
     {
+        article.Created = DateTime.Now;
         Create(article);
     }
 
     public void UpdateArticle(Article article)         
     {
+        article.Updated = DateTime.Now;
         Update(article);
     }
     public void DeleteArticle(Article article)

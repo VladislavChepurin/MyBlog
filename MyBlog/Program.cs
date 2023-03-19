@@ -1,5 +1,4 @@
 using AutoMapper;
-using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyBlog;
@@ -11,7 +10,6 @@ using MyBlog.Models.Articles;
 using MyBlog.Models.Comments;
 using MyBlog.Models.Tegs;
 using MyBlog.Models.Users;
-using MyBlog.Validation;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,9 +22,6 @@ services.AddRazorPages();
 
 // Add services to the container.
 services.AddControllersWithViews();
-
-services.AddValidatorsFromAssemblyContaining<ArticleValidator>(); // register validators
-services.AddScoped<IValidator<Article>, ArticleValidator>();
 
 services.AddTransient<IUnitOfWork, UnitOfWork>();
 

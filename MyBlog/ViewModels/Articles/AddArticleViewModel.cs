@@ -7,13 +7,14 @@ namespace MyBlog.ViewModels.Articles
     {
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name = "Заголовок", Prompt = "Введите заголовок, минимум 3 символа")]
+        [Display(Name = "Заголовок", Prompt = "Введите заголовок, минимум 5 символа")]
+        [StringLength(50, ErrorMessage = "Поле {0} должно иметь минимум {2} и максимум {1} символов.", MinimumLength = 5)]
         public string? Title { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Контент", Prompt = "Введите текст статьи, минимум 20 символов")]
-        [StringLength(100, ErrorMessage = "Поле {0} должно иметь минимум {2} и максимум {1} символов.", MinimumLength = 5)]
+        [StringLength(2500, ErrorMessage = "Поле {0} должно иметь минимум {2} и максимум {1} символов.", MinimumLength = 20)]
         public string? Content { get; set; }
 
         public List<Teg>? Tegs { get; set; }

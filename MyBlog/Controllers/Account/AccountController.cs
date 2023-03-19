@@ -49,6 +49,8 @@ public class AccountController : Controller
 
     [HttpPost]
     [Route("Login")]
+    [ValidateAntiForgeryToken]
+
     public async Task<IActionResult> LoginAsync(LoginViewModel model)
     {
         if (ModelState.IsValid)
