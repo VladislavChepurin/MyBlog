@@ -165,8 +165,3 @@ public class AdminController : Controller
         return new List<Article>();
     }
 }
-
-
-
-
-

@@ -3,11 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
-using MyBlog.Models.Articles;
 using MyBlog.Models.Comments;
-using MyBlog.Models.Tegs;
 using MyBlog.Models.Users;
-using MyBlog.ViewModels.Articles;
 using MyBlog.ViewModels.Comments;
 
 namespace MyBlog.Controllers;

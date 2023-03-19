@@ -32,6 +32,7 @@ public class AccountController : Controller
     public IActionResult Index() => View();
 
     [Authorize]
+    [HttpGet]
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> UserPage()
     {
