@@ -4,6 +4,8 @@ using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
 using MyBlog.Models.Tegs;
 using MyBlog.ViewModels.Tegs;
+using NLog;
+using NLog.Web;
 
 namespace MyBlog.Controllers;
 
@@ -12,11 +14,13 @@ public class TegController : Controller
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly TegRepository? TegRepository;
+    private readonly Logger logger;
 
     public TegController(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
         TegRepository = _unitOfWork.GetRepository<Teg>() as TegRepository;
+        logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
     }
 
     [ApiExplorerSettings(IgnoreApi = true)]
@@ -53,23 +57,21 @@ public class TegController : Controller
     }
 
     [ApiExplorerSettings(IgnoreApi = true)]
-    public IActionResult Create() => View();
+    [HttpGet]
+    public IActionResult Create() => View(new AddTegViewModel());
 
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public ActionResult Create(string content)
+    public ActionResult Create(AddTegViewModel model)
     {
-        if (!string.IsNullOrEmpty(content))
+        if (ModelState.IsValid)
         {
             TegRepository?.CreateTeg(
-                new Teg()
-                {                 
-                    Content = content
-                });
+                new Teg(model.Content!));
             _unitOfWork.SaveChanges();
             return RedirectToAction("Index");
         }
-        return View(content);       
+        return View(new AddTegViewModel(model.Content!));       
     }
 
     [HttpGet]

@@ -18,7 +18,7 @@
             foreach (var item in Model.TegList)
             {
                 <input type="checkbox" name="tegsCurrent" value="@item.Id"
-               @(Model.UserTegs.Contains(item) ? "checked=\"checked\"" : "") />
+               @(Model.UserTegs!.Contains(item) ? "checked=\"checked\"" : "") />
                 @item.Content <br />
             }
         }

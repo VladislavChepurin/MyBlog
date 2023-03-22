@@ -52,11 +52,11 @@
 
 <form class="frm" method="post" asp-controller="Comment" asp-action="Create">
     <div asp-validation-summary="ModelOnly"></div>
-
-    <input type="hidden" name="idArticle" value="@Model?.Article?.Id" />  
+    <input type="hidden" asp-for="Article!.Id" value="@Model?.Article?.Id" />
 
     <div class="mrgn">
-        <textarea rows="5" name="content" class="form-control"> </textarea>   
+        <textarea rows="5" asp-for="CommentContent" class="form-control"> </textarea>
+        <span asp-validation-for="CommentContent" class="text-danger"></span>
     </div>
 
     <div class="center">

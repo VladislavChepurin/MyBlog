@@ -40,10 +40,10 @@ public class AccountController : Controller
         var user = await _userManager.GetUserAsync(userClaims);
         var model = new UserPageViewModel
         {
-            UserViewModel = new UserViewModel(user)
+            UserViewModel = new UserViewModel(user!)
         };
-        model.UserViewModel.AllArticles = GetUserArticles(user);
-        model.UserViewModel.AllComments = GetUserComments(user);
+        model.UserViewModel.AllArticles = GetUserArticles(user!);
+        model.UserViewModel.AllComments = GetUserComments(user!);
         return View(model);
     }
 
@@ -56,7 +56,7 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             var userData = _context.Users.FirstOrDefault(p => p.Email == model.Email);
-            var result = await _signInManager.PasswordSignInAsync(userData?.UserName ?? String.Empty, model.Password, model.RememberMe, lockoutOnFailure: false);
+            var result = await _signInManager.PasswordSignInAsync(userData?.UserName ?? String.Empty, model.Password!, model.RememberMe, lockoutOnFailure: false);
 
             if (result.Succeeded)
             {
