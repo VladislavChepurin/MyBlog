@@ -11,6 +11,7 @@ using MyBlog.Models.Comments;
 using MyBlog.Models.Tegs;
 using MyBlog.Models.Users;
 using MyBlog.Services;
+using MyBlog.Services.Interface;
 using NLog;
 using NLog.Web;
 

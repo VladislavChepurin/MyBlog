@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MyBlog.Models.Users;
+using MyBlog.Services.Interface;
 
 namespace MyBlog.Services
 {

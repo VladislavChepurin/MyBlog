@@ -1,6 +1,6 @@
 ﻿using MyBlog.Models.Users;
 
-namespace MyBlog.Services
+namespace MyBlog.Services.Interface
 {
     public interface IUserResolverService
     {

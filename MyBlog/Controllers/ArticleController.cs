@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyBlog.Models.Users;
-using MyBlog.Services;
+using MyBlog.Services.Interface;
 using MyBlog.ViewModels.Articles;
 
 namespace MyBlog.Controllers;

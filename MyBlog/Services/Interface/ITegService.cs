@@ -2,7 +2,7 @@
 using MyBlog.ViewModels.Articles;
 using MyBlog.ViewModels.Tegs;
 
-namespace MyBlog.Services
+namespace MyBlog.Services.Interface
 {
     public interface ITegService
     {

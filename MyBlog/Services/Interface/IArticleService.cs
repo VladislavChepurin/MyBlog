@@ -2,7 +2,7 @@
 using MyBlog.Models.Users;
 using MyBlog.ViewModels.Articles;
 
-namespace MyBlog.Services
+namespace MyBlog.Services.Interface
 {
     public interface IArticleService
     {

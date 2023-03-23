@@ -1,7 +1,7 @@
 ﻿using MyBlog.ViewModels.Articles;
 using MyBlog.ViewModels.Comments;
 
-namespace MyBlog.Services
+namespace MyBlog.Services.Interface
 {
     public interface ICommentService
     {

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
 using MyBlog.Models.Tegs;
-using MyBlog.Services;
+using MyBlog.Services.Interface;
 using MyBlog.ViewModels.Tegs;
 
 namespace MyBlog.Controllers;

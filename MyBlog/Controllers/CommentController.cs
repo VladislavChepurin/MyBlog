@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyBlog.Services;
+using MyBlog.Services.Interface;
 using MyBlog.ViewModels.Articles;
 using MyBlog.ViewModels.Comments;
 

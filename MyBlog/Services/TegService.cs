@@ -1,6 +1,7 @@
 ﻿using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
 using MyBlog.Models.Tegs;
+using MyBlog.Services.Interface;
 using MyBlog.ViewModels.Tegs;
 using NLog;
 using NLog.Web;

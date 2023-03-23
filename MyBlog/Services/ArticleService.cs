@@ -4,6 +4,7 @@ using MyBlog.Data.UoW;
 using MyBlog.Models.Articles;
 using MyBlog.Models.Tegs;
 using MyBlog.Models.Users;
+using MyBlog.Services.Interface;
 using MyBlog.ViewModels.Articles;
 using NLog;
 using NLog.Web;

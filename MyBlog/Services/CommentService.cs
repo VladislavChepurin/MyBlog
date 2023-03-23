@@ -6,6 +6,7 @@ using MyBlog.Models.Articles;
 using MyBlog.Models.Comments;
 using MyBlog.Models.Tegs;
 using MyBlog.Models.Users;
+using MyBlog.Services.Interface;
 using MyBlog.ViewModels.Articles;
 using MyBlog.ViewModels.Comments;
 using NLog;
