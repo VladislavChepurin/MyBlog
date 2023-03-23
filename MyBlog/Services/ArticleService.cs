@@ -3,6 +3,7 @@ using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
 using MyBlog.Models.Articles;
 using MyBlog.Models.Tegs;
+using MyBlog.Models.Users;
 using MyBlog.ViewModels.Articles;
 using NLog;
 using NLog.Web;
@@ -81,5 +82,31 @@ public class ArticleService : IArticleService
         ArticleRepository?.DeleteArticle(article);
         _unitOfWork.SaveChanges();
         logger.Info("Пользователь {Email} удалил статью с заголовком {Title}", currentUser?.Email, article?.Title);
+    }
+
+    public ArticleUpdateViewModel UpdateArticle(Guid id)
+    {
+        var article = ArticleRepository?.GetArticleById(id);
+        return new ArticleUpdateViewModel(article!, TegRepository);
+    }
+
+    public void UpdateArticle(ArticleUpdateViewModel model, List<Guid> tegsCurrent)
+    {
+        var article = ArticleRepository?.GetArticleById(model.Id);
+        article!.Content = model.Content;
+        article.Title = model.Title;
+        ArticleRepository?.UpdateArticle(article);
+        TegRepository?.UpdateTegsInArticles(article, tegsCurrent);
+        _unitOfWork.SaveChanges();     
+    }
+
+    public List<Article> GetArticleByUser(User user)
+    {
+        return ArticleRepository?.GetArticleByUser(user)!;
+    }
+
+    public Article GetArticleById(Guid id)
+    {
+        return ArticleRepository?.GetArticleById(id)!;
     }
 }

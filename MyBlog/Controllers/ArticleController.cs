@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyBlog.Data.Repository;
-using MyBlog.Data.UoW;
-using MyBlog.Models.Articles;
-using MyBlog.Models.Tegs;
 using MyBlog.Models.Users;
 using MyBlog.Services;
 using MyBlog.ViewModels.Articles;
@@ -13,17 +9,10 @@ namespace MyBlog.Controllers;
 [Authorize]
 public class ArticleController : Controller
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IArticleService _articleService;
-    private readonly ArticleRepository? ArticleRepository;
-    private readonly TegRepository? TegRepository;
-
-    public ArticleController(IUnitOfWork unitOfWork, IArticleService articleService)
+    public ArticleController(IArticleService articleService)
     {
-        _unitOfWork = unitOfWork;
         _articleService = articleService;
-        ArticleRepository = _unitOfWork.GetRepository<Article>() as ArticleRepository;
-        TegRepository = _unitOfWork.GetRepository<Teg>() as TegRepository;
     }
 
     [Authorize]
@@ -67,28 +56,21 @@ public class ArticleController : Controller
     [HttpGet]
     [Route("/[controller]/[action]")]
     public IActionResult Update(Guid id)
-    {           
-        var article = ArticleRepository?.GetArticleById(id);
-        var view = new ArticleUpdateViewModel(article!, TegRepository);
+    {
+        var view = _articleService.UpdateArticle(id);
         return View(view);
     }
 
     [HttpPost]
     [Route("/[controller]/[action]")]
     public IActionResult Update(ArticleUpdateViewModel model, List<Guid> tegsCurrent)
-    {
-       var article = ArticleRepository?.GetArticleById(model.Id);
-
+    {      
         if (ModelState.IsValid)
         {
-            article!.Content = model.Content;
-            article.Title = model.Title;
-            ArticleRepository?.UpdateArticle(article);
-            TegRepository?.UpdateTegsInArticles(article, tegsCurrent);
-            _unitOfWork.SaveChanges();
+            _articleService.UpdateArticle(model, tegsCurrent); 
             return RedirectToAction("Index");
         }
-        var view = new ArticleUpdateViewModel(article!, TegRepository);
+        var view = _articleService.UpdateArticle(model.Id);
         return View(view);
     }
 
@@ -103,16 +85,16 @@ public class ArticleController : Controller
     [HttpPost]
     [Route("/[controller]/[action]")]
     public IActionResult ArticleByUser(User user)
-    {        
-        var article = ArticleRepository?.GetArticleByUser(user);
-        return View(article);
+    {
+        var view = _articleService.GetArticleByUser(user);
+        return View(view);
     }
 
     [HttpPost]
     [Route("/[controller]/[action]")]
     public IActionResult ArticleById(Guid id)
-    {       
-        var article = ArticleRepository?.GetArticleById(id);
-        return View(article);
+    {
+        var view = _articleService.GetArticleById(id);
+        return View(view);
     }
 }
