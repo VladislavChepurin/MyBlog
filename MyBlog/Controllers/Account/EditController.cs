@@ -26,7 +26,7 @@ public class EditController : Controller
     [HttpPost]
     public async Task<IActionResult> EditUser(string userId)
     {
-        User user = await _userManager.FindByIdAsync(userId);
+        User? user = await _userManager.FindByIdAsync(userId);
         if (user != null)
         {
             return View("EditUser", new UserEditViewModel(user));
@@ -46,15 +46,15 @@ public class EditController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = await _userManager.FindByIdAsync(userEdit.UserId);
-            user.Convert(userEdit);     
-            var result = await _userManager.UpdateAsync(user);
+            var user = await _userManager.FindByIdAsync(userEdit.UserId!);
+            user?.Convert(userEdit);     
+            var result = await _userManager.UpdateAsync(user!);
 
             if (result.Succeeded)
             {
                 var model = new UserPageViewModel
                 {
-                    UserViewModel = new UserViewModel(user)
+                    UserViewModel = new UserViewModel(user!)
                 };
                 return View("UserPage", model);
             }

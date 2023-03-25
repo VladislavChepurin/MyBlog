@@ -10,8 +10,10 @@ using MyBlog.Models.Articles;
 using MyBlog.Models.Comments;
 using MyBlog.Models.Tegs;
 using MyBlog.Models.Users;
-using MyBlog.Services;
-using MyBlog.Services.Interface;
+using MyBlog.Services.ContextServices;
+using MyBlog.Services.ContextServices.Interface;
+using MyBlog.Services.ControllerServices;
+using MyBlog.Services.ControllerServices.Interface;
 using NLog;
 using NLog.Web;
 
@@ -30,11 +32,13 @@ try
     // Add services to the container.
     services.AddControllersWithViews();
 
-    services.AddTransient<IUnitOfWork, UnitOfWork>();
-    services.AddTransient<IArticleService, ArticleService>();
-    services.AddTransient<ITegService, TegService>();
-    services.AddTransient<ICommentService, CommentService>();
-    services.AddTransient<IUserResolverService, UserResolverService>();
+    services.AddScoped<IUnitOfWork, UnitOfWork>();
+    services.AddScoped<IArticleService, ArticleService>();
+    services.AddScoped<ITegService, TegService>();
+    services.AddScoped<ICommentService, CommentService>();
+    services.AddScoped<IAccountService, AccountService>();
+    services.AddScoped<IUserResolverService, UserResolverService>();
+    services.AddScoped<ISingInResolverService, SingInResolverService>();
     services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 

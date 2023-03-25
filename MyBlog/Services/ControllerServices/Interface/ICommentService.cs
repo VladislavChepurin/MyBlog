@@ -1,7 +1,7 @@
 ﻿using MyBlog.ViewModels.Articles;
 using MyBlog.ViewModels.Comments;
 
-namespace MyBlog.Services.Interface
+namespace MyBlog.Services.ControllerServices.Interface
 {
     public interface ICommentService
     {
@@ -9,11 +9,11 @@ namespace MyBlog.Services.Interface
 
         Task CreateComment(ArticleViewModel model);
 
-        CommentUpdateViewModel UpdateComment(Guid id);
+        Task<CommentUpdateViewModel> UpdateComment(Guid id);
 
-        void UpdateComment(CommentUpdateViewModel model);
+        Task UpdateComment(CommentUpdateViewModel model);
 
-        void Delete(Guid id);
+        Task Delete(Guid id);
 
     }
 }

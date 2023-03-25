@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
 using MyBlog.Models.Tegs;
-using MyBlog.Services.Interface;
+using MyBlog.Services.ControllerServices.Interface;
 using MyBlog.ViewModels.Tegs;
 
 namespace MyBlog.Controllers;
@@ -53,11 +53,11 @@ public class TegController : Controller
 
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public ActionResult Create(AddTegViewModel model)
+    public async Task<ActionResult> Create(AddTegViewModel model)
     {
         if (ModelState.IsValid)
         {
-            _tegService.CreateTeg(model);
+            await _tegService.CreateTeg(model);
             return RedirectToAction("Index");
         }
         return View(new AddTegViewModel(model.Content!));       

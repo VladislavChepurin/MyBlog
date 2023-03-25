@@ -37,7 +37,7 @@ public class AdminController : Controller
     [HttpPost]
     public async Task<IActionResult> Delete(string id)
     {
-        IdentityRole role = await _roleManager.FindByIdAsync(id);
+        IdentityRole? role = await _roleManager.FindByIdAsync(id);
         if (role != null)
         {
             await _roleManager.DeleteAsync(role);
@@ -72,7 +72,7 @@ public class AdminController : Controller
     public async Task<IActionResult> Edit(string userId)
     {
         // получаем пользователя
-        User user = await _userManager.FindByIdAsync(userId);
+        User? user = await _userManager.FindByIdAsync(userId);
         if (user != null)
         {
             // получем список ролей пользователя
@@ -95,7 +95,7 @@ public class AdminController : Controller
     public async Task<IActionResult> Edit(string userId, List<string> roles)
     {
         // получаем пользователя
-        User user = await _userManager.FindByIdAsync(userId);
+        User? user = await _userManager.FindByIdAsync(userId);
         if (user != null)
         {
             // получем список ролей пользователя
@@ -119,7 +119,7 @@ public class AdminController : Controller
     public async Task<IActionResult> DeleteUser(string userId)
     {
         // получаем пользователя
-        User user = await _userManager.FindByIdAsync(userId);
+        User? user = await _userManager.FindByIdAsync(userId);
         if (user != null)
         {
             await _userManager.DeleteAsync(user);
@@ -133,7 +133,7 @@ public class AdminController : Controller
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> UserPage(string userId)
     {
-        User user = await _userManager.FindByIdAsync(userId);
+        User? user = await _userManager.FindByIdAsync(userId);
         if (user != null)
         {
             var model = new UserPageViewModel

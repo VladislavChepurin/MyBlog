@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MyBlog.Models.Users;
-using MyBlog.Services.Interface;
+using MyBlog.Services.ContextServices.Interface;
 
-namespace MyBlog.Services
+namespace MyBlog.Services.ContextServices
 {
     public class UserResolverService : IUserResolverService
     {
@@ -26,5 +26,8 @@ namespace MyBlog.Services
             var user = await _userManager.GetUserAsync(_httpContext.HttpContext!.User);
             return user!;
         }
+
+
+
     }
 }

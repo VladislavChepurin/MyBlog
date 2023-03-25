@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyBlog.Services.Interface;
+using MyBlog.Services.ControllerServices.Interface;
 using MyBlog.ViewModels.Articles;
 using MyBlog.ViewModels.Comments;
 
@@ -42,30 +42,30 @@ public class CommentController : Controller
 
     [HttpGet]
     [Route("/[controller]/[action]")]
-    public ActionResult Update(Guid id)
+    public async Task<ActionResult> Update(Guid id)
     {
-        var view = _commentService.UpdateComment(id);
+        var view = await _commentService.UpdateComment(id);
         return View(view);
     }
 
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public ActionResult Update(CommentUpdateViewModel model)
+    public async Task<ActionResult> Update(CommentUpdateViewModel model)
     {       
         if (ModelState.IsValid)
         {
-            _commentService.UpdateComment(model);
+            await _commentService.UpdateComment(model);
             return RedirectToAction("Index");
         }
-        var view = _commentService.UpdateComment(model.Id);
+        var view = await _commentService.UpdateComment(model.Id);
         return View(view);
     }
 
     [HttpGet]
     [Route("/[controller]/[action]")]
-    public ActionResult Delete(Guid id)
+    public async Task<ActionResult> Delete(Guid id)
     {
-        _commentService.Delete(id);
+        await _commentService.Delete(id);
         return RedirectToAction("Index");
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyBlog.Models.Users;
-using MyBlog.Services.Interface;
+using MyBlog.Services.ControllerServices.Interface;
 using MyBlog.ViewModels.Articles;
 
 namespace MyBlog.Controllers;
@@ -34,9 +34,9 @@ public class ArticleController : Controller
 
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route("/[controller]/[action]")]
-    public IActionResult Create()
+    public async Task<IActionResult> Create()
     {
-        var view = _articleService.GetAddArticleView();
+        var view = await _articleService.GetAddArticleView();
         return View(view);
     }
 
@@ -49,28 +49,28 @@ public class ArticleController : Controller
             await _articleService.CreateArticle(model, tegsCurrent);
             return RedirectToAction("Index");
         }
-        var view = _articleService.GetAddArticleView(model);
+        var view = await _articleService.GetAddArticleView(model);
         return View(view);
     }
 
     [HttpGet]
     [Route("/[controller]/[action]")]
-    public IActionResult Update(Guid id)
+    public async Task<IActionResult> Update(Guid id)
     {
-        var view = _articleService.UpdateArticle(id);
+        var view = await _articleService.UpdateArticle(id);
         return View(view);
     }
 
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public IActionResult Update(ArticleUpdateViewModel model, List<Guid> tegsCurrent)
+    public async Task<IActionResult> Update(ArticleUpdateViewModel model, List<Guid> tegsCurrent)
     {      
         if (ModelState.IsValid)
         {
-            _articleService.UpdateArticle(model, tegsCurrent); 
+            await _articleService.UpdateArticle(model, tegsCurrent); 
             return RedirectToAction("Index");
         }
-        var view = _articleService.UpdateArticle(model.Id);
+        var view = await _articleService.UpdateArticle(model.Id);
         return View(view);
     }
 

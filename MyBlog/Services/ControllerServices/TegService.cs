@@ -1,33 +1,37 @@
 ﻿using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
 using MyBlog.Models.Tegs;
-using MyBlog.Services.Interface;
+using MyBlog.Services.ContextServices.Interface;
+using MyBlog.Services.ControllerServices.Interface;
 using MyBlog.ViewModels.Tegs;
 using NLog;
 using NLog.Web;
 
-namespace MyBlog.Services;
+namespace MyBlog.Services.ControllerServices;
 
-public class TegService: ITegService
+public class TegService : ITegService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly TegRepository? TegRepository;
-    private readonly Logger logger;
+    private readonly Logger _logger;
     private readonly IUserResolverService _userResolverService;
 
     public TegService(IUnitOfWork unitOfWork, IUserResolverService userResolverService)
     {
         _unitOfWork = unitOfWork;
         TegRepository = _unitOfWork.GetRepository<Teg>() as TegRepository;
-        logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+        _logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
         _userResolverService = userResolverService;
     }
 
-    public void CreateTeg(AddTegViewModel model)
+    public async Task CreateTeg(AddTegViewModel model)
     {
         TegRepository?.CreateTeg(
                new Teg(model.Content!));
         _unitOfWork.SaveChanges();
+
+        var currentUser = await _userResolverService.GetUser();
+        _logger.Info("Пользователь {Email} создал тег {Teg}", currentUser?.Email, model.Content);
     }
 
     public void DeleteTeg(Guid id)
@@ -39,7 +43,7 @@ public class TegService: ITegService
 
     public List<Teg> GetAllTeg()
     {
-        throw new NotImplementedException();
+        return TegRepository?.GetAllTeg()!;
     }
 
     public TegViewModel GetModelIndex()

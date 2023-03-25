@@ -2,7 +2,7 @@
 using MyBlog.ViewModels.Articles;
 using MyBlog.ViewModels.Tegs;
 
-namespace MyBlog.Services.Interface
+namespace MyBlog.Services.ControllerServices.Interface
 {
     public interface ITegService
     {
@@ -12,7 +12,7 @@ namespace MyBlog.Services.Interface
 
         void UpdateTeg(TegUpdateViewModel model);
 
-        void CreateTeg(AddTegViewModel model);
+        Task CreateTeg(AddTegViewModel model);
 
         void DeleteTeg(Guid id);
 

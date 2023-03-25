@@ -33,24 +33,24 @@ public class CommentRepository : Repository<Comment>
     public List<Comment> GetCommentByArticle(Article article)
     {
 
-        var articles = Set.AsEnumerable().Where(x => x?.ArticleId == article.Id);
-        return articles.ToList();
+        var comments = Set.AsEnumerable().Where(x => x?.ArticleId == article.Id);
+        return comments.ToList();
     }
 
     public List<Comment> GetCommentByUser(User target)
     {
-        var articles = Set.AsEnumerable().Where(x => x?.User?.Id == target.Id);
-        return articles.ToList();
+        var comments = Set.AsEnumerable().Where(x => x?.User?.Id == target.Id);
+        return comments.ToList();
     }
 
     public Comment GetCommentById(Guid id)
     {
-        var articles = Set.AsEnumerable().Where(x => x?.Id == id).FirstOrDefault();
-        return articles;
+        var comment = Set.AsEnumerable().FirstOrDefault(x => x?.Id == id);
+        return comment;
     }
 
     public List<Comment> GetAllComment()
     {       
         return Comments.Include(c => c.User).Include(c => c.Article).ToList();
-    }
+    }     
 }
