@@ -49,7 +49,7 @@ public class ArticleService : IArticleService
         var currentUser = await _userResolverService.GetUser();
         var model = new ArticleViewModel(article, currentUser!);
         model.CurrentUser = currentUser?.Id;
-        _logger.Info("Пользователь {Email} открыл статью с заголовком {Title}", currentUser?.Email, article.Title);
+        _logger.Info("Пользователь {Email} открыл статью с индификатоом {Id} и заголовком {Title}", currentUser?.Email, id, article.Title);
         return model;
     }
 
@@ -62,8 +62,8 @@ public class ArticleService : IArticleService
         return new AddArticleViewModel(tegs, article);
     }
 
-    public async Task< AddArticleViewModel> GetAddArticleView()
-    {      
+    public async Task<AddArticleViewModel> GetAddArticleView()
+    {
         var currentUser = await _userResolverService.GetUser();
         _logger.Info("Пользователь {Email} открыл страницу создания статей", currentUser?.Email);
         var tegs = TegRepository?.GetAllTeg();
@@ -87,14 +87,14 @@ public class ArticleService : IArticleService
         var article = ArticleRepository?.GetArticleById(id);
         ArticleRepository?.DeleteArticle(article);
         _unitOfWork.SaveChanges();
-        _logger.Info("Пользователь {Email} удалил статью с заголовком {Title}", currentUser?.Email, article?.Title);
+        _logger.Info("Пользователь {Email} удалил статью с индификатором {Id} и заголовком {Title}", currentUser?.Email, id, article?.Title);
     }
 
     public async Task<ArticleUpdateViewModel> UpdateArticle(Guid id)
     {
         var article = ArticleRepository?.GetArticleById(id);
         var currentUser = await _userResolverService.GetUser();
-        _logger.Info("Пользователь {Email} открыл сраницу редектирования статьи с заголовком {Title}", currentUser?.Email, article?.Title);
+        _logger.Info("Пользователь {Email} открыл сраницу редектирования статьи с индификатором {Id} заголовком {Title}", currentUser?.Email, id, article?.Title);
         return new ArticleUpdateViewModel(article!, TegRepository);
     }
 
@@ -108,7 +108,7 @@ public class ArticleService : IArticleService
         _unitOfWork.SaveChanges();
 
         var currentUser = await _userResolverService.GetUser();
-        _logger.Info("Пользователь {Email} изменил статью с заголовком {Title}", currentUser?.Email, article?.Title);
+        _logger.Info("Пользователь {Email} изменил статью с индификатором {Id} заголовком {Title}", currentUser?.Email, model.Id, article?.Title);
     }
 
     public List<Article> GetArticleByUser(User user)

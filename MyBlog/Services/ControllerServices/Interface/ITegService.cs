@@ -1,24 +1,21 @@
 ﻿using MyBlog.Models.Tegs;
-using MyBlog.ViewModels.Articles;
 using MyBlog.ViewModels.Tegs;
 
-namespace MyBlog.Services.ControllerServices.Interface
+namespace MyBlog.Services.ControllerServices.Interface;
+
+public interface ITegService
 {
-    public interface ITegService
-    {
-        TegViewModel GetModelIndex();
+    Task<TegViewModel> GetModelIndex();
 
-        TegUpdateViewModel UpdateTeg(Guid id);
+    Task<TegUpdateViewModel> UpdateTeg(Guid id);
 
-        void UpdateTeg(TegUpdateViewModel model);
+    Task UpdateTeg(TegUpdateViewModel model);
 
-        Task CreateTeg(AddTegViewModel model);
+    Task CreateTeg(AddTegViewModel model);
 
-        void DeleteTeg(Guid id);
+    Task DeleteTeg(Guid id);
 
-        List<Teg> GetAllTeg();
+    List<Teg> GetAllTeg();
 
-        Teg GetTegId(Guid id);
-    }
-
+    Teg GetTegId(Guid id);
 }

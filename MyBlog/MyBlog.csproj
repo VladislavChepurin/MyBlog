@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\Interface\**" />
+    <Content Remove="Services\Interface\**" />
+    <EmbeddedResource Remove="Services\Interface\**" />
+    <None Remove="Services\Interface\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="bootstrap" Version="5.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
@@ -113,10 +120,6 @@
     <None Update="Properties\serviceDependencies.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\Interface\" />
   </ItemGroup>
 
 </Project>

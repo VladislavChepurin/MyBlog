@@ -37,10 +37,11 @@ try
     services.AddScoped<ITegService, TegService>();
     services.AddScoped<ICommentService, CommentService>();
     services.AddScoped<IAccountService, AccountService>();
-    services.AddScoped<IUserResolverService, UserResolverService>();
+    services.AddScoped<IEditService, EditService>();
+    services.AddScoped<IAdminService, AdminService>();
+    services.AddTransient<IUserResolverService, UserResolverService>(); //очень часто вызывается, лучше держать в памяти постояннно
     services.AddScoped<ISingInResolverService, SingInResolverService>();
     services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
 
     string? connection = builder.Configuration.GetConnectionString("DefaultConnection");
     services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connection))

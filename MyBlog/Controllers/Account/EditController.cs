@@ -1,20 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MyBlog.Extentions;
-using MyBlog.Models.Users;
-using MyBlog.ViewModels;
+using MyBlog.Services.ControllerServices.Interface;
 using MyBlog.ViewModels.Users;
 
 namespace MyBlog.Controllers.Account;
 
 public class EditController : Controller
 {
-    private readonly UserManager<User> _userManager;
+    private readonly IEditService _editService;
 
-    public EditController(UserManager<User> userManager)
+    public EditController(IEditService editService)
     {
-        _userManager = userManager;
+        _editService = editService;
     }
 
     /// <summary>
@@ -22,16 +19,12 @@ public class EditController : Controller
     /// </summary>
     /// <returns></returns>
     [Authorize]
-    [Route("EditUser")]
     [HttpPost]
+    [Route("/[controller]/[action]")]
     public async Task<IActionResult> EditUser(string userId)
     {
-        User? user = await _userManager.FindByIdAsync(userId);
-        if (user != null)
-        {
-            return View("EditUser", new UserEditViewModel(user));
-        }
-        return NotFound();
+        var view = await _editService.GetEditUserModel(userId);
+        return View(view);
     }
 
     /// <summary>
@@ -46,17 +39,11 @@ public class EditController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = await _userManager.FindByIdAsync(userEdit.UserId!);
-            user?.Convert(userEdit);     
-            var result = await _userManager.UpdateAsync(user!);
-
-            if (result.Succeeded)
+            var result = await _editService.UpdateUser(userEdit);
+            if (result)
             {
-                var model = new UserPageViewModel
-                {
-                    UserViewModel = new UserViewModel(user!)
-                };
-                return View("UserPage", model);
+                var view = await _editService.GetUserPageModel(userEdit.UserId!);
+                return View("UserPage", view);
             }
             else
             {
@@ -66,7 +53,7 @@ public class EditController : Controller
         else
         {
             ModelState.AddModelError("", "Некорректные данные");
-            return RedirectToAction("EditUser", new { userId = userEdit.UserId});
+            return RedirectToAction("EditUser", new { userId = userEdit.UserId });
         }
     }
 }

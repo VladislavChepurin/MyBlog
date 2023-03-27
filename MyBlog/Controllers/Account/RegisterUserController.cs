@@ -13,14 +13,14 @@ public class RegisterUserController : Controller
     private readonly IMapper _mapper;
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
-    private readonly Logger logger;
+    private readonly Logger _logger;
 
     public RegisterUserController(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager)
     {
         _mapper = mapper;
         _userManager = userManager;
         _signInManager = signInManager;
-        logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+        _logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
     }
 
     [Route("Register")]
@@ -36,17 +36,16 @@ public class RegisterUserController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = _mapper.Map<User>(model);           
+            var user = _mapper.Map<User>(model);
             var result = await _userManager.CreateAsync(user, model.PasswordReg!);
             if (result.Succeeded)
             {
-                if ((await _userManager.AddToRoleAsync(user, "User")).Succeeded)
+                _logger.Info("Создан новый пользователь {Email}", user?.Email);
+                if ((await _userManager.AddToRoleAsync(user!, "User")).Succeeded)
                 {
-                    
-                    //_logger.LogError(0, "Пользователю {Name} присвоена роль User", user.UserName);
+                    _logger.Info("Пользователю {Email} присвоена роль User", user?.Email);
                 }
-                await _signInManager.SignInAsync(user, false);
-                //_logger.LogError(0, "Зарегистрирован новый пользователь {Name} ** {Email}", user.UserName, user.Email);
+                await _signInManager.SignInAsync(user!, false);
                 return RedirectToAction("Index", "Home");
             }
             else

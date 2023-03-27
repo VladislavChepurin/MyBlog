@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyBlog.Data.Repository;
 using MyBlog.Data.UoW;
-using MyBlog.Models.Tegs;
 using MyBlog.Services.ControllerServices.Interface;
 using MyBlog.ViewModels.Tegs;
 
@@ -13,34 +11,34 @@ public class TegController : Controller
 {
     private readonly ITegService _tegService;
 
-    public TegController(IUnitOfWork unitOfWork, ITegService tegService)
+    public TegController(ITegService tegService)
     {
         _tegService = tegService;
     }
 
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route("/[controller]/[action]")]
-    public ActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        var view = _tegService.GetModelIndex(); 
+        var view = await _tegService.GetModelIndex(); 
         return View(view);
     }
 
     [HttpGet]
     [ApiExplorerSettings(IgnoreApi = true)]
-    public IActionResult Update(Guid id)
+    public async Task<IActionResult> Update(Guid id)
     {
-        var view = _tegService.UpdateTeg(id);
+        var view = await _tegService.UpdateTeg(id);
         return View(view);
     }
 
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public ActionResult Update(TegUpdateViewModel model)
+    public async Task<IActionResult> Update(TegUpdateViewModel model)
     {      
         if (ModelState.IsValid)
         {
-            _tegService.UpdateTeg(model);
+            await _tegService.UpdateTeg(model);
             return RedirectToAction("Index");
         }
         var view = _tegService.UpdateTeg(model.Id);
@@ -53,7 +51,7 @@ public class TegController : Controller
 
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public async Task<ActionResult> Create(AddTegViewModel model)
+    public async Task<IActionResult> Create(AddTegViewModel model)
     {
         if (ModelState.IsValid)
         {
@@ -65,9 +63,9 @@ public class TegController : Controller
 
     [HttpGet]
     [Route("/[controller]/[action]")]
-    public ActionResult Delete(Guid id)
+    public async Task<IActionResult> Delete(Guid id)
     {
-        _tegService.DeleteTeg(id);
+        await _tegService.DeleteTeg(id);
         return RedirectToAction("Index");
     }
 

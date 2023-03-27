@@ -14,7 +14,7 @@ public class AccountController : Controller
 
     public AccountController(UserManager<User> userManager, IAccountService accountService)
     {
-        _userManager = userManager;       
+        _userManager = userManager;
         _accountService = accountService;
     }
 
@@ -39,7 +39,7 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             var succeededLogin = await _accountService.IsLoggedIn(model);
-            
+
             if (succeededLogin)
             {
                 if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
@@ -57,7 +57,7 @@ public class AccountController : Controller
             }
         }
         return View("~/Views/Home/Index.cshtml", new LoginViewModel());
-    }       
+    }
 
     [Route("Logout")]
     [HttpPost]
@@ -71,5 +71,5 @@ public class AccountController : Controller
     [HttpGet]
     [Route("Login")]
     public IActionResult Login() => View("Login");
-   
+
 }

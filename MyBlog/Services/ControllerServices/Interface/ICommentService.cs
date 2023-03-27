@@ -15,5 +15,8 @@ namespace MyBlog.Services.ControllerServices.Interface
 
         Task Delete(Guid id);
 
+        Task<ArticleViewModel> GetArticleView(Guid id);
+
     }
 }
+

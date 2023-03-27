@@ -42,20 +42,17 @@ public class CommentService : ICommentService
         var currentUser = await _userResolverService.GetUser();
         var comment = new Comment(model, currentUser);
         CommentRepository?.CreateComment(comment);
-        _unitOfWork.SaveChanges();  
-        
+        _unitOfWork.SaveChanges();
         var article = ArticleRepository?.GetArticleById(model.Article!.Id);
-        _logger.Info("Пользователь {Email} создал комментарий к статье с названием {Title}", currentUser?.Email, article?.Title);
+        _logger.Info("Пользователь {Email} создал комментарий к статье с индификатором {Id} и названием {Title}", currentUser?.Email, article?.Id, article?.Title);
     }
 
     public async Task<CommentUpdateViewModel> UpdateComment(Guid id)
     {
         var comment = CommentRepository?.GetCommentById(id);
-
         var article = ArticleRepository?.GetArticleById(comment!.ArticleId);
         var currentUser = await _userResolverService.GetUser();
-        _logger.Info("Пользователь {Email} открыл окно редактирования комментария с индификатором {Id} из статьи с названием {Title}", currentUser?.Email, id, article?.Title);
-
+        _logger.Info("Пользователь {Email} открыл окно редактирования комментария с индификатором {IdComment} из статьи с индификатором {IdArticle} названием {Title}", currentUser?.Email, id, article?.Id, article?.Title);
         return new CommentUpdateViewModel(comment!);
     }
 
@@ -65,10 +62,9 @@ public class CommentService : ICommentService
         comment!.Content = model.Content;
         CommentRepository?.UpdateComment(comment);
         _unitOfWork.SaveChanges();
-
         var article = ArticleRepository?.GetArticleById(comment!.ArticleId);
         var currentUser = await _userResolverService.GetUser();
-        _logger.Info("Пользователь {Email} изменил комментарий с индификатором {Id} из статьи с названием {Title}", currentUser?.Email, model.Id, article?.Title);
+        _logger.Info("Пользователь {Email} изменил комментарий с индификатором {IdComment} из статьи с индификатором {IdArticle} названием {Title}", currentUser?.Email, model.Id, article?.Id, article?.Title);
     }
 
     public async Task Delete(Guid id)
@@ -76,9 +72,17 @@ public class CommentService : ICommentService
         var comment = CommentRepository?.GetCommentById(id);
         CommentRepository?.DeleteComment(comment);
         _unitOfWork.SaveChanges();
-
         var article = ArticleRepository?.GetArticleById(comment!.ArticleId);
         var currentUser = await _userResolverService.GetUser();
-        _logger.Info("Пользователь {Email} удалил комментарий с индификатором {Id} из статьи с названием {Title}", currentUser?.Email, id, article?.Title);
+        _logger.Info("Пользователь {Email} удалил комментарий с индификатором {IdComment} из статьи с индификатором {IdArticle} названием {Title}", currentUser?.Email, id, article?.Id, article?.Title);
+    }
+
+    public async Task<ArticleViewModel> GetArticleView(Guid id)
+    {
+        var article = ArticleRepository?.GetArticleById(id);
+        var currentUser = await _userResolverService.GetUser();
+        var model = new ArticleViewModel(article, currentUser!);
+        model.CurrentUser = currentUser?.Id;        
+        return model;
     }
 }

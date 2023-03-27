@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyBlog.Services.ControllerServices;
 using MyBlog.Services.ControllerServices.Interface;
 using MyBlog.ViewModels.Articles;
 using MyBlog.ViewModels.Comments;
@@ -10,12 +11,10 @@ namespace MyBlog.Controllers;
 public class CommentController : Controller
 {
     private readonly ICommentService _commentService;
-    private readonly IArticleService _articleService;
 
-    public CommentController(ICommentService commentService, IArticleService articleService)
+    public CommentController(ICommentService commentService)
     {
         _commentService = commentService;
-        _articleService = articleService;    
     }
 
     [Authorize]
@@ -27,6 +26,15 @@ public class CommentController : Controller
         return View(view);
     }
 
+    [ApiExplorerSettings(IgnoreApi = true)]
+    [Route("/[controller]/[action]")]
+    public async Task<IActionResult> View(Guid id)
+    {
+        var view = await _commentService.GetArticleView(id);
+        return View("~/Views/Article/View.cshtml", view);
+    }
+
+
     [HttpPost]
     [Route("/[controller]/[action]")]
     public async Task<ActionResult> Create(ArticleViewModel model)
@@ -34,9 +42,9 @@ public class CommentController : Controller
         if (ModelState.IsValid)
         {
             await _commentService.CreateComment(model);
-            return RedirectToAction("View", "Article", new { id = model.Article!.Id });
+            return RedirectToAction("View", new { id = model.Article!.Id });
         }
-        var view = _articleService.GetArticleView(model.Article!.Id);
+        var view = await _commentService.GetArticleView(model.Article!.Id);
         return View("~/Views/Article/View.cshtml", view);
     }
 
