@@ -22,7 +22,10 @@ public class RegisterUserController : Controller
         _signInManager = signInManager;
         _logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
     }
-
+    /// <summary>
+    /// Переход на страницу регистрации
+    /// </summary>
+    /// <returns></returns>
     [Route("Register")]
     [HttpGet]
     public IActionResult Register()
@@ -30,6 +33,11 @@ public class RegisterUserController : Controller
         return View("RegisterUser");
     }
 
+    /// <summary>
+    /// Регистрация пользователя
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [Route("Register")]
     [HttpPost]
     public async Task<IActionResult> Register(RegisterViewModel model)

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyBlog.Data.UoW;
 using MyBlog.Services.ControllerServices.Interface;
 using MyBlog.ViewModels.Tegs;
 
@@ -19,7 +18,7 @@ public class TegController : Controller
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> Index()
-    {
+    {       
         var view = await _tegService.GetModelIndex(); 
         return View(view);
     }
