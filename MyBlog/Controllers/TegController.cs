@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyBlog.Services.ControllerServices.Interface;
-using MyBlog.ViewModels.Tegs;
+using Contracts.ViewModels.Tegs;
+using BissnesLibrary.ControllerServices.Interface;
 
 namespace MyBlog.Controllers;
 

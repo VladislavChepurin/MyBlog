@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using MyBlog.Models;
-using MyBlog.ViewModels.Users;
+using Contracts.Models;
+using Contracts.ViewModels.Users;
 using Microsoft.AspNetCore.Identity;
-using MyBlog.Models.Users;
+using Contracts.Models.Users;
 
 namespace MyBlog.Controllers;
 

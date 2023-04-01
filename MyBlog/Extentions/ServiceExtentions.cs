@@ -1,5 +1,5 @@
-﻿using MyBlog.Data.Repositiry;
-using MyBlog.Data.UoW;
+﻿using DataLibrary.Data.Repositiry;
+using DataLibrary.Data.UoW;
 
 namespace MyBlog.Extentions;
 

@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity;
-@using MyBlog.Models.Users;
+@using Contracts.Models.Users;
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
-@model MyBlog.ViewModels.Articles.AllArticlesViewModel
+@model Contracts.ViewModels.Articles.AllArticlesViewModel
 
 @{
     ViewData["Title"] = "Все статьи";

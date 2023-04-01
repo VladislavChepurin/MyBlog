@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyBlog.ViewModels.Tegs;
 
 namespace API.Controllers;
 
@@ -8,8 +7,6 @@ namespace API.Controllers;
 
 public class CommentController : ControllerBase
 {
-
-
 
 
 

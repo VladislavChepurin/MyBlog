@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using MyBlog.Models.Articles;
-using MyBlog.Models.Users;
-using MyBlog.ViewModels.Articles;
-using MyBlog.ViewModels.Users;
+using Contracts.Models.Articles;
+using Contracts.Models.Users;
+using Contracts.ViewModels.Articles;
+using Contracts.ViewModels.Users;
 
 namespace MyBlog;
 

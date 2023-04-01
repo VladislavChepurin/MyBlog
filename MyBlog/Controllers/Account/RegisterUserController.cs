@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MyBlog.Models.Users;
-using MyBlog.ViewModels.Users;
+using Contracts.Models.Users;
+using Contracts.ViewModels.Users;
 using NLog;
 using NLog.Web;
 

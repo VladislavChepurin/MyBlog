@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MyBlog.Models.Users;
-using MyBlog.Services.ControllerServices.Interface;
+using Contracts.Models.Users;
+using BissnesLibrary.ControllerServices.Interface;
 
 namespace MyBlog.Controllers.Account;
 

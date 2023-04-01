@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MyBlog.Services.ControllerServices.Interface;
-using MyBlog.ViewModels.Tegs;
+﻿using BissnesLibrary.ControllerServices.Interface;
+using Contracts.ViewModels.Tegs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
