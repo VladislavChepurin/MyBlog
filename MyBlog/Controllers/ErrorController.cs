@@ -15,6 +15,7 @@ namespace MyBlog.Controllers
             _logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpGet]
         [Route("Error")]
         public IActionResult Error()
@@ -25,14 +26,15 @@ namespace MyBlog.Controllers
             return View();
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpGet]
         [Route("Page404")]
         public IActionResult Page404()
         {
             string? originalPath = "unknown";
-            if (HttpContext.Items.ContainsKey("originalPath"))
+            if (HttpContext.Items.TryGetValue("originalPath", out object? value))
             {
-                originalPath = HttpContext.Items["originalPath"] as string;
+                originalPath = value as string;
             }
             _logger.Error("Был переход по несуществующей ссылке: {0}", originalPath);
             return View();

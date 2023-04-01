@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyBlog.Services.ControllerServices;
 using MyBlog.Services.ControllerServices.Interface;
 using MyBlog.ViewModels.Articles;
 using MyBlog.ViewModels.Comments;
@@ -17,8 +16,8 @@ public class CommentController : Controller
         _commentService = commentService;
     }
 
-    [Authorize]
     [ApiExplorerSettings(IgnoreApi = true)]
+    [Authorize]
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> Index()
     {
@@ -34,7 +33,7 @@ public class CommentController : Controller
         return View("~/Views/Article/View.cshtml", view);
     }
 
-
+    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpPost]
     [Route("/[controller]/[action]")]
     public async Task<ActionResult> Create(ArticleViewModel model)
@@ -48,6 +47,7 @@ public class CommentController : Controller
         return View("~/Views/Article/View.cshtml", view);
     }
 
+    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet]
     [Route("/[controller]/[action]")]
     public async Task<ActionResult> Update(Guid id)
@@ -56,6 +56,7 @@ public class CommentController : Controller
         return View(view);
     }
 
+    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpPost]
     [Route("/[controller]/[action]")]
     public async Task<ActionResult> Update(CommentUpdateViewModel model)
@@ -69,6 +70,7 @@ public class CommentController : Controller
         return View(view);
     }
 
+    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet]
     [Route("/[controller]/[action]")]
     public async Task<ActionResult> Delete(Guid id)

@@ -34,7 +34,7 @@ try
 
     services.AddScoped<IUnitOfWork, UnitOfWork>();
     services.AddScoped<IArticleService, ArticleService>();
-    services.AddScoped<ITegService, TegService>();
+    services.AddTransient<ITegService, TegService>();
     services.AddScoped<ICommentService, CommentService>();
     services.AddScoped<IAccountService, AccountService>();
     services.AddScoped<IEditService, EditService>();

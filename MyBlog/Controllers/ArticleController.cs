@@ -40,6 +40,7 @@ public class ArticleController : Controller
         return View(view);
     }
 
+    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpPost]
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> Create(AddArticleViewModel model, List<Guid> tegsCurrent)
@@ -53,6 +54,7 @@ public class ArticleController : Controller
         return View(view);
     }
 
+    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet]
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> Update(Guid id)
@@ -61,6 +63,7 @@ public class ArticleController : Controller
         return View(view);
     }
 
+    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpPost]
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> Update(ArticleUpdateViewModel model, List<Guid> tegsCurrent)
@@ -74,6 +77,7 @@ public class ArticleController : Controller
         return View(view);
     }
 
+    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet]
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> Delete(Guid id)
@@ -82,6 +86,7 @@ public class ArticleController : Controller
         return RedirectToAction("Index");
     }
 
+    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpPost]
     [Route("/[controller]/[action]")]
     public IActionResult ArticleByUser(User user)
@@ -90,6 +95,7 @@ public class ArticleController : Controller
         return View(view);
     }
 
+    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpPost]
     [Route("/[controller]/[action]")]
     public IActionResult ArticleById(Guid id)

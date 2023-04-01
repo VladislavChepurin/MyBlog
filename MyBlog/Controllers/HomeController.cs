@@ -28,6 +28,7 @@ public class HomeController : Controller
         return View(new LoginViewModel());
     }
 
+    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet]
     [Route("[action]")]
     public IActionResult Privacy()
