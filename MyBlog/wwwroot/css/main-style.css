@@ -126,3 +126,7 @@ code {
     display: flex;
     align-items: flex-end;
 }
+
+textarea {
+    white-space: pre-line;
+}

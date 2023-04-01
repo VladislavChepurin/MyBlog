@@ -16,7 +16,7 @@
                     <a asp-controller="Article" asp-action="View" asp-route-id="@item.Article?.Id">@item.Article?.Title</a>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">@item.Content</p>
+                    <p style="white-space: pre-line" class="card-text">@item.Content</p>
 
                     @if (ViewContext.HttpContext.User.IsInRole("Administrator") || ViewContext.HttpContext.User.IsInRole("Moderator") || item.User?.Id == Model.CurrentUser)
                     {
