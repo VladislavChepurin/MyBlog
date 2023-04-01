@@ -73,7 +73,7 @@ public class TegController : ControllerBase
     [Route("GetAllTegApi")]
     public IActionResult GetAllTeg()
     {
-        return StatusCode(200/*, _tegService.GetAllTeg()*/);
+        return StatusCode(200, _tegService.GetAllTeg());
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class TegController : ControllerBase
     [Route("GetTegByIdApi")]
     public IActionResult GetTegId(Guid id)
     {
-        //var teg = _tegService.GetTegId(id);
-        //if (teg != null)
-        //{
-            return StatusCode(200/*, _tegService.GetTegId(id)*/);
-        //}
-        //return StatusCode(404, "No such API end point");
+        var teg = _tegService.GetTegId(id);
+        if (teg != null)
+        {
+            return StatusCode(200, _tegService.GetTegId(id));
+        }
+        return StatusCode(404, "No such API end point");
     }
 }
