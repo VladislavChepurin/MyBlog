@@ -19,10 +19,10 @@ public class Comment
     {        
     }
 
-    public Comment(ArticleViewModel model, User user)
+    public Comment(Guid articleId, string content, User user)
     {
-        Content = model.CommentContent;
-        ArticleId = model.Article!.Id;
+        Content = content;
+        ArticleId = articleId;
         UserId = user?.Id;
     }
 }

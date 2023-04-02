@@ -3,6 +3,7 @@ using DataLibrary.Data.Repositiry;
 using Contracts.Models.Articles;
 using Contracts.Models.Comments;
 using Contracts.Models.Users;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DataLibrary.Data.Repository;
 
@@ -49,8 +50,33 @@ public class CommentRepository : Repository<Comment>
         return comment;
     }
 
+    public Comment GetCommentByIdApi(Guid id)
+    {
+        return Set.AsEnumerable().Select(u => new Comment
+        {
+            Id = u.Id,
+            Created = u.Created,
+            Updated = u.Updated,
+            Content = u.Content,
+            UserId = u.UserId,
+            ArticleId = u.ArticleId
+        }).FirstOrDefault(x => x?.Id == id);
+    }
+
     public List<Comment> GetAllComment()
     {       
         return Comments.Include(c => c.User).Include(c => c.Article).ToList();
-    }     
+    }
+
+    public List<Comment> GetAllCommentApi()
+    {
+        return Set.AsEnumerable().Select(u => new Comment {
+            Id = u.Id,
+            Created = u.Created,
+            Updated = u.Updated,
+            Content = u.Content,
+            UserId = u.UserId,
+            ArticleId = u.ArticleId
+        }).ToList();
+    }
 }

@@ -40,7 +40,7 @@ public class CommentController : Controller
     {     
         if (ModelState.IsValid)
         {
-            await _commentService.CreateComment(model);
+            await _commentService.CreateComment(model.Article!.Id, model.CommentContent!);
             return RedirectToAction("View", new { id = model.Article!.Id });
         }
         var view = await _commentService.GetArticleView(model.Article!.Id);

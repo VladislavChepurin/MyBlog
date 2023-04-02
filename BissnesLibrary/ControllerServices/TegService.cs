@@ -23,13 +23,13 @@ public class TegService : ITegService
         _userResolverService = userResolverService;
     }
 
-    public async Task CreateTeg(AddTegViewModel model)
+    public async Task CreateTeg(string content)
     {
         TegRepository?.CreateTeg(
-               new Teg(model.Content!));
+               new Teg(content));
         _unitOfWork.SaveChanges();
         var currentUser = await _userResolverService.GetUser();
-        _logger.Info("Пользователь {Email} создал тег {Teg}", currentUser?.Email, model.Content);
+        _logger.Info("Пользователь {Email} создал тег {Teg}", currentUser?.Email, content);
     }
 
     public async Task DeleteTeg(Guid id)
@@ -44,6 +44,11 @@ public class TegService : ITegService
     public List<Teg> GetAllTeg()
     {
         return TegRepository?.GetAllTeg()!;
+    }
+
+    public List<Teg> GetAllTegApi()
+    {
+        return TegRepository?.GetAllTegApi()!;
     }
 
     public async Task<TegViewModel> GetModelIndex()
@@ -67,13 +72,13 @@ public class TegService : ITegService
         return new TegUpdateViewModel(teg!);
     }
 
-    public async Task UpdateTeg(TegUpdateViewModel model)
+    public async Task UpdateTeg(Guid id, string content)
     {
-        var teg = TegRepository?.GetTegById(model.Id);
-        teg!.Content = model.Content;
+        var teg = TegRepository?.GetTegById(id);
+        teg!.Content = content;
         TegRepository?.UpdateTeg(teg);
         _unitOfWork.SaveChanges();
         var currentUser = await _userResolverService.GetUser();
-        _logger.Info("Пользователь {Email} изменил тег с индификатором {Id} с новое содержимое тега: {Content}", currentUser?.Email, model.Id, model?.Content);
+        _logger.Info("Пользователь {Email} изменил тег с индификатором {Id} с новое содержимое тега: {Content}", currentUser?.Email, id, content);
     }
 }

@@ -67,4 +67,9 @@ public class TegRepository: Repository<Teg>
     {
         return Tegs.Include(t => t.Articles).ToList();
     }
+
+    public List<Teg> GetAllTegApi()
+    {
+        return Tegs.ToList();
+    }
 }

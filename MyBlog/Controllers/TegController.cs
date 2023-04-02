@@ -38,7 +38,7 @@ public class TegController : Controller
     {      
         if (ModelState.IsValid)
         {
-            await _tegService.UpdateTeg(model);
+            await _tegService.UpdateTeg(model.Id, model.Content!);
             return RedirectToAction("Index");
         }
         var view = _tegService.UpdateTeg(model.Id);
@@ -56,7 +56,7 @@ public class TegController : Controller
     {
         if (ModelState.IsValid)
         {
-            await _tegService.CreateTeg(model);
+            await _tegService.CreateTeg(model.Content!);
             return RedirectToAction("Index");
         }
         return View(new AddTegViewModel(model.Content!));       

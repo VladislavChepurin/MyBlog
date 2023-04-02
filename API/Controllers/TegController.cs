@@ -1,5 +1,7 @@
 ﻿using BissnesLibrary.ControllerServices.Interface;
+using Contracts.ApiModels.Teg;
 using Contracts.ViewModels.Tegs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -22,13 +24,14 @@ public class TegController : ControllerBase
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
+    [Authorize]
     [HttpPost]
-    [Route("CreateTegApi")]
-    public async Task<IActionResult> Create([FromBody] AddTegViewModel model)
+    [Route("CreateTeg")]
+    public async Task<IActionResult> Create([FromBody] AddTegApi model)
     {
         if (ModelState.IsValid)
         {
-            //await _tegService.CreateTeg(model);
+            await _tegService.CreateTeg(model.Content!);
             return StatusCode(201, $"Teg {model.Content} added!");
         }
         return StatusCode(403, "The server cannot or will not process the request due to something that is perceived to be a client error");
@@ -39,13 +42,14 @@ public class TegController : ControllerBase
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
+    [Authorize(Roles = "Administrator, Moderator")]
     [HttpPut]
-    [Route("UpdateTegApi")]
-    public async Task<IActionResult> Update([FromBody] TegUpdateViewModel model)
+    [Route("UpdateTeg")]
+    public async Task<IActionResult> Update([FromBody] UpdateTegApi model)
     {
         if (ModelState.IsValid)
         {
-            //await _tegService.UpdateTeg(model);
+            await _tegService.UpdateTeg(model.Id, model.Content!);
             return StatusCode(200, $"Teg {model.Id} updated!");
         }
         return StatusCode(403, "The server cannot or will not process the request due to something that is perceived to be a client error");
@@ -56,24 +60,25 @@ public class TegController : ControllerBase
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
+    [Authorize(Roles = "Administrator, Moderator")]
     [HttpDelete]
-    [Route("DeleteTegApi")]
+    [Route("DeleteTeg")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        //await _tegService.DeleteTeg(id);
+        await _tegService.DeleteTeg(id);
         return StatusCode(200, $"Teg {id} deleted!");
     }
-
 
     /// <summary>
     /// Get all teg in collection
     /// </summary>
     /// <returns></returns>
+    [Authorize]
     [HttpGet]
-    [Route("GetAllTegApi")]
+    [Route("GetAllTeg")]
     public IActionResult GetAllTeg()
     {
-        return StatusCode(200, _tegService.GetAllTeg());
+        return StatusCode(200, _tegService.GetAllTegApi());
     }
 
     /// <summary>
@@ -81,8 +86,9 @@ public class TegController : ControllerBase
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
+    [Authorize]
     [HttpGet]
-    [Route("GetTegByIdApi")]
+    [Route("GetTegById")]
     public IActionResult GetTegId(Guid id)
     {
         var teg = _tegService.GetTegId(id);

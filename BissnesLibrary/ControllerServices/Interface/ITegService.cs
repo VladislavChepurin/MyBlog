@@ -9,13 +9,15 @@ public interface ITegService
 
     Task<TegUpdateViewModel> UpdateTeg(Guid id);
 
-    Task UpdateTeg(TegUpdateViewModel model);
+    Task UpdateTeg(Guid id, string content);
 
-    Task CreateTeg(AddTegViewModel model);
+    Task CreateTeg(string content);
 
     Task DeleteTeg(Guid id);
 
     List<Teg> GetAllTeg();
+
+    List<Teg> GetAllTegApi();
 
     Teg GetTegId(Guid id);
 }

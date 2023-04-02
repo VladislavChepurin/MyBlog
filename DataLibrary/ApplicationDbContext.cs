@@ -15,10 +15,10 @@ public class ApplicationDbContext : IdentityDbContext<User>
         Database.EnsureCreated();     
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlite(@"Data Source =.\\Data\\SQlLiteDatabase.db");
-    }
+    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //{
+    //    optionsBuilder.UseSqlite(@"Data Source =.\\Data\\SQlLiteDatabase.db");
+    //}
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
