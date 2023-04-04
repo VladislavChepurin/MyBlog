@@ -14,13 +14,13 @@ namespace BissnesLibrary.ControllerServices.Interface
 
         Task<AddArticleViewModel> GetAddArticleView();
 
-        Task CreateArticle(AddArticleViewModel article, List<Guid> tegsCurrent);
+        Task CreateArticle(AddArticleViewModel model, List<Guid>? tegsCurrent);
 
         Task DeleteArticle(Guid id);
 
         Task<ArticleUpdateViewModel> UpdateArticle(Guid id);
 
-        Task UpdateArticle(ArticleUpdateViewModel model, List<Guid> tegsCurrent);
+        Task UpdateArticle(ArticleUpdateViewModel model, List<Guid>? tegsCurrent);
 
         List<Article> GetArticleByUser(User user);
 

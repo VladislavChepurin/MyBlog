@@ -17,4 +17,15 @@ public class Article
     public List<Comment>? Comments { get; set; }
     public List<Teg>? Tegs { get; set; }
 
+    public Article()
+    {
+        
+    }
+
+    public Article(string? title, string? content)
+    {
+        Title = title;
+        Content = content;
+    }
+
 }

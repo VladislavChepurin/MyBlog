@@ -19,11 +19,11 @@ namespace BissnesLibrary.ControllerServices.Interface
 
         Task<ArticleViewModel> GetArticleView(Guid id);
 
-        List<Comment> GetAllCommentApi();
+        List<Comment> GetAllComment();
 
-        Comment GetCommentByIdApi(Guid id);
+        Comment GetCommentById(Guid id);
 
-        Task<Comment> GetCommentByArticle(Article article);
+        List<Comment> GetCommentByArticle(Guid id);
 
     }
 }

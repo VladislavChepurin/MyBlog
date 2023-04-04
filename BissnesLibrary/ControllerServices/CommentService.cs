@@ -82,22 +82,23 @@ public class CommentService : ICommentService
         var article = ArticleRepository?.GetArticleById(id);
         var currentUser = await _userResolverService.GetUser();
         var model = new ArticleViewModel(article, currentUser!);
-        model.CurrentUser = currentUser?.Id;        
+        //model.CurrentUser = currentUser?.Id;        
         return model;
     }
 
-    public  List<Comment> GetAllCommentApi()
+    public  List<Comment> GetAllComment()
     {   
-        return CommentRepository!.GetAllCommentApi();
+        return CommentRepository!.GetAllComment();
     }
 
-    public Comment GetCommentByIdApi(Guid id)
+    public Comment GetCommentById(Guid id)
     {
-        return CommentRepository!.GetCommentByIdApi(id);
+        return CommentRepository!.GetCommentById(id);
     }
 
-    public Task<Comment> GetCommentByArticle(Article article)
+    public List<Comment> GetCommentByArticle(Guid id)
     {
-        throw new NotImplementedException();
+        var article = ArticleRepository?.GetArticleById(id);
+        return CommentRepository!.GetCommentByArticle(article);
     }
 }

@@ -13,6 +13,8 @@ using DataLibrary.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyBlog.Extentions;
+using AutoMapper;
+using MyBlog;
 
 namespace API;
 
@@ -26,7 +28,7 @@ public class Program
 
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-       // services.AddScoped<IArticleService, ArticleService>();
+        services.AddScoped<IArticleService, ArticleService>();
         services.AddScoped<ITegService, TegService>();
         services.AddScoped<ICommentService, CommentService>();
         services.AddScoped<IAccountService, AccountService>();
@@ -51,6 +53,13 @@ public class Program
                 opts.Password.RequireDigit = false;
             })
             .AddEntityFrameworkStores<ApplicationDbContext>();
+
+        var mapperConfig = new MapperConfiguration((v) =>
+        {
+            v.AddProfile(new MappingProfile());
+        });
+        IMapper mapper = mapperConfig.CreateMapper();
+        services.AddSingleton(mapper);
 
         // Add services to the container.
 

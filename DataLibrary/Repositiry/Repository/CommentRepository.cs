@@ -33,7 +33,6 @@ public class CommentRepository : Repository<Comment>
     }
     public List<Comment> GetCommentByArticle(Article article)
     {
-
         var comments = Set.AsEnumerable().Where(x => x?.ArticleId == article.Id);
         return comments.ToList();
     }
@@ -49,34 +48,10 @@ public class CommentRepository : Repository<Comment>
         var comment = Set.AsEnumerable().FirstOrDefault(x => x?.Id == id);
         return comment;
     }
-
-    public Comment GetCommentByIdApi(Guid id)
-    {
-        return Set.AsEnumerable().Select(u => new Comment
-        {
-            Id = u.Id,
-            Created = u.Created,
-            Updated = u.Updated,
-            Content = u.Content,
-            UserId = u.UserId,
-            ArticleId = u.ArticleId
-        }).FirstOrDefault(x => x?.Id == id);
-    }
-
+       
     public List<Comment> GetAllComment()
     {       
         return Comments.Include(c => c.User).Include(c => c.Article).ToList();
     }
-
-    public List<Comment> GetAllCommentApi()
-    {
-        return Set.AsEnumerable().Select(u => new Comment {
-            Id = u.Id,
-            Created = u.Created,
-            Updated = u.Updated,
-            Content = u.Content,
-            UserId = u.UserId,
-            ArticleId = u.ArticleId
-        }).ToList();
-    }
+   
 }

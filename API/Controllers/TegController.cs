@@ -1,6 +1,5 @@
 ﻿using BissnesLibrary.ControllerServices.Interface;
-using Contracts.ApiModels.Teg;
-using Contracts.ViewModels.Tegs;
+using Contracts.ApiModels.Tegs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,6 +1,6 @@
-﻿using BissnesLibrary.ControllerServices;
-using BissnesLibrary.ControllerServices.Interface;
+﻿using BissnesLibrary.ControllerServices.Interface;
 using Contracts.ApiModels.Comment;
+using Contracts.Models.Comments;
 using Contracts.ViewModels.Comments;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -74,8 +74,18 @@ public class CommentController : ControllerBase
     [HttpGet]
     [Route("GetAllComment")]
     public IActionResult GetAllComment()
-    {  
-        return StatusCode(200, _commentService.GetAllCommentApi());
+    {
+        var model = _commentService.GetAllComment()
+            .Select(u => new Comment
+            {
+                Id = u.Id,
+                Created = u.Created,
+                Updated = u.Updated,
+                Content = u.Content,
+                UserId = u.UserId,
+                ArticleId = u.ArticleId
+            });
+        return StatusCode(200, model);
     }
 
     /// <summary>
@@ -87,7 +97,10 @@ public class CommentController : ControllerBase
     [Route("GetCommentById")]
     public IActionResult GetCommentId(Guid id)
     {
-        var comment = _commentService.GetCommentByIdApi(id);
+        var comment = _commentService.GetCommentById(id);
+        comment.Article = null;
+        comment.User = null;
+
         if (comment != null)
         {
             return StatusCode(200, comment);
@@ -95,20 +108,24 @@ public class CommentController : ControllerBase
         return StatusCode(404, "No such API end point");
     }
 
-    //[HttpGet]
-    //[Route("GetTegById")]
-    //public IActionResult GetTegId(Guid id)
-    //{
-    //    var teg = _tegService.GetTegId(id);
-    //    if (teg != null)
-    //    {
-    //        return StatusCode(200, _tegService.GetTegId(id));
-    //    }
-    //    return StatusCode(404, "No such API end point");
-    //}
-
-
-
-
-
+    [HttpGet]
+    [Route("GetСommentByArticle")]
+    public IActionResult GetTegId(Guid id)
+    {
+        var comment = _commentService.GetCommentByArticle(id)
+             .Select(u => new Comment
+             {
+                 Id = u.Id,
+                 Created = u.Created,
+                 Updated = u.Updated,
+                 Content = u.Content,
+                 UserId = u.UserId,
+                 ArticleId = u.ArticleId
+             });
+        if (comment != null)
+        {
+            return StatusCode(200, comment);
+        }
+        return StatusCode(404, "No such API end point");
+    }
 }

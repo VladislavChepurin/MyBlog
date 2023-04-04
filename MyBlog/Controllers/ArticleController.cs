@@ -43,7 +43,7 @@ public class ArticleController : Controller
     [ApiExplorerSettings(IgnoreApi = true)]
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public async Task<IActionResult> Create(AddArticleViewModel model, List<Guid> tegsCurrent)
+    public async Task<IActionResult> Create(AddArticleViewModel model, List<Guid>? tegsCurrent)
     {       
         if (ModelState.IsValid)
         {
