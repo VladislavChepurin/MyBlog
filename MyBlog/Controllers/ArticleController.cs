@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Contracts.Models.Users;
 using BissnesLibrary.ControllerServices.Interface;
 using Contracts.ViewModels.Articles;
+using Contracts.Models.Articles;
+using AutoMapper;
 
 namespace MyBlog.Controllers;
 
@@ -10,9 +12,12 @@ namespace MyBlog.Controllers;
 public class ArticleController : Controller
 {
     private readonly IArticleService _articleService;
-    public ArticleController(IArticleService articleService)
+    private readonly IMapper _mapper;
+
+    public ArticleController(IArticleService articleService, IMapper mapper)
     {
         _articleService = articleService;
+        _mapper = mapper;
     }
 
     [Authorize]
@@ -47,7 +52,8 @@ public class ArticleController : Controller
     {       
         if (ModelState.IsValid)
         {
-            await _articleService.CreateArticle(model, tegsCurrent);
+            var article = _mapper.Map<Article>(model);
+            await _articleService.CreateArticle(article, tegsCurrent);
             return RedirectToAction("Index");
         }
         var view = await _articleService.GetAddArticleView(model);

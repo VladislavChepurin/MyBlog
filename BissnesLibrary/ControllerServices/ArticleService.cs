@@ -68,9 +68,8 @@ public class ArticleService : IArticleService
         return new AddArticleViewModel(tegs);
     }
 
-    public async Task CreateArticle(AddArticleViewModel model, List<Guid>? tegsCurrent)
-    {
-        var article = _mapper.Map<Article>(model);
+    public async Task CreateArticle(Article article, List<Guid>? tegsCurrent)
+    {        
         var currentUser = await _userResolverService.GetUser();
         article.UserId = currentUser?.Id;
         ArticleRepository?.CreateArticle(article);
@@ -78,18 +77,6 @@ public class ArticleService : IArticleService
         _unitOfWork.SaveChanges();
         _logger.Info("Пользователь {Email} создал статью с заголовком {Title}", currentUser?.Email, article.Title);
     }
-
-
-    //public async Task CreateArticle(string? title, string? content, List<Guid>? tegsCurrent)
-    //{
-    //    var article = new Article(title, content);
-    //    var currentUser = await _userResolverService.GetUser();
-    //    article.UserId = currentUser?.Id;
-    //    ArticleRepository?.CreateArticle(article);
-    //    TegRepository?.AddTegInArticles(article, tegsCurrent);
-    //    _unitOfWork.SaveChanges();
-    //    _logger.Info("Пользователь {Email} создал статью с заголовком {Title}", currentUser?.Email, article.Title);
-    //}
 
     public async Task DeleteArticle(Guid id)
     {
