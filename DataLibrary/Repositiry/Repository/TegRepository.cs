@@ -41,7 +41,7 @@ public class TegRepository: Repository<Teg>
         {
             tegsCurrent.Add(GetTegById(id));
         }
-        article?.Tegs?.AddRange(tegsCurrent);
+        article?.Tegs?.AddRange(tegsCurrent);    
     }
 
     public void DeleteTegInArticle(Article article, List<Guid> teg)

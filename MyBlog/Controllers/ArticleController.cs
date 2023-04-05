@@ -9,6 +9,7 @@ using AutoMapper;
 namespace MyBlog.Controllers;
 
 [Authorize]
+[ApiExplorerSettings(IgnoreApi = true)]
 public class ArticleController : Controller
 {
     private readonly IArticleService _articleService;
@@ -20,8 +21,7 @@ public class ArticleController : Controller
         _mapper = mapper;
     }
 
-    [Authorize]
-    [ApiExplorerSettings(IgnoreApi = true)]
+
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> Index()
     {
@@ -29,7 +29,6 @@ public class ArticleController : Controller
         return View(view);
     }
 
-    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> View(Guid id)
     {            
@@ -37,7 +36,6 @@ public class ArticleController : Controller
         return View(view);
     }
 
-    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> Create()
     {
@@ -45,7 +43,6 @@ public class ArticleController : Controller
         return View(view);
     }
 
-    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpPost]
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> Create(AddArticleViewModel model, List<Guid>? tegsCurrent)
@@ -60,7 +57,6 @@ public class ArticleController : Controller
         return View(view);
     }
 
-    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet]
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> Update(Guid id)
@@ -69,21 +65,19 @@ public class ArticleController : Controller
         return View(view);
     }
 
-    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpPost]
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> Update(ArticleUpdateViewModel model, List<Guid> tegsCurrent)
     {      
         if (ModelState.IsValid)
-        {
-            await _articleService.UpdateArticle(model, tegsCurrent); 
+        {           
+            await _articleService.UpdateArticle(model.Id, model.Title, model.Content, tegsCurrent); 
             return RedirectToAction("Index");
         }
         var view = await _articleService.UpdateArticle(model.Id);
         return View(view);
     }
 
-    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet]
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> Delete(Guid id)
@@ -92,7 +86,6 @@ public class ArticleController : Controller
         return RedirectToAction("Index");
     }
 
-    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpPost]
     [Route("/[controller]/[action]")]
     public IActionResult ArticleByUser(User user)
@@ -101,7 +94,6 @@ public class ArticleController : Controller
         return View(view);
     }
 
-    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpPost]
     [Route("/[controller]/[action]")]
     public IActionResult ArticleById(Guid id)

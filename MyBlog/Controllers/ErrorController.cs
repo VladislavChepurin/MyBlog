@@ -3,41 +3,38 @@ using Microsoft.AspNetCore.Mvc;
 using NLog;
 using NLog.Web;
 
-namespace MyBlog.Controllers
+namespace MyBlog.Controllers;
+
+[ApiExplorerSettings(IgnoreApi = true)]
+public class ErrorController : Controller
 {
-    public class ErrorController : Controller
+    private readonly Logger _logger;
+
+    public ErrorController()
     {
+        _logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+    }
 
-        private readonly Logger _logger;
+    [HttpGet]
+    [Route("Error")]
+    public IActionResult Error()
+    {
+        var context = HttpContext.Features.Get<IExceptionHandlerFeature>();
+        var exception = context?.Error; // Your exception
+        _logger.Error(exception);            
+        return View();
+    }
 
-        public ErrorController()
+    [HttpGet]
+    [Route("Page404")]
+    public IActionResult Page404()
+    {
+        string? originalPath = "unknown";
+        if (HttpContext.Items.TryGetValue("originalPath", out object? value))
         {
-            _logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+            originalPath = value as string;
         }
-
-        [ApiExplorerSettings(IgnoreApi = true)]
-        [HttpGet]
-        [Route("Error")]
-        public IActionResult Error()
-        {
-            var context = HttpContext.Features.Get<IExceptionHandlerFeature>();
-            var exception = context?.Error; // Your exception
-            _logger.Error(exception);            
-            return View();
-        }
-
-        [ApiExplorerSettings(IgnoreApi = true)]
-        [HttpGet]
-        [Route("Page404")]
-        public IActionResult Page404()
-        {
-            string? originalPath = "unknown";
-            if (HttpContext.Items.TryGetValue("originalPath", out object? value))
-            {
-                originalPath = value as string;
-            }
-            _logger.Error("Был переход по несуществующей ссылке: {0}", originalPath);
-            return View();
-        }
+        _logger.Error("Был переход по несуществующей ссылке: {0}", originalPath);
+        return View();
     }
 }

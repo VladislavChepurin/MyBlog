@@ -68,12 +68,30 @@ public class ArticleService : IArticleService
         return new AddArticleViewModel(tegs);
     }
 
+// Коротко как работает создание статей:
+//    ⠀⠀⠀ ⡠⠊⣦⠀⠀⠀⠀⠀⠀⠀⠀⢴⠑⢄⠀⠀⠀⠀⠀⠀⠀⠀
+//⠀⠀⠀⠀⢀⣠⠔⢋⡤⢫⡳⡀⠀⠀⠀⠀⠀⠀⢀⠞⡽⢤⡙⠢⣄⡀⠀⠀⠀⠀
+//⠀⠀⠀⢎⣩⢤⠚⠁⠀⠀⠱⡝⢄⠀⠀⠀⠀⣠⢋⠞⠀⠀⠈⠓⡤⣍⣱⠀⠀⠀
+//⠀⠀⠀⠀⠉⢣⠳⡀⠀⠀⠀⠘⢎⢣⡀⢀⡔⡱⠃⠀⠀⠀⢀⠞⡔⠉⠀⠀⠀⠀
+//⠀⠀⠀⠀⠀⠀⠳⡙⣄⠀⢀⡠⢞⣳⣱⢎⣞⡳⢄⡀⠀⢠⢋⠞⠀⠀⠀⠀⠀⠀
+//⠀⠀⠀⠀⠀⠀⠀⠙⣌⣖⡩⠖⠉⢀⠏⡾⡀⠉⠲⢍⣲⢣⠋⠀⠀⠀⠀⠀⠀⠀
+//⠀⠀⠀⠀⠀⠀⠀⠀⠈⢮⠣⡀⠀⢸⡸⣇⡇⠀⢀⠜⡵⠁⠀⠀⠀⠀⠀⠀⠀⠀
+//⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠬⣓⣒⡇⣉⣒⣚⡥⠊⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+//⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠞⡴⢣⠳⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+//⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⢋⠞⠀⠀⠱⡙⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+//⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡴⣡⠋⠀⠀⠀⠀⠙⣌⢦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+//⠀⠀⠀⠀⠀⠀⠀⢀⡔⢉⣒⡇⠀⠀⠀⠀⠀⠀⠸⣒⡉⠣⡀⠀⠀⠀⠀⠀⠀⠀
+//⠀⠀⠀⠀⠀⠀⠀⠸⢄⣚⠎⠀⠀⠀⠀⠀⠀⠀⠀⠱⣑⡠⠏⠀⠀⠀⠀⠀⠀⠀
     public async Task CreateArticle(Article article, List<Guid>? tegsCurrent)
     {        
         var currentUser = await _userResolverService.GetUser();
         article.UserId = currentUser?.Id;
         ArticleRepository?.CreateArticle(article);
-        TegRepository?.AddTegInArticles(article, tegsCurrent);
+        _unitOfWork.SaveChanges();
+        //Иначе в API модель статьи не попадает в контекст и не добавляются теги.
+        //Анекдот в том, что в основном проекте такой проблемы нет и костыли не требуются, скорее всего в контекст появляется на стадии View модель.
+        var crutch = ArticleRepository?.GetArticleById(article.Id);
+        TegRepository?.AddTegInArticles(crutch, tegsCurrent);
         _unitOfWork.SaveChanges();
         _logger.Info("Пользователь {Email} создал статью с заголовком {Title}", currentUser?.Email, article.Title);
     }
@@ -97,17 +115,17 @@ public class ArticleService : IArticleService
         return model;
     }
 
-    public async Task UpdateArticle(ArticleUpdateViewModel model, List<Guid>? tegsCurrent)
+    public async Task UpdateArticle(Guid id, string? title, string? content, List<Guid>? tegsCurrent)
     {
-        var article = ArticleRepository?.GetArticleById(model.Id);
-        article!.Content = model.Content;
-        article.Title = model.Title;
+        var article = ArticleRepository?.GetArticleById(id);
+        article!.Content = content;
+        article.Title = title;
         ArticleRepository?.UpdateArticle(article);
         TegRepository?.UpdateTegsInArticles(article, tegsCurrent);
         _unitOfWork.SaveChanges();
 
         var currentUser = await _userResolverService.GetUser();
-        _logger.Info("Пользователь {Email} изменил статью с индификатором {Id} заголовком {Title}", currentUser?.Email, model.Id, article?.Title);
+        _logger.Info("Пользователь {Email} изменил статью с индификатором {Id} заголовком {Title}", currentUser?.Email, id, article?.Title);
     }
 
     public List<Article> GetArticleByUser(User user)

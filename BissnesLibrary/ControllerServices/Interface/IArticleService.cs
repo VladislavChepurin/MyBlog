@@ -20,7 +20,7 @@ namespace BissnesLibrary.ControllerServices.Interface
 
         Task<ArticleUpdateViewModel> UpdateArticle(Guid id);
 
-        Task UpdateArticle(ArticleUpdateViewModel model, List<Guid>? tegsCurrent);
+        Task UpdateArticle(Guid id, string? title, string? content, List<Guid>? tegsCurrent);
 
         List<Article> GetArticleByUser(User user);
 

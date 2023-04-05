@@ -6,6 +6,7 @@ using BissnesLibrary.ControllerServices.Interface;
 namespace MyBlog.Controllers;
 
 [Authorize]
+[ApiExplorerSettings(IgnoreApi = true)]
 public class TegController : Controller
 {
     private readonly ITegService _tegService;
@@ -15,7 +16,6 @@ public class TegController : Controller
         _tegService = tegService;
     }
 
-    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> Index()
     {       
@@ -31,7 +31,6 @@ public class TegController : Controller
         return View(view);
     }
 
-    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpPost]
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> Update(TegUpdateViewModel model)
@@ -45,11 +44,9 @@ public class TegController : Controller
         return View(view);
     }
 
-    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet]
     public IActionResult Create() => View(new AddTegViewModel());
 
-    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpPost]
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> Create(AddTegViewModel model)
@@ -62,7 +59,6 @@ public class TegController : Controller
         return View(new AddTegViewModel(model.Content!));       
     }
 
-    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet]
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> Delete(Guid id)
@@ -71,7 +67,6 @@ public class TegController : Controller
         return RedirectToAction("Index");
     }
 
-    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet]
     [Route("/[controller]/[action]")]
     public ActionResult GetAllTeg()
@@ -80,7 +75,6 @@ public class TegController : Controller
         return View(view);
     }
 
-    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet]
     [Route("/[controller]/[action]")]
     public ActionResult GetTegId(Guid id)

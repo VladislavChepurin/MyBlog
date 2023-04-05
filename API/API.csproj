@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BissnesLibrary\BissnesLibrary.csproj" />
-    <ProjectReference Include="..\DataLibrary\DataLibrary.csproj" />
   </ItemGroup>
 
 </Project>

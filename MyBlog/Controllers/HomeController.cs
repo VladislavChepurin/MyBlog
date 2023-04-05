@@ -7,6 +7,7 @@ using Contracts.Models.Users;
 
 namespace MyBlog.Controllers;
 
+[ApiExplorerSettings(IgnoreApi = true)]
 public class HomeController : Controller
 {
     private readonly SignInManager<User> _signInManager;
@@ -16,7 +17,6 @@ public class HomeController : Controller
         _signInManager = signInManager;
     }
 
-    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("")]
     [Route("[controller]/[action]")]
     public IActionResult Index()
@@ -28,7 +28,6 @@ public class HomeController : Controller
         return View(new LoginViewModel());
     }
 
-    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet]
     [Route("[action]")]
     public IActionResult Privacy()
