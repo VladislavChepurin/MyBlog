@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using API.Extentions;
+using AutoMapper;
 using BissnesLibrary.ControllerServices.Interface;
 using Contracts.ApiModels.Article;
 using Contracts.Models.Articles;
@@ -23,7 +24,7 @@ public class ArticleController : ControllerBase
     }
 
     /// <summary>
-    /// Create article
+    /// Создание новой статьи через Api
     /// </summary>
     /// <param name="create"></param>
     /// <returns></returns>
@@ -41,7 +42,7 @@ public class ArticleController : ControllerBase
     }
 
     /// <summary>
-    /// Update article
+    /// Изменение статьи через Api
     /// </summary>
     /// <param name="model"></param>
     /// <param name="tegsCurrent"></param>
@@ -59,7 +60,7 @@ public class ArticleController : ControllerBase
     }
 
     /// <summary>
-    /// Delete article
+    /// Удаление статьи через Api
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
@@ -71,5 +72,53 @@ public class ArticleController : ControllerBase
         return StatusCode(200, $"Article {id} deleted!");
     }
 
+    /// <summary>
+    /// Получение статьи через id статьи
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet]
+    [Route("GetArticleById")]
+    public IActionResult GetArticle(Guid id)
+    {
+        var model = _articleService.GetArticleById(id);      
 
+        if (model != null)
+        {
+            model.Comments = null;
+            model.User = null;
+            model.Tegs = null;           
+            return StatusCode(200, model);
+        }
+        return StatusCode(404, "No such API end point");
+    }
+
+    /// <summary>
+    /// Получение всех статей пользователя через его id
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    [HttpGet]
+    [Route("ArticleByUserId")]
+    public async Task<IActionResult> ArticleByUserId(string userId)
+    {
+        var model = await _articleService.GetArticleByUser(userId);
+        if (model != null)
+        {
+            return StatusCode(200, model.TrimModelAtrticle());
+        }    
+        return StatusCode(404, "No such API end point");
+    }
+
+    /// <summary>
+    /// Получение всех статей
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet]
+    [Route("GetAllArticle")]
+    public IActionResult GetAllArticle()
+    {
+        var model = _articleService.GetAllArticles();
+        return StatusCode(200, model.TrimModelAtrticle());
+    }
 }

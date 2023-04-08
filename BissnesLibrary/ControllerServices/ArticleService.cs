@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
-using DataLibrary.Data.Repository;
-using DataLibrary.Data.UoW;
-using Contracts.Models.Articles;
-using Contracts.Models.Tegs;
-using Contracts.Models.Users;
 using BissnesLibrary.ContextServices.Interface;
 using BissnesLibrary.ControllerServices.Interface;
+using Contracts.Models.Articles;
+using Contracts.Models.Tegs;
 using Contracts.ViewModels.Articles;
+using DataLibrary.Data.Repository;
+using DataLibrary.Data.UoW;
 using NLog;
 
 namespace BissnesLibrary.ControllerServices;
@@ -33,8 +32,7 @@ public class ArticleService : IArticleService
     public async Task<AllArticlesViewModel> GetModelIndex()
     {
         var currentUser = await _userResolverService.GetUser();
-        var allArticles = ArticleRepository!.GetAllArticle();
-        var model = new AllArticlesViewModel(allArticles, currentUser);       
+        var model = new AllArticlesViewModel(GetAllArticles(), currentUser);       
         _logger.Info("Пользователь {Email} открыл страницу со списком статей", currentUser?.Email);
         return model;
     }
@@ -121,20 +119,31 @@ public class ArticleService : IArticleService
         article!.Content = content;
         article.Title = title;
         ArticleRepository?.UpdateArticle(article);
-        TegRepository?.UpdateTegsInArticles(article, tegsCurrent);
+        TegRepository?.UpdateTegsInArticles(article, tegsCurrent!);
         _unitOfWork.SaveChanges();
 
         var currentUser = await _userResolverService.GetUser();
         _logger.Info("Пользователь {Email} изменил статью с индификатором {Id} заголовком {Title}", currentUser?.Email, id, article?.Title);
     }
 
-    public List<Article> GetArticleByUser(User user)
+    public async Task<List<Article>> GetArticleByUser(string userId)
     {
-        return ArticleRepository?.GetArticleByUser(user)!;
+        var user = await _userResolverService.GetUserById(userId);
+
+        if (user != null)
+            return ArticleRepository?.GetArticleByUser(user)!;
+        return null!;
     }
 
     public Article GetArticleById(Guid id)
     {
         return ArticleRepository?.GetArticleById(id)!;
     }
+
+    public List<Article> GetAllArticles()
+    {
+        var allArticles = ArticleRepository!.GetAllArticle();
+        return allArticles;
+    }
+
 }

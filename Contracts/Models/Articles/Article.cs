@@ -18,8 +18,7 @@ public class Article
     public List<Teg>? Tegs { get; set; }
 
     public Article()
-    {
-        
+    {        
     }
 
     public Article(string? title, string? content)

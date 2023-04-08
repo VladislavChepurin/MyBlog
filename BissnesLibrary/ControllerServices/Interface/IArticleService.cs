@@ -22,10 +22,10 @@ namespace BissnesLibrary.ControllerServices.Interface
 
         Task UpdateArticle(Guid id, string? title, string? content, List<Guid>? tegsCurrent);
 
-        List<Article> GetArticleByUser(User user);
+        Task<List<Article>> GetArticleByUser(string userId);
 
         Article GetArticleById(Guid id);
+
+        List<Article> GetAllArticles();
     }
 }
-
-

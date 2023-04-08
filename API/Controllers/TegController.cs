@@ -1,5 +1,6 @@
 ﻿using BissnesLibrary.ControllerServices.Interface;
 using Contracts.ApiModels.Tegs;
+using Contracts.Models.Tegs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,7 @@ public class TegController : ControllerBase
     }
 
     /// <summary>
-    /// Create new teg
+    /// Создание нового тега через Api
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -37,7 +38,7 @@ public class TegController : ControllerBase
     }
 
     /// <summary>
-    /// Update teg
+    /// Изменение тега через Api
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -55,7 +56,7 @@ public class TegController : ControllerBase
     }
 
     /// <summary>
-    /// Delete teg by Id
+    /// Удаление тега через Api
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
@@ -69,7 +70,7 @@ public class TegController : ControllerBase
     }
 
     /// <summary>
-    /// Get all teg in collection
+    /// Получение всех тегов
     /// </summary>
     /// <returns></returns>
     [Authorize]
@@ -77,11 +78,16 @@ public class TegController : ControllerBase
     [Route("GetAllTeg")]
     public IActionResult GetAllTeg()
     {
-        return StatusCode(200, _tegService.GetAllTegApi());
+        var model = _tegService.GetAllTeg().Select(t => new Teg
+        {
+            Id = t.Id,
+            Content = t.Content
+        });        
+        return StatusCode(200, model);
     }
 
     /// <summary>
-    /// Get teg by Id
+    /// Получение тега по его Api
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
@@ -94,6 +100,24 @@ public class TegController : ControllerBase
         if (teg != null)
         {
             return StatusCode(200, _tegService.GetTegId(id));
+        }
+        return StatusCode(404, "No such API end point");
+    }
+
+    /// <summary>
+    /// Получение списка тегов к определенной статье через id статьи
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [Authorize]
+    [HttpGet]
+    [Route("GetTegByArticleId")]
+    public IActionResult GetTegArticle(Guid id)
+    {
+        var teg = _tegService.GetTegByArticle(id);
+        if (teg != null)
+        {
+            return StatusCode(200, teg);
         }
         return StatusCode(404, "No such API end point");
     }

@@ -15,9 +15,10 @@ public interface ITegService
 
     Task DeleteTeg(Guid id);
 
-    List<Teg> GetAllTeg();
-
-    List<Teg> GetAllTegApi();
+    List<Teg> GetAllTeg(); 
 
     Teg GetTegId(Guid id);
+
+    List<Teg> GetTegByArticle(Guid idArticle);
+
 }

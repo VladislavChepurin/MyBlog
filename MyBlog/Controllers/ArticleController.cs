@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Contracts.Models.Users;
+﻿using AutoMapper;
+using BissnesLibrary.ContextServices.Interface;
 using BissnesLibrary.ControllerServices.Interface;
-using Contracts.ViewModels.Articles;
 using Contracts.Models.Articles;
-using AutoMapper;
+using Contracts.ViewModels.Articles;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MyBlog.Controllers;
 
@@ -14,6 +14,7 @@ public class ArticleController : Controller
 {
     private readonly IArticleService _articleService;
     private readonly IMapper _mapper;
+
 
     public ArticleController(IArticleService articleService, IMapper mapper)
     {
@@ -88,9 +89,9 @@ public class ArticleController : Controller
 
     [HttpPost]
     [Route("/[controller]/[action]")]
-    public IActionResult ArticleByUser(User user)
-    {
-        var view = _articleService.GetArticleByUser(user);
+    public async Task<IActionResult> ArticleByUserId(string userId)
+    {        
+        var view = await _articleService.GetArticleByUser(userId);
         return View(view);
     }
 

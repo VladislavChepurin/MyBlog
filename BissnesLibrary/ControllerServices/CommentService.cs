@@ -99,6 +99,9 @@ public class CommentService : ICommentService
     public List<Comment> GetCommentByArticle(Guid id)
     {
         var article = ArticleRepository?.GetArticleById(id);
-        return CommentRepository!.GetCommentByArticle(article);
+
+        if (article != null)
+            return CommentRepository!.GetCommentByArticle(article);
+        return null!;
     }
 }

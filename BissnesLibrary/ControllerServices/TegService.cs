@@ -35,7 +35,7 @@ public class TegService : ITegService
     public async Task DeleteTeg(Guid id)
     {
         var teg = TegRepository?.GetTegById(id);
-        TegRepository?.DeleteTeg(teg);
+        TegRepository?.DeleteTeg(teg!);
         _unitOfWork.SaveChanges();
         var currentUser = await _userResolverService.GetUser();
         _logger.Info("Пользователь {Email} удалил тег с индификатором {Id} с содержимым {Content}", currentUser?.Email, id, teg?.Content);
@@ -44,12 +44,7 @@ public class TegService : ITegService
     public List<Teg> GetAllTeg()
     {
         return TegRepository?.GetAllTeg()!;
-    }
-
-    public List<Teg> GetAllTegApi()
-    {
-        return TegRepository?.GetAllTegApi()!;
-    }
+    }      
 
     public async Task<TegViewModel> GetModelIndex()
     {
@@ -57,6 +52,14 @@ public class TegService : ITegService
         _logger.Info("Пользователь {Email} открыл страницу со списком тегов", currentUser?.Email);
         var tegs = TegRepository?.GetAllTeg();
         return new TegViewModel(tegs);
+    }
+
+    public List<Teg> GetTegByArticle(Guid idArticle)
+    {
+        var tegs = TegRepository?.GetTegByArticle(idArticle);
+        if (tegs?.Count != 0)
+            return tegs!;
+        return null!;
     }
 
     public Teg GetTegId(Guid id)

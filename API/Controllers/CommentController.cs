@@ -1,4 +1,5 @@
-﻿using BissnesLibrary.ControllerServices.Interface;
+﻿using API.Extentions;
+using BissnesLibrary.ControllerServices.Interface;
 using Contracts.ApiModels.Comment;
 using Contracts.Models.Comments;
 using Contracts.ViewModels.Comments;
@@ -20,7 +21,7 @@ public class CommentController : ControllerBase
     }
 
     /// <summary>
-    /// Create comment
+    /// Создание комментария через Api
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -37,7 +38,7 @@ public class CommentController : ControllerBase
     }
 
     /// <summary>
-    /// Update comment
+    /// Изменение комментария через Api
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -54,7 +55,7 @@ public class CommentController : ControllerBase
     }
 
     /// <summary>
-    /// Delete comment
+    /// Удаление комментария через Api
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
@@ -67,28 +68,19 @@ public class CommentController : ControllerBase
     }
 
     /// <summary>
-    /// Get all comment
+    /// Получить все комментарии
     /// </summary>
     /// <returns></returns>
     [HttpGet]
     [Route("GetAllComment")]
     public IActionResult GetAllComment()
     {
-        var model = _commentService.GetAllComment()
-            .Select(u => new Comment
-            {
-                Id = u.Id,
-                Created = u.Created,
-                Updated = u.Updated,
-                Content = u.Content,
-                UserId = u.UserId,
-                ArticleId = u.ArticleId
-            });
+        var model = _commentService.GetAllComment().TrimModelComment();            
         return StatusCode(200, model);
     }
 
     /// <summary>
-    /// Get comment by id
+    /// Получить комментарий через его id
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
@@ -97,33 +89,29 @@ public class CommentController : ControllerBase
     public IActionResult GetCommentId(Guid id)
     {
         var comment = _commentService.GetCommentById(id);
-        comment.Article = null;
-        comment.User = null;
 
         if (comment != null)
         {
+            comment.Article = null;
+            comment.User = null;
             return StatusCode(200, comment);
         }
         return StatusCode(404, "No such API end point");
     }
-
+    /// <summary>
+    /// Получить комментарии к определенной статье через id статьи
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet]
     [Route("GetСommentByArticle")]
-    public IActionResult GetTegId(Guid id)
+    public IActionResult GetCommentArticleId(Guid id)
     {
-        var comment = _commentService.GetCommentByArticle(id)
-             .Select(u => new Comment
-             {
-                 Id = u.Id,
-                 Created = u.Created,
-                 Updated = u.Updated,
-                 Content = u.Content,
-                 UserId = u.UserId,
-                 ArticleId = u.ArticleId
-             });
+        var comment = _commentService.GetCommentByArticle(id);          
+        
         if (comment != null)
         {
-            return StatusCode(200, comment);
+            return StatusCode(200, comment.TrimModelComment());
         }
         return StatusCode(404, "No such API end point");
     }
