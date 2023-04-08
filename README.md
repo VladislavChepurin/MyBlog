@@ -5,16 +5,32 @@
 Login: pupkin@mail.ru;
 Password: 12345;
 Role: Administrator.
+Модель для входа через API:
+{
+  "email": "pupkin@mail.ru",
+  "password": "12345",
+  "rememberMe": false,
+  "returnUrl": null
+}
 
 Login: ylia@mail.ru;	
 Password: 12345;
 Role: Moderator.
+Модель для входа через API:
+{
+  "email": "ylia@mail.ru",
+  "password": "12345",
+  "rememberMe": false,
+  "returnUrl": null
+}
 
 Login: katia@mail.ru;	
 Password: 12345;
 Role: User.
-
-Страницы обработчики ошибок:
-1) Что-то пошло не так.. работает при статусе "ASPNETCORE_ENVIRONMENT": "Production"
-2) Access Denided если залезть в админку без прав администратора, проверить можно забив в браузере https://localhost:7252/Admin
-3) NotFound отсутствует запрашиваемая страница.
+Модель для входа через API:
+{
+  "email": "katia@mail.ru",
+  "password": "12345",
+  "rememberMe": false,
+  "returnUrl": null
+}
